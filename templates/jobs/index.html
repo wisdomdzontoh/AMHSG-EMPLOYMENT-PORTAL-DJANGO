@@ -1,0 +1,22 @@
+{% extends 'authentication/dash-base.html' %} {% block content %}
+
+<section>
+  <h2 class="text-xl font-semibold text-gray-800 mb-4">All Job Listings</h2>
+  <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+    <ul>
+      {% for job in jobs %}
+      <li class="border-b border-gray-200 py-2">
+        <a href="#" class="text-blue-600 hover:underline"> {{ job.title }} </a>
+        <p class="text-gray-600 text-sm">
+          {{ job.company }} - {{ job.location }}
+        </p>
+        <p class="text-gray-500 text-xs">{{ job.posted_date }}</p>
+      </li>
+      {% empty %}
+      <li class="text-gray-600">No job listings available.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% endblock %}

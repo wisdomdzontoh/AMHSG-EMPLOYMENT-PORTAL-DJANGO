@@ -1,0 +1,62 @@
+{% extends 'authentication/dash-base.html' %} {% block content %}
+
+
+  <!-- Main Content -->
+  <main class="flex-1 bg-white shadow-md rounded-lg p-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Job Listings -->
+      <section>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+          Recent Job Listings
+        </h2>
+        <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+          <ul>
+            {% for job in jobs %}
+            <li class="border-b border-gray-200 py-2">
+              <a href="#" class="text-blue-600 hover:underline"
+                >{{ job.title }}</a
+              >
+              <p class="text-gray-600 text-sm">
+                {{ job.company }} - {{ job.location }}
+              </p>
+              <p class="text-gray-500 text-xs">{{ job.posted_date }}</p>
+            </li>
+            {% empty %}
+            <li class="text-gray-600">No job listings available.</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <a
+          href="{% url 'job-list' %}"
+          class="bg-transparent border border-green-500 text-green-500 hover:bg-green-500 hover:text-white px-6 py-3 rounded shadow"
+          >View More</a
+        >
+      </section>
+
+      <!-- Notifications -->
+      <section>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Notifications</h2>
+        <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+          <ul>
+            {% for notification in notifications %}
+            <li class="border-b border-gray-200 py-2">
+              <p class="text-gray-800">{{ notification.message }}</p>
+              <p class="text-gray-500 text-xs">{{ notification.date }}</p>
+            </li>
+            {% empty %}
+            <li class="text-gray-600">No notifications.</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <a
+          href="{% url 'notification-list' %}"
+          class="bg-transparent border border-blue-500 text-green-500 hover:bg-blue-800 hover:text-white px-6 py-3 rounded shadow"
+          >View all</a
+        >
+      </section>
+    </div>
+  </main>
+</div>
+
+
+{% endblock %}

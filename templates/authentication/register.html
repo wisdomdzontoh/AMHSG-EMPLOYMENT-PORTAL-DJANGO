@@ -1,0 +1,172 @@
+{% extends 'authentication/base.html' %} {% load static %} {% block content %}
+<body class="bg-gray-100">
+  <div
+    class="container mx-auto px-4 py-16 flex justify-center items-center h-screen"
+  >
+    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+      <div class="flex justify-center items-center">
+        <img
+          src="{% static 'img/logo.png' %}"
+          alt="Ghana Coat of Arms"
+          class="w-24 h-24 mb-4"
+        />
+      </div>
+
+      <h2 class="text-2xl text-green-500 font-extrabold text-center mb-6">
+        Register on AMHSG.GOV
+      </h2>
+
+      <!-- Success & error Messages -->
+      {% for message in messages %}
+      <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+      />
+      <script>
+        Toastify({
+          text: "{{ message }}",
+          duration: 4000,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "linear-gradient(to right, #f60000, #f60000)",
+          className: "custom-toast",
+          stopOnFocus: true,
+          close: true,
+          offset: {
+            x: 20,
+            y: 70,
+          },
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            borderRadius: "8px",
+            fontFamily: "Arial, sans-serif",
+            color: "white",
+            padding: "10px 20px",
+            fontSize: "16px",
+          },
+        }).showToast();
+      </script>
+      {% endfor %}
+
+      <form action="" method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <div class="flex flex-col">
+          <label for="username" class="text-sm font-medium text-gray-700 mb-2">
+            Username
+          </label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            class="px-3 py-2 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="email" class="text-sm font-medium text-gray-700 mb-2">
+            Email Address
+          </label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            class="px-3 py-2 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+
+        <div class="flex flex-col relative">
+          <label for="password" class="text-sm font-medium text-gray-700 mb-2">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            class="px-3 py-2 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-10"
+            required
+          />
+          <button
+            type="button"
+            id="toggle-password"
+            class="absolute inset-y-0 right-0 align-middle flex items-center px-3 cursor-pointer text-blue-800"
+            aria-label="Toggle password visibility"
+          >
+            <i class="fa-solid fa-eye text-xl"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-col relative">
+          <label
+            for="confirm-password"
+            class="text-sm font-medium text-gray-700 mb-2"
+          >
+            Confirm Password
+          </label>
+          <input
+            id="confirm-password"
+            type="password"
+            name="confirm_password"
+            class="px-3 py-2 rounded-md border border-gray-300 w-full focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-10"
+            required
+          />
+          <button
+            type="button"
+            id="toggle-confirm-password"
+            class="absolute inset-y-0 right-0 align-middle flex items-center px-3 cursor-pointer text-blue-800"
+            aria-label="Toggle password visibility"
+          >
+            <i class="fa-solid fa-eye text-xl"></i>
+          </button>
+        </div>
+
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-sm"
+        >
+          Register
+        </button>
+      </form>
+
+      <p class="text-center mt-4 text-sm text-gray-500">
+        Already have an account?
+        <a href="{% url 'my-login' %}" class="text-blue-500 hover:underline"
+          >Sign In Here</a
+        >
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const togglePasswordButton = document.getElementById("toggle-password");
+      const passwordInput = document.getElementById("password");
+
+      togglePasswordButton.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+        } else {
+          passwordInput.type = "password";
+        }
+      });
+
+      const toggleConfirmPasswordButton = document.getElementById(
+        "toggle-confirm-password"
+      );
+      const confirmPasswordInput = document.getElementById("confirm-password");
+
+      toggleConfirmPasswordButton.addEventListener("click", function () {
+        if (confirmPasswordInput.type === "password") {
+          confirmPasswordInput.type = "text";
+        } else {
+          confirmPasswordInput.type = "password";
+        }
+      });
+    });
+  </script>
+</body>
+{% endblock %}

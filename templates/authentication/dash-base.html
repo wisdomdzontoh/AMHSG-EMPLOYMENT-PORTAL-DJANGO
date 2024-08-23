@@ -1,0 +1,393 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Health Worker Dashboard{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha512-...replace_with_integrity_code_here...="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Your custom styles -->
+    {% tailwind_css %}
+    <style>
+      /* Loader Styles */
+      #loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+
+      #loader {
+        border: 7px solid #3498db;
+        border-top: 7px solid #f1f1f1;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Header -->
+    <header class="bg-gray-200 shadow-sm border-b border-blue-400">
+      <div
+        class="container mx-auto flex items-center justify-between py-4 px-6"
+      >
+        <div class="flex items-center space-x-4">
+          <!-- Logo -->
+          <img src="{% static 'img/logo.png' %}" alt="Logo" class="w-10 h-10" />
+          <a
+            href="{% url 'dashboard' %}"
+            class="text-2xl font-bold text-gray-900"
+          >
+            (AMHSG) HR PORTAL - HUMAN RESOURCE DIRECTORATE
+          </a>
+        </div>
+        <nav class="hidden md:flex space-x-4">
+          <a
+            href="{% url 'job-list' %}"
+            class="px-4 py-2 text-gray-800 hover:bg-blue-600 hover:text-white rounded-md"
+          >
+            Jobs
+          </a>
+          <a
+            href="{% url 'notification-list' %}"
+            class="px-4 py-2 text-gray-800 hover:bg-blue-600 hover:text-white rounded-md"
+          >
+            Notifications
+          </a>
+          <a
+            href="#"
+            class="px-4 py-2 text-gray-800 hover:bg-blue-600 hover:text-white rounded-md"
+          >
+            Profile
+          </a>
+        </nav>
+        <div class="relative">
+          <button
+            id="profileMenuButton"
+            class="flex items-center space-x-2 text-gray-800 hover:text-blue-600"
+          >
+            <img
+              src="{% static 'img/profile.png' %}"
+              alt="Profile Image"
+              class="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm"
+            />
+            <span class="hidden md:inline font-semibold text-1xl text-blue-950"
+              >{{ user.username }}</span
+            >
+          </button>
+          <div
+            id="profileMenu"
+            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden"
+          >
+            <ul class="py-1">
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  >Update Profile</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  >Reset Password</a
+                >
+              </li>
+              <li>
+                <a
+                  href="{% url 'user-logout' %}"
+                  class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  >Logout</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex flex-col md:flex-row md:space-x-4">
+      <!-- Success Messages -->
+      {% for message in messages %}
+      <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+      />
+      <script>
+        Toastify({
+          text: "{{ message }}",
+          duration: 4000,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+          className: "custom-toast",
+          stopOnFocus: true,
+          close: true,
+          offset: {
+            x: 20,
+            y: 70,
+          },
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            borderRadius: "8px",
+            fontFamily: "Arial, sans-serif",
+            color: "white",
+            padding: "10px 20px",
+            fontSize: "16px",
+          },
+        }).showToast();
+      </script>
+      {% endfor %}
+    
+      <!-- Sidebar -->
+      <aside class="w-full md:w-1/4 bg-white shadow-md rounded-lg p-4 mb-4 md:mb-0">
+        <nav class="space-y-6">
+          <!-- Menu Section -->
+          <div>
+            <h2 class="text-xs font-semibold text-gray-500 uppercase mb-4">Menu</h2>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+                >
+                  <svg
+                    class="w-5 h-5 mr-3 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 13h2v-2H3v2zm4 0h14v-2H7v2zm0 6h14v-2H7v2zm-4 0h2v-2H3v2zm0-14v2h18V5H3zm0 6h18v-2H3v2z"
+                    />
+                  </svg>
+                  Dashboard
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+                >
+                  <svg
+                    class="w-5 h-5 mr-3 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                    />
+                  </svg>
+                  Profile
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+                >
+                  <svg
+                    class="w-5 h-5 mr-3 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM8 8h8v2H8zm0 4h5v2H8z"
+                    />
+                  </svg>
+                  Job Applications
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-2 text-gray-600 hover:bg-blue-500 rounded transition-colors duration-200"
+                >
+                  <svg
+                    class="w-5 h-5 mr-3 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 13h8v-2H3v2zm0 6h14v-2H3v2zm0-10h14V7H3v2zm18-7H9v2h12v12h2V3c0-1.1-.9-2-2-2zM13 15h-2v-2H9v2H7v2h2v2h2v-2h2v-2z"
+                    />
+                  </svg>
+                  Employment status
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+                >
+                  <svg
+                    class="w-5 h-5 mr-3 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm1.31-7.9l-.95.93c-.68.68-1.36 1.36-1.36 2.97h-2v-.5c0-1.04.68-1.95 1.31-2.59l1.26-1.25c.37-.37.59-.88.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .85-.34 1.68-.69 2.1z"
+                    />
+                  </svg>
+                  FAQs
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+                >
+                  <svg
+                    class="w-5 h-5 mr-3 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 13h8v-2H3v2zm0 6h14v-2H3v2zm0-10h14V7H3v2zm18-7H9v2h12v12h2V3c0-1.1-.9-2-2-2zM13 15h-2v-2H9v2H7v2h2v2h2v-2h2v-2z"
+                    />
+                  </svg>
+                  Contact Us
+                </a>
+                <ul class="pl-12 mt-1 space-y-1">
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-1 text-gray-600 hover:underline hover:bg-blue-500"
+                    >
+                      Send us an Email
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- Settings Section -->
+          <div>
+            <h2 class="text-xs font-semibold text-gray-500 uppercase mb-4">
+              Settings
+            </h2>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+                >
+                  <svg
+                    class="w-5 h-5 mr-3 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm1 17h-2v-2h2v2zm-1-5c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                    />
+                  </svg>
+                  Change Password
+                </a>
+              </li>
+              <li>
+                <a
+                  href="{% url 'user-logout' %}"
+                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-red-500 rounded transition-colors duration-200"
+                >
+                  <svg
+                    class="w-5 h-5 mr-3 text-gray-600"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm1 17h-2v-2h2v2zm0-6h-2v-6h2v6z"
+                    />
+                  </svg>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+    
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6">
+      {% block content %}
+      <!-- Content will be injected here -->
+      {% endblock %}
+    </main>
+
+    
+
+    <!-- Loader -->
+    <div id="loader-container" class="hidden">
+      <div id="loader"></div>
+    </div>
+
+    <!-- Include scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+      // Hide loader after page load
+      $(window).on("load", function () {
+        $("#loader-container").fadeOut();
+      });
+    </script>
+    <!-- Tailwind CSS Scripts -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const profileMenuButton = document.getElementById("profileMenuButton");
+        const profileMenu = document.getElementById("profileMenu");
+
+        profileMenuButton.addEventListener("click", function () {
+          profileMenu.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", function (e) {
+          if (
+            !profileMenuButton.contains(e.target) &&
+            !profileMenu.contains(e.target)
+          ) {
+            profileMenu.classList.add("hidden");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
