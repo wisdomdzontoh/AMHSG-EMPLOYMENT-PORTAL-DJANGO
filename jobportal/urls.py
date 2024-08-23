@@ -9,8 +9,7 @@ urlpatterns = [
     path('', include('authentication.urls')),  # authentication urls for login and signup pages
     path('', include('jobs.urls')),  # jobs
     path('', include('notifications.urls')),  # jobs
-    
-    #path('', include('application_portal.urls')),
+    path('', include('application_portal.urls')),
     
     
     

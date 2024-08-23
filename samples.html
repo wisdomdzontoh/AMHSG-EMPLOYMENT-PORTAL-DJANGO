@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMHSG Application Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 60%;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .form-group input[type="file"] {
+        padding: 3px;
+      }
+      .form-group button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .form-group button:hover {
+        background-color: #0056b3;
+      }
+      .section-title {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Application Form</h2>
+
+      <form
+        action="{% url 'submit_application' %}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+
+        <!-- Section A: Personal Information -->
+        <div class="section-title">Section A: Personal Information</div>
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input type="text" id="first_name" name="first_name" required />
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input type="text" id="last_name" name="last_name" required />
+        </div>
+        <div class="form-group">
+          <label for="institution">Institution Attended</label>
+          <input type="text" id="institution" name="institution" required />
+        </div>
+        <div class="form-group">
+          <label for="region">Region</label>
+          <input type="text" id="region" name="region" required />
+        </div>
+        <div class="form-group">
+          <label for="contact_number">Contact Number</label>
+          <input
+            type="tel"
+            id="contact_number"
+            name="contact_number"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="father_name">Father's Name</label>
+          <input type="text" id="father_name" name="father_name" required />
+        </div>
+        <div class="form-group">
+          <label for="mother_name">Mother's Name</label>
+          <input type="text" id="mother_name" name="mother_name" required />
+        </div>
+        <div class="form-group">
+          <label for="marital_status">Marital Status</label>
+          <select id="marital_status" name="marital_status" required>
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="divorced">Divorced</option>
+            <option value="widowed">Widowed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="next_of_kin">Next of Kin</label>
+          <input type="text" id="next_of_kin" name="next_of_kin" required />
+        </div>
+        <div class="form-group">
+          <label for="emergency_contact">Emergency Contact Person</label>
+          <input
+            type="text"
+            id="emergency_contact"
+            name="emergency_contact"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="relationship">Relationship with Emergency Contact</label>
+          <input type="text" id="relationship" name="relationship" required />
+        </div>
+        <div class="form-group">
+          <label for="contact_address">Contact Address</label>
+          <input
+            type="text"
+            id="contact_address"
+            name="contact_address"
+            required
+          />
+        </div>
+
+        <!-- Section B: Educational Background -->
+        <div class="section-title">Section B: Educational Background</div>
+        <div class="form-group">
+          <label for="education_level">Level of Education</label>
+          <input
+            type="text"
+            id="education_level"
+            name="education_level"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="school_name">Name of School</label>
+          <input type="text" id="school_name" name="school_name" required />
+        </div>
+        <div class="form-group">
+          <label for="date_started">Date Started</label>
+          <input type="date" id="date_started" name="date_started" required />
+        </div>
+        <div class="form-group">
+          <label for="date_completed">Date Completed</label>
+          <input
+            type="date"
+            id="date_completed"
+            name="date_completed"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="certificate">Certificate Upload</label>
+          <input type="file" id="certificate" name="certificate" required />
+        </div>
+
+        <!-- Section C: Evidence of Registration -->
+        <div class="section-title">Section C: Evidence of Registration</div>
+        <div class="form-group">
+          <label for="regulatory_body">Name of Regulatory Body</label>
+          <input
+            type="text"
+            id="regulatory_body"
+            name="regulatory_body"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="disability">Do you have any physical disability?</label>
+          <select id="disability" name="disability" required>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div class="form-group" id="disability_details" style="display: none">
+          <label for="disability_details">If yes, specify</label>
+          <textarea
+            id="disability_details_text"
+            name="disability_details"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="medical_condition"
+            >Do you have any medical condition that requires management?</label
+          >
+          <select id="medical_condition" name="medical_condition" required>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </div>
+        <div
+          class="form-group"
+          id="medical_condition_details"
+          style="display: none"
+        >
+          <label for="medical_condition_details">If yes, specify</label>
+          <textarea
+            id="medical_condition_details_text"
+            name="medical_condition_details"
+          ></textarea>
+        </div>
+
+        <!-- Section D: Regional Preference -->
+        <div class="section-title">Section D: Regional Preference</div>
+        <div class="form-group">
+          <label for="region_first">First Choice</label>
+          <select id="region_first" name="region_first" required>
+            <option value="western">Western Region</option>
+            <option value="central">Central Region</option>
+            <option value="ashanti">Ashanti Region</option>
+            <option value="brong_ahafo">Brong Ahafo Region</option>
+            <option value="upper_west">Upper West Region</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="region_second">Second Choice</label>
+          <select id="region_second" name="region_second">
+            <option value="western">Western Region</option>
+            <option value="central">Central Region</option>
+            <option value="ashanti">Ashanti Region</option>
+            <option value="brong_ahafo">Brong Ahafo Region</option>
+            <option value="upper_west">Upper West Region</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="region_third">Third Choice</label>
+          <select id="region_third" name="region_third">
+            <option value="western">Western Region</option>
+            <option value="central">Central Region</option>
+            <option value="ashanti">Ashanti Region</option>
+            <option value="brong_ahafo">Brong Ahafo Region</option>
+            <option value="upper_west">Upper West Region</option>
+          </select>
+        </div>
+
+        <!-- Section E: Attachments -->
+        <div class="section-title">Section E: Attachments</div>
+        <div class="form-group">
+          <label for="passport_picture">Upload Passport Picture</label>
+          <input
+            type="file"
+            id="passport_picture"
+            name="passport_picture"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="academic_transcript">Upload Academic Transcript</label>
+          <input
+            type="file"
+            id="academic_transcript"
+            name="academic_transcript"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="other_documents"
+            >Upload Any Other Supporting Documents</label
+          >
+          <input type="file" id="other_documents" name="other_documents" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+          <button type="submit">Submit Application</button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("disability")
+        .addEventListener("change", function () {
+          if (this.value === "yes") {
+            document.getElementById("disability_details").style.display =
+              "block";
+          } else {
+            document.getElementById("disability_details").style.display =
+              "none";
+          }
+        });
+
+      document
+        .getElementById("medical_condition")
+        .addEventListener("change", function () {
+          if (this.value === "yes") {
+            document.getElementById("medical_condition_details").style.display =
+              "block";
+          } else {
+            document.getElementById("medical_condition_details").style.display =
+              "none";
+          }
+        });
+    </script>
+  </body>
+</html>

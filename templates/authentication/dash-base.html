@@ -20,6 +20,71 @@
     <!-- Your custom styles -->
     {% tailwind_css %}
     <style>
+
+    
+  .application-list {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+  }
+  .application {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+  }
+  .application:last-child {
+      border-bottom: none;
+  }
+  .application h3 {
+      margin: 0;
+      color: #2c3e50;
+  }
+  .application p {
+      margin: 5px 0;
+      color: #7f8c8d;
+  }
+
+
+      /* Notification section styling */
+      .notifications {
+        background-color: #fefefe;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .notifications ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    .notifications li {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+        animation: blink 1s linear infinite;
+    }
+    .notifications p {
+        margin: 0;
+    }
+    .notifications .message {
+        color: #2c3e50;
+        font-weight: bold;
+    }
+    .notifications .date {
+        color: #7f8c8d;
+        font-size: 12px;
+    }
+
+    /* Blink effect */
+    @keyframes blink {
+        0%, 49% {
+            background-color: #8ef600;
+        }
+        50%, 100% {
+            background-color: transparent;
+        }
+    }
+    
       /* Loader Styles */
       #loader-container {
         position: fixed;
@@ -55,7 +120,7 @@
   </head>
   <body class="bg-gray-100">
     <!-- Header -->
-    <header class="bg-gray-200 shadow-sm border-b border-blue-400">
+    <header class="bg-yellow-600 shadow-sm border-b border-blue-400">
       <div
         class="container mx-auto flex items-center justify-between py-4 px-6"
       >
@@ -99,7 +164,7 @@
               alt="Profile Image"
               class="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm"
             />
-            <span class="hidden md:inline font-semibold text-1xl text-blue-950"
+            <span class="hidden md:inline font-extrabold text-2xl text-blue-700"
               >{{ user.username }}</span
             >
           </button>
@@ -111,21 +176,21 @@
               <li>
                 <a
                   href="#"
-                  class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  class="block px-4 py-2 text-blue-700 hover:bg-yellow-600"
                   >Update Profile</a
                 >
               </li>
               <li>
                 <a
                   href="#"
-                  class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  class="block px-4 py-2 text-blue-700 hover:bg-yellow-600"
                   >Reset Password</a
                 >
               </li>
               <li>
                 <a
                   href="{% url 'user-logout' %}"
-                  class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  class="block px-4 py-2 text-blue-700 hover:bg-yellow-600"
                   >Logout</a
                 >
               </li>
@@ -179,7 +244,7 @@
             <ul class="space-y-2">
               <li>
                 <a
-                  href="#"
+                  href="{% url 'dashboard' %}"
                   class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
                 >
                   <svg
@@ -215,7 +280,7 @@
               </li>
               <li>
                 <a
-                  href="#"
+                  href="{% url 'job-applications' %}"
                   class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
                 >
                   <svg
