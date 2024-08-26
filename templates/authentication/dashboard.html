@@ -13,7 +13,7 @@
           <ul>
             {% for job in jobs %}
             <li class="border-b border-gray-200 py-2">
-              <a href="#" class="text-blue-600 hover:underline"
+              <a href="{% url 'job-detail' job.id %}" class="text-blue-600 hover:underline"
                 >{{ job.title }}</a
               >
               <p class="text-gray-600 text-sm">

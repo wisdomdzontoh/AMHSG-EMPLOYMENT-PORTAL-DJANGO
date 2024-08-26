@@ -46,6 +46,16 @@
           transform: rotate(360deg);
         }
       }
+
+      /* Navigation hover effects */
+      .nav-link {
+        transition: background-color 0.3s ease;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
     </style>
   </head>
 
@@ -57,46 +67,76 @@
       >
         <div class="flex items-center">
           <img src="{% static 'img/logo.png' %}" alt="Logo" class="h-12 mr-3" />
-          <span class="text-lg md:text-xl font-semibold"
-            >(AMHSG) HR Portal - HUMAN RESOURCE DIRECTORATE</span
-          >
+          <span class="text-lg md:text-3xl font-extrabold font-serif">
+            (AMHSG) HUMAN RESOURCE DIRECTORATE
+          </span>
         </div>
-      </div>
-    </header>
-
-    <!-- Navbar -->
-    <nav class="bg-white shadow">
-      <div
-        class="container mx-auto px-4 py-3 flex justify-between items-center"
-      >
-        <div class="flex space-x-2 sm:space-x-4">
+        <button
+          id="menu-toggle"
+          class="block sm:hidden text-white focus:outline-none"
+        >
+          <i class="fas fa-bars fa-2x"></i>
+        </button>
+        <nav id="navbar" class="hidden sm:flex sm:items-center space-x-4">
           <a
             href="{% url '' %}"
-            class="text-gray-800 hover:text-blue-600 font-medium"
+            class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2 px-3"
             >Home</a
           >
-          <a href="#" class="text-gray-800 hover:text-blue-600 font-medium"
+          <a
+            href="#"
+            class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2 px-3"
             >About</a
           >
-          <a href="#" class="text-gray-800 hover:text-blue-600 font-medium"
+          <a
+            href="#"
+            class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2 px-3"
             >Contact</a
           >
-          <a href="#" class="text-gray-800 hover:text-blue-600 font-medium"
+          <a
+            href="#"
+            class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2 px-3"
             >Apply</a
           >
           <a
             href="{% url 'my-login' %}"
-            class="text-gray-800 hover:text-blue-600 font-medium"
+            class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2 px-3"
             >Login</a
           >
-        </div>
-        <div class="hidden sm:block">
-          <a href="#" class="bg-blue-800 text-white px-4 py-2 rounded"
-            >Apply Now</a
-          >
-        </div>
+        </nav>
       </div>
-    </nav>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="sm:hidden bg-blue-800 text-white hidden">
+      <nav class="flex flex-col space-y-2 px-4 py-4">
+        <a
+          href="{% url '' %}"
+          class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2"
+          >Home</a
+        >
+        <a
+          href="#"
+          class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2"
+          >About</a
+        >
+        <a
+          href="#"
+          class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2"
+          >Contact</a
+        >
+        <a
+          href="#"
+          class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2"
+          >Apply</a
+        >
+        <a
+          href="{% url 'my-login' %}"
+          class="nav-link block text-gray-800 hover:text-blue-600 font-medium py-2"
+          >Login</a
+        >
+      </nav>
+    </div>
 
     <!-- Content Block -->
     <div class="container mx-auto px-4 py-6">
@@ -128,6 +168,11 @@
       // Hide loader after page load
       $(window).on("load", function () {
         $("#loader-container").fadeOut();
+      });
+
+      // Toggle menu for mobile
+      $("#menu-toggle").on("click", function () {
+        $("#mobile-menu").toggleClass("hidden");
       });
     </script>
   </body>

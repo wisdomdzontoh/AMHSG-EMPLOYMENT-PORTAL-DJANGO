@@ -1,145 +1,218 @@
 {% extends 'authentication/base.html' %} {% block title %}Home{% endblock %}
 {%load static %} {% block content %}
-<!-- Hero Section -->
-<div class="relative bg-cover bg-center h-96 w-full">
-    <div class="absolute inset-0 bg-gray-300 opacity-50"></div>
-    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-        <h1 class="text-4xl lg:text-5xl font-bold text-blue-800 mb-6">
-            AHMADIYYA MUSLIM HEALTH SERVICE
-        </h1>
-        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-6">
-            <span class="text-blue-800"> GHANA (AMHSG)</span>
-        </h1>
-        <span class="text-3xl lg:text-5xl font-semibold text-green-800">
-            RECRUITMENT PORTAL
-        </span>
-        <span class="text-xl lg:text-2xl font-semibold text-blue-950">SERVICE TO HUMANITY THROUGH HEALTH CARE DELIVERY</span>
 
-        <div class="flex flex-wrap justify-center space-x-4 mt-6">
-            <a href="#" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded shadow">Apply Now</a>
-            <a href="#" class="bg-transparent border border-green-500 text-green-500 hover:bg-green-500 hover:text-white px-6 py-3 rounded shadow">Learn More</a>
-            <a href="#" class="bg-transparent border border-green-500 text-green-500 hover:bg-green-500 hover:text-white px-6 py-3 rounded shadow">Check Clearance</a>
-            <a href="#" class="bg-transparent border border-green-500 text-green-500 hover:bg-green-500 hover:text-white px-6 py-3 rounded shadow">Request Clearance</a>
-            <a href="#" class="bg-transparent border border-green-500 text-green-500 hover:bg-green-500 hover:text-white px-6 py-3 rounded shadow">Barbados Application Form</a>
-        </div>
+<!-- Hero Section -->
+<div class="relative bg-cover bg-center h-screen w-full bg-hero-pattern">
+  <div
+    class="absolute inset-0 bg-gradient-to-r from-blue-800 to-green-500 opacity-75"
+  ></div>
+  <div
+    class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4"
+  >
+    <h1 class="text-4xl lg:text-6xl font-extrabold text-white mb-6">
+      AHMADIYYA MUSLIM HEALTH SERVICE
+    </h1>
+    <h2 class="text-3xl lg:text-4xl font-semibold text-white mb-6">
+      <span class="text-yellow-300">GHANA (AMHSG)</span>
+    </h2>
+    <p class="text-2xl lg:text-3xl font-medium text-white mb-8">
+      SERVICE TO HUMANITY THROUGH HEALTH CARE DELIVERY
+    </p>
+
+    <div class="flex flex-wrap justify-center space-x-4 mt-6">
+      <a
+        href="#"
+        class="bg-yellow-400 hover:bg-yellow-500 text-blue-800 font-semibold px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
+        >Apply Now</a
+      >
+      <a
+        href="#"
+        class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
+        >Learn More</a
+      >
+      <a
+        href="#"
+        class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
+        >Check Clearance</a
+      >
+      <a
+        href="#"
+        class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
+        >Request Clearance</a
+      >
+      <a
+        href="#"
+        class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
+        >Barbados Application Form</a
+      >
     </div>
+  </div>
 </div>
 
 <!-- Welcome Section -->
-<div class="text-center mt-10 px-4 lg:px-0">
-    <h2 class="text-2xl font-semibold mb-4">Welcome</h2>
-    <p class="text-lg">
-        Welcome to the
-        <strong>AHMADIYYA MUSLIM HEALTH SERVICE, GHANA (AMHSG)</strong> Portal. This
-        portal has been designed to enable qualified, registered health
-        professionals to apply for recruitment.
+<section class="bg-white py-12 px-4 lg:px-0">
+  <div class="text-center max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold text-blue-800 mb-4">Welcome</h2>
+    <p class="text-lg text-gray-700">
+      Welcome to the
+      <strong>AHMADIYYA MUSLIM HEALTH SERVICE, GHANA (AMHSG)</strong> Portal.
+      This portal is designed to enable qualified, registered health
+      professionals to apply for recruitment and join our mission of serving
+      humanity through health care delivery.
     </p>
-</div>
+  </div>
+</section>
 
 <!-- Call to Action Section -->
-<div class="flex flex-wrap justify-center space-x-4 my-10 px-4 lg:px-0">
-    <a href="#" class="bg-pink-300 hover:bg-pink-500 text-white px-6 py-3 rounded shadow text-lg">HOW TO APPLY</a>
-    <a href="{% url 'my-login' %}" class="bg-lime-400 hover:bg-lime-500 text-white px-6 py-3 rounded shadow text-lg flex items-center">
-        <span class="mr-2">Existing User? Login Here</span>
-        <i class="fas fa-sign-in-alt"></i>
+<section class="bg-gray-100 py-12">
+  <div class="flex flex-wrap justify-center space-x-4 px-4 lg:px-0">
+    <a
+      href="#"
+      class="bg-pink-300 hover:bg-pink-400 text-white px-8 py-4 rounded-full shadow-lg text-lg transform transition-transform hover:scale-105"
+      >How to Apply</a
+    >
+    <a
+      href="{% url 'my-login' %}"
+      class="bg-lime-400 hover:bg-lime-500 text-white px-8 py-4 rounded-full shadow-lg text-lg flex items-center transform transition-transform hover:scale-105"
+    >
+      <span class="mr-2">Existing User? Login Here</span>
+      <i class="fas fa-sign-in-alt"></i>
     </a>
-    <a href="{% url 'register' %}" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded shadow text-lg flex items-center">
-        <span class="mr-2">New User? Register Here</span>
-        <i class="fas fa-user-plus"></i>
+    <a
+      href="{% url 'register' %}"
+      class="bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 rounded-full shadow-lg text-lg flex items-center transform transition-transform hover:scale-105"
+    >
+      <span class="mr-2">New User? Register Here</span>
+      <i class="fas fa-user-plus"></i>
     </a>
-</div>
+  </div>
+</section>
 
 <!-- Agencies Section -->
-<div class="text-center mt-10 px-4 lg:px-0">
-    <h2 class="text-2xl font-semibold mb-4">AGENCIES</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="flex flex-col items-center">
-            <img src="{% static 'img/tamale_teaching_hospital.png' %}" alt="Tamale Teaching Hospital" class="h-16 lg:h-20 mb-2" />
-            <span class="text-green-700 font-semibold">TAMALE TEACHING HOSPITAL (TTH)</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img src="{% static 'img/mental_health_authority.png' %}" alt="Mental Health Authority" class="h-16 lg:h-20 mb-2" />
-            <span class="text-green-700 font-semibold">MENTAL HEALTH AUTHORITY (MHA)</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img src="{% static 'img/korle_bu_teaching_hospital.png' %}" alt="Korle Bu Teaching Hospital" class="h-16 lg:h-20 mb-2" />
-            <span class="text-green-700 font-semibold">KORLE BU TEACHING HOSPITAL (KBTH)</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img src="{% static 'img/cape_coast_teaching_hospital.png' %}" alt="Cape Coast Teaching Hospital" class="h-16 lg:h-20 mb-2" />
-            <span class="text-green-700 font-semibold">CAPE COAST TEACHING HOSPITAL (CCTH)</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img src="{% static 'img/ho_teaching_hospital.png' %}" alt="Ho Teaching Hospital" class="h-16 lg:h-20 mb-2" />
-            <span class="text-green-700 font-semibold">HO TEACHING HOSPITAL (HTH)</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img src="{% static 'img/christian_health_association.png' %}" alt="Christian Health Association" class="h-16 lg:h-20 mb-2" />
-            <span class="text-green-700 font-semibold">CHRISTIAN HEALTH ASSOCIATION OF GHANA (CHAG)</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img src="{% static 'img/komfo_anokye_teaching_hospital.png' %}" alt="Komfo Anokye Teaching Hospital" class="h-16 lg:h-20 mb-2" />
-            <span class="text-green-700 font-semibold">KOMFO ANOKYE TEACHING HOSPITAL (KATH)</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img src="{% static 'img/ghana_health_service.png' %}" alt="Ghana Health Service" class="h-16 lg:h-20 mb-2" />
-            <span class="text-green-700 font-semibold">GHANA HEALTH SERVICE (GHS)</span>
-        </div>
-    </div>
-</div>
-
-<div class="relative bg-cover bg-center h-96 w-full">
-    <div class="flex justify-center mt-10 space-x-8">
-      <!-- Check Clearance Section -->
-      <div class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg transition-transform transform hover:scale-105">
-        <i class="fas fa-check-circle text-green-500 text-8xl mb-4"></i>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">Check Clearance</h3>
-        <p class="text-gray-600 text-center mb-4">
-          Easily verify your clearance using your pin/index number.
-        </p>
-        <a
-          href="#"
-          class="bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-full transition-colors"
+<section class="bg-white py-12 px-4 lg:px-0">
+  <div class="text-center">
+    <h2 class="text-3xl font-bold text-blue-800 mb-8">Our Partner Agencies</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="flex flex-col items-center">
+        <img
+          src="{% static 'img/tamale_teaching_hospital.png' %}"
+          alt="Tamale Teaching Hospital"
+          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
+        />
+        <span class="text-lg text-green-700 font-semibold"
+          >Tamale Teaching Hospital (TTH)</span
         >
-          Learn More
-        </a>
       </div>
-  
-      <!-- Create Account Section -->
-      <div class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg transition-transform transform hover:scale-105">
-        <i class="fas fa-plus-circle text-blue-500 text-8xl mb-4"></i>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">Create Account</h3>
-        <p class="text-gray-600 text-center mb-4">
-          Sign up using your pin/index number to get started.
-        </p>
-        <a
-          href="{% url 'register' %}"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-full transition-colors"
+      <div class="flex flex-col items-center">
+        <img
+          src="{% static 'img/mental_health_authority.png' %}"
+          alt="Mental Health Authority"
+          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
+        />
+        <span class="text-lg text-green-700 font-semibold"
+          >Mental Health Authority (MHA)</span
         >
-          Learn More
-        </a>
       </div>
-  
-      <!-- Submit Application Section -->
-      <div class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg transition-transform transform hover:scale-105">
-        <i class="fas fa-check text-green-500 text-8xl mb-4"></i>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">Submit Application</h3>
-        <p class="text-gray-600 text-center mb-4">
-          Log in with your new account and submit your application with ease.
-        </p>
-        <a
-          href="{% url 'my-login' %}"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-full transition-colors"
+      <div class="flex flex-col items-center">
+        <img
+          src="{% static 'img/korle_bu_teaching_hospital.png' %}"
+          alt="Korle Bu Teaching Hospital"
+          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
+        />
+        <span class="text-lg text-green-700 font-semibold"
+          >Korle Bu Teaching Hospital (KBTH)</span
         >
-          Learn More
-        </a>
+      </div>
+      <div class="flex flex-col items-center">
+        <img
+          src="{% static 'img/cape_coast_teaching_hospital.png' %}"
+          alt="Cape Coast Teaching Hospital"
+          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
+        />
+        <span class="text-lg text-green-700 font-semibold"
+          >Cape Coast Teaching Hospital (CCTH)</span
+        >
+      </div>
+      <div class="flex flex-col items-center">
+        <img
+          src="{% static 'img/ho_teaching_hospital.png' %}"
+          alt="Ho Teaching Hospital"
+          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
+        />
+        <span class="text-lg text-green-700 font-semibold"
+          >Ho Teaching Hospital (HTH)</span
+        >
+      </div>
+      <div class="flex flex-col items-center">
+        <img
+          src="{% static 'img/christian_health_association.png' %}"
+          alt="Christian Health Association"
+          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
+        />
+        <span class="text-lg text-green-700 font-semibold"
+          >Christian Health Association of Ghana (CHAG)</span
+        >
+      </div>
+      <div class="flex flex-col items-center">
+        <img
+          src="{% static 'img/komfo_anokye_teaching_hospital.png' %}"
+          alt="Komfo Anokye Teaching Hospital"
+          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
+        />
+        <span class="text-lg text-green-700 font-semibold"
+          >Komfo Anokye Teaching Hospital (KATH)</span
+        >
+      </div>
+      <div class="flex flex-col items-center">
+        <img
+          src="{% static 'img/ghana_health_service.png' %}"
+          alt="Ghana Health Service"
+          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
+        />
+        <span class="text-lg text-green-700 font-semibold"
+          >Ghana Health Service (GHS)</span
+        >
       </div>
     </div>
   </div>
+</section>
 
-  <div class="flex justify-between text-green-500">
-    <p class="font-bold">0546471389 / 0546471364 / 0546471374</p>
-    <p>AMHSGRECRUITMENT2024@GMAIL.COM</p>
+<!-- Additional Sections -->
+<section class="bg-gradient-to-r from-green-400 to-blue-500 py-16 text-white">
+  <div
+    class="flex flex-col lg:flex-row justify-center items-center space-y-8 lg:space-y-0 lg:space-x-8 px-4 lg:px-0"
+  >
+    <!-- Check Clearance Section -->
+    <div
+      class="flex flex-col items-center p-8 bg-white text-gray-800 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+    >
+      <i class="fas fa-check-circle text-green-500 text-6xl mb-4"></i>
+      <h3 class="text-xl font-bold mb-2">Check Clearance</h3>
+      <p class="text-center mb-4">
+        Easily verify your clearance using your pin/index number.
+      </p>
+      <a
+        href="#"
+        class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full transition-colors"
+        >Learn More</a
+      >
+    </div>
+    <!-- Create Account Section -->
+    <div
+      class="flex flex-col items-center p-8 bg-white text-gray-800 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+    >
+      <i class="fas fa-plus-circle text-blue-500 text-6xl mb-4"></i>
+      <h3 class="text-xl font-bold mb-2">Create Account</h3>
+      <p class="text-center mb-4">
+        Sign up using your pin/index number to get started.
+      </p>
+      <a
+        href="{% url 'register' %}"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full transition-colors"
+        >Sign Up</a
+      >
+    </div>
   </div>
-  {% endblock %}
-</div>
+</section>
+
+{% endblock %}

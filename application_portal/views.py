@@ -15,3 +15,8 @@ def application_list(request):
     # Render the template with the context
     return render(request, 'application_portal/job_applications.html', context)
 
+
+@login_required(login_url="my-login")
+def application_portal(request):
+    return render(request, 'application_portal/index.html')
+
