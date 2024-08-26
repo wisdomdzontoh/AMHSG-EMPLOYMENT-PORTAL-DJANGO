@@ -10,6 +10,8 @@ urlpatterns = [
     path('', include('jobs.urls')),  # jobs
     path('', include('notifications.urls')),  # jobs
     path('', include('application_portal.urls')),
+    path('', include('payment.urls')),  #handling of voucher purchase
+    
     
     
     

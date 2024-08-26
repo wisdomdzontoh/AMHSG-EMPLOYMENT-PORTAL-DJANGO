@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'jobs',
     'notifications',
     'application_portal',
+    'payment',
 ]
 
 

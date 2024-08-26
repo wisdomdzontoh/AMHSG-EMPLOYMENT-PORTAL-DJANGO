@@ -1,0 +1,225 @@
+{% extends 'authentication/dash-base.html' %} {% block content %}
+
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-md shadow-md">
+  <h2 class="text-2xl font-semibold mb-6">
+    Application for Permanent Appointment
+  </h2>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold mb-4">Personal Information</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label
+          for="applicant-name"
+          class="block text-sm font-medium text-gray-700"
+          >Full Name</label
+        >
+        <input
+          type="text"
+          name="applicant-name"
+          id="applicant-name"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label for="institution" class="block text-sm font-medium text-gray-700"
+          >Institution Attended</label
+        >
+        <input
+          type="text"
+          name="institution"
+          id="institution"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label for="region" class="block text-sm font-medium text-gray-700"
+          >Region</label
+        >
+        <input
+          type="text"
+          name="region"
+          id="region"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label
+          for="contact-number"
+          class="block text-sm font-medium text-gray-700"
+          >Contact Number</label
+        >
+        <input
+          type="text"
+          name="contact-number"
+          id="contact-number"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label for="father-name" class="block text-sm font-medium text-gray-700"
+          >Father's Name</label
+        >
+        <input
+          type="text"
+          name="father-name"
+          id="father-name"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label for="mother-name" class="block text-sm font-medium text-gray-700"
+          >Mother's Name</label
+        >
+        <input
+          type="text"
+          name="mother-name"
+          id="mother-name"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label
+          for="marital-status"
+          class="block text-sm font-medium text-gray-700"
+          >Marital Status</label
+        >
+        <input
+          type="text"
+          name="marital-status"
+          id="marital-status"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label for="next-of-kin" class="block text-sm font-medium text-gray-700"
+          >Next of Kin</label
+        >
+        <input
+          type="text"
+          name="next-of-kin"
+          id="next-of-kin"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Add more sections here as needed -->
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold mb-4">Educational Background</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <label for="school-name" class="block text-sm font-medium text-gray-700"
+          >School Name</label
+        >
+        <input
+          type="text"
+          name="school-name"
+          id="school-name"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label
+          for="date-started"
+          class="block text-sm font-medium text-gray-700"
+          >Date Started</label
+        >
+        <input
+          type="date"
+          name="date-started"
+          id="date-started"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label
+          for="date-completed"
+          class="block text-sm font-medium text-gray-700"
+          >Date Completed</label
+        >
+        <input
+          type="date"
+          name="date-completed"
+          id="date-completed"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold mb-4">
+      Evidence of Registration with Relevant Regulatory Body
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label
+          for="regulatory-body"
+          class="block text-sm font-medium text-gray-700"
+          >Regulatory Body</label
+        >
+        <input
+          type="text"
+          name="regulatory-body"
+          id="regulatory-body"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label for="disability" class="block text-sm font-medium text-gray-700"
+          >Physical Disability</label
+        >
+        <select
+          name="disability"
+          id="disability"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        >
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <div>
+        <label
+          for="medical-condition"
+          class="block text-sm font-medium text-gray-700"
+          >Medical Condition Requiring Management</label
+        >
+        <select
+          name="medical-condition"
+          id="medical-condition"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+        >
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-8">
+    <h3 class="text-xl font-semibold mb-4">Declaration</h3>
+    <div>
+      <label for="declaration" class="block text-sm font-medium text-gray-700"
+        >I declare that the information I have provided is accurate:</label
+      >
+      <input
+        type="checkbox"
+        name="declaration"
+        id="declaration"
+        class="mt-1 block"
+      />
+    </div>
+    <div class="mt-6">
+      <button
+        type="submit"
+        class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+      >
+        Submit Application
+      </button>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
