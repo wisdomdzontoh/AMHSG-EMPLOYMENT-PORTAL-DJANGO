@@ -1,225 +1,843 @@
 {% extends 'authentication/dash-base.html' %} {% block content %}
 
-<div class="max-w-4xl mx-auto bg-white p-6 rounded-md shadow-md">
-  <h2 class="text-2xl font-semibold mb-6">
-    Application for Permanent Appointment
-  </h2>
+<div class="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-lg flex gap-8">
+  <!-- Sidebar Menu -->
+  <aside class="w-1/4">
+    <ul class="space-y-4">
+      <li
+        id="step-1"
+        class="flex items-center cursor-pointer p-3 rounded-lg bg-indigo-100 text-indigo-700"
+        onclick="showSection(1)"
+      >
+        <span
+          class="mr-3 bg-indigo-500 text-white rounded-full h-8 w-8 flex items-center justify-center"
+          >1</span
+        >
+        <div>
+          <p class="font-semibold">Personal Information</p>
+          <p class="text-sm text-indigo-500">Add / Edit Personal Info</p>
+        </div>
+      </li>
+      <li
+        id="step-2"
+        class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
+        onclick="showSection(2)"
+      >
+        <span
+          class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
+          >2</span
+        >
+        <div>
+          <p class="font-semibold">Educational Background</p>
+          <p class="text-sm text-gray-500">Add education</p>
+        </div>
+      </li>
+      <li
+        id="step-3"
+        class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
+        onclick="showSection(3)"
+      >
+        <span
+          class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
+          >3</span
+        >
+        <div>
+          <p class="font-semibold">Evidence of Registration</p>
+          <p class="text-sm text-gray-500">relevant regulatory body</p>
+        </div>
+      </li>
+      <li
+        id="step-4"
+        class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
+        onclick="showSection(4)"
+      >
+        <span
+          class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
+          >4</span
+        >
+        <div>
+          <p class="font-semibold">Medical History</p>
+          <p class="text-sm text-gray-500">add medical reports here</p>
+        </div>
+      </li>
+      <li
+        id="step-5"
+        class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
+        onclick="showSection(5)"
+      >
+        <span
+          class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
+          >5</span
+        >
+        <div>
+          <p class="font-semibold">Posting Preference</p>
+          <p class="text-sm text-gray-500">select your choice of work</p>
+        </div>
+      </li>
+      <li
+        id="step-6"
+        class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
+        onclick="showSection(6)"
+      >
+        <span
+          class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
+          >6</span
+        >
+        <div>
+          <p class="font-semibold">Medical Certificate</p>
+          <p class="text-sm text-gray-500">add your medical certifications</p>
+        </div>
+      </li>
+      <li
+        id="step-7"
+        class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
+        onclick="showSection(7)"
+      >
+        <span
+          class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
+          >7</span
+        >
+        <div>
+          <p class="font-semibold">Addendum</p>
+          <p class="text-sm text-gray-500">Brief summary</p>
+        </div>
+      </li>
+      <li
+        id="step-8"
+        class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
+        onclick="showSection(8)"
+      >
+        <span
+          class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
+          >8</span
+        >
+        <div>
+          <p class="font-semibold">Acceptance and Declaration</p>
+          <p class="text-sm text-gray-500">Add acceptance letter here</p>
+        </div>
+      </li>
+    </ul>
+  </aside>
 
-  <section class="mb-8">
-    <h3 class="text-xl font-semibold mb-4">Personal Information</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label
-          for="applicant-name"
-          class="block text-sm font-medium text-gray-700"
-          >Full Name</label
-        >
-        <input
-          type="text"
-          name="applicant-name"
-          id="applicant-name"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label for="institution" class="block text-sm font-medium text-gray-700"
-          >Institution Attended</label
-        >
-        <input
-          type="text"
-          name="institution"
-          id="institution"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label for="region" class="block text-sm font-medium text-gray-700"
-          >Region</label
-        >
-        <input
-          type="text"
-          name="region"
-          id="region"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label
-          for="contact-number"
-          class="block text-sm font-medium text-gray-700"
-          >Contact Number</label
-        >
-        <input
-          type="text"
-          name="contact-number"
-          id="contact-number"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label for="father-name" class="block text-sm font-medium text-gray-700"
-          >Father's Name</label
-        >
-        <input
-          type="text"
-          name="father-name"
-          id="father-name"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label for="mother-name" class="block text-sm font-medium text-gray-700"
-          >Mother's Name</label
-        >
-        <input
-          type="text"
-          name="mother-name"
-          id="mother-name"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label
-          for="marital-status"
-          class="block text-sm font-medium text-gray-700"
-          >Marital Status</label
-        >
-        <input
-          type="text"
-          name="marital-status"
-          id="marital-status"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label for="next-of-kin" class="block text-sm font-medium text-gray-700"
-          >Next of Kin</label
-        >
-        <input
-          type="text"
-          name="next-of-kin"
-          id="next-of-kin"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-    </div>
-  </section>
+  <!-- Form Sections -->
+  <div class="w-3/4">
+    <!-- Section 1: Personal Information -->
+    <section id="section-1">
+      <h2 class="text-2xl font-semibold mb-6">Personal Information</h2>
 
-  <!-- Add more sections here as needed -->
-  <section class="mb-8">
-    <h3 class="text-xl font-semibold mb-4">Educational Background</h3>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div>
-        <label for="school-name" class="block text-sm font-medium text-gray-700"
-          >School Name</label
-        >
-        <input
-          type="text"
-          name="school-name"
-          id="school-name"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label
-          for="date-started"
-          class="block text-sm font-medium text-gray-700"
-          >Date Started</label
-        >
-        <input
-          type="date"
-          name="date-started"
-          id="date-started"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-      <div>
-        <label
-          for="date-completed"
-          class="block text-sm font-medium text-gray-700"
-          >Date Completed</label
-        >
-        <input
-          type="date"
-          name="date-completed"
-          id="date-completed"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
-    </div>
-  </section>
+      <!-- Upload Image -->
+      <div class="col-span-2">
+        <label class="block text-sm font-medium text-gray-700">
+          Edit Passport Picture
+        </label>
+        <div class="flex items-center gap-4">
+          <div
+            id="image-drop-area"
+            class="flex items-center justify-center mt-1 w-1/2 h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer"
+          >
+            <input
+              type="file"
+              id="image-upload"
+              name="passport_picture"
+              class="hidden"
+              accept="image/*"
+            />
+            <p class="text-gray-500">
+              Drag & drop an image here or click to select
+            </p>
+          </div>
+          <div
+            id="image-preview"
+            class="w-1/4 h-32 border border-gray-300 rounded-lg flex items-center justify-center bg-gray-100"
+          >
+            <!-- Image preview will be shown here -->
+          </div>
+        </div>
+        <p class="mt-2 text-sm text-red-600">
+          Please upload a JPEG or JPG passport picture
+        </p>
+        
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Title -->
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700"
+            >Title</label
+          >
+          <select
+            id="title"
+            name="title"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          >
+            <option value="mr">Mr</option>
+            <option value="mrs">Mrs</option>
+            <option value="ms">Ms</option>
+          </select>
+        </div>
 
-  <section class="mb-8">
-    <h3 class="text-xl font-semibold mb-4">
-      Evidence of Registration with Relevant Regulatory Body
-    </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label
-          for="regulatory-body"
-          class="block text-sm font-medium text-gray-700"
-          >Regulatory Body</label
-        >
-        <input
-          type="text"
-          name="regulatory-body"
-          id="regulatory-body"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        />
+        <!-- Email Address -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email Address</label
+          >
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- First Name -->
+        <div>
+          <label
+            for="first-name"
+            class="block text-sm font-medium text-gray-700"
+            >First Name</label
+          >
+          <input
+            type="text"
+            name="first-name"
+            id="first-name"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- Surname -->
+        <div>
+          <label for="surname" class="block text-sm font-medium text-gray-700"
+            >Surname</label
+          >
+          <input
+            type="text"
+            name="surname"
+            id="surname"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- Other Name(s) -->
+        <div>
+          <label
+            for="other_names"
+            class="block text-sm font-medium text-gray-700"
+            >Other Name(s)</label
+          >
+          <input
+            type="text"
+            name="other_names"
+            id="other-names"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+      
+
+        <!-- Date of Birth -->
+        <div>
+          <label for="dob" class="block text-sm font-medium text-gray-700"
+            >Date of Birth</label
+          >
+          <input
+            type="date"
+            name="dob"
+            id="dob"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+
+        <!-- Telephone -->
+        <div>
+          <label for="telephone" class="block text-sm font-medium text-gray-700"
+            >Telephone</label
+          >
+          <input
+            type="text"
+            name="telephone"
+            id="telephone"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        
+        <!-- Place of Birth -->
+        <div>
+          <label
+            for="birthplace"
+            class="block text-sm font-medium text-gray-700"
+            >Place of Birth</label
+          >
+          <input
+            type="text"
+            name="birthplace"
+            id="birthplace"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- Marital Status -->
+        <div>
+          <label
+            for="marital_status"
+            class="block text-sm font-medium text-gray-700"
+            >Marital Status</label
+          >
+          <select
+            id="marital_status"
+            name="marital_status"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          >
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="divorced">Divorced/Separated</option>
+            <option value="widow">Widow</option>
+
+          </select>
+        </div>
+
+        <!-- Gender -->
+        <div class="flex items-center">
+          <span class="mr-4 text-sm font-medium text-gray-700">Gender:</span>
+          <label class="inline-flex items-center">
+            <input
+              type="radio"
+              name="gender"
+              value="male"
+              class="form-radio text-indigo-600"
+            />
+            <span class="ml-2">Male</span>
+          </label>
+          <label class="inline-flex items-center ml-6">
+            <input
+              type="radio"
+              name="gender"
+              value="female"
+              class="form-radio text-indigo-600"
+            />
+            <span class="ml-2">Female</span>
+          </label>
+        </div>
+
+        <!-- Fathers Name -->
+        <div>
+          <label
+            for="fathers_name"
+            class="block text-sm font-medium text-gray-700"
+            >Fathers Name</label
+          >
+          <input
+            type="text"
+            name="fathers_name"
+            id="fathers_name"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- Fathers Occupation -->
+        <div>
+          <label
+            for="fathers_occupation"
+            class="block text-sm font-medium text-gray-700"
+            >Fathers Occupation</label
+          >
+          <input
+            type="text"
+            name="fathers_occupation"
+            id="fathers_occupation"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- Mothers Name -->
+        <div>
+          <label
+            for="mothers_name"
+            class="block text-sm font-medium text-gray-700"
+            >Mother Name</label
+          >
+          <input
+            type="text"
+            name="mothers_name"
+            id="mothers_name"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- Mothers Occupation -->
+        <div>
+          <label
+            for="mothers_occupation"
+            class="block text-sm font-medium text-gray-700"
+            >Mothers Occupation</label
+          >
+          <input
+            type="text"
+            name="mothers_occupation"
+            id="mothers_occupation"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+
+        <!-- Next of kin Name -->
+        <div>
+          <label
+            for="next_of_kin"
+            class="block text-sm font-medium text-gray-700"
+            >Next of Kin</label
+          >
+          <input
+            type="text"
+            name="next_of_kin"
+            id="next_of_kin"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- Next of kin Occupation -->
+        <div>
+          <label
+            for="next_of_kin_occupation"
+            class="block text-sm font-medium text-gray-700"
+            >Next of Kin Occupation</label
+          >
+          <input
+            type="text"
+            name="next_of_kin_occupation"
+            id="next_of_kin_occupation"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+
+        <!--contact person -->
+        <div>
+          <label
+            for="contact_person"
+            class="block text-sm font-medium text-gray-700"
+            >Contact person in case of emergency</label
+          >
+          <input
+            type="text"
+            name="contact_person"
+            id="contact_person"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <!-- Next of kin Occupation -->
+        <div>
+          <label
+            for="relation"
+            class="block text-sm font-medium text-gray-700"
+            >Relation with contact person</label
+          >
+          <input
+            type="text"
+            name="relation"
+            id="relation"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+
+        <div>
+          <label
+            for="contact_address"
+            class="block text-sm font-medium text-gray-700"
+            >Contacts Adress</label
+          >
+          <input
+            type="text"
+            name="contact_address"
+            id="contact_address"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
       </div>
-      <div>
-        <label for="disability" class="block text-sm font-medium text-gray-700"
-          >Physical Disability</label
+
+
+         
+
+      <!-- Navigation Buttons -->
+      <div class="flex justify-between">
+        <button
+          type="button"
+          class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 cursor-not-allowed"
+          disabled
         >
-        <select
-          name="disability"
-          id="disability"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+          Previous
+        </button>
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(2)"
         >
-          <option value="no">No</option>
-          <option value="yes">Yes</option>
+          Next
+        </button>
+      </div>
+    </section>
+
+  <!-- Section 2: Educational Background -->
+<section id="section-2" class="hidden">
+  <h2 class="text-2xl font-semibold mb-6">Educational Background</h2>
+  
+  <!-- Dynamic Educational Background Fields -->
+  <div class="space-y-4">
+    <div class="flex space-x-4">
+      <div class="w-1/3">
+        <label for="academic-level" class="block text-sm font-medium text-gray-700">Academic Level</label>
+        <select id="academic-level" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="">Select Academic Level</option>
+          <option value="Diploma">Diploma</option>
+          <option value="Bachelor's Degree">Bachelor's Degree</option>
+          <option value="Master's Degree">Master's Degree</option>
+          <option value="Doctorate">Doctorate</option>
+          <!-- Add more options as needed -->
         </select>
       </div>
-      <div>
-        <label
-          for="medical-condition"
-          class="block text-sm font-medium text-gray-700"
-          >Medical Condition Requiring Management</label
-        >
-        <select
-          name="medical-condition"
-          id="medical-condition"
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-        >
-          <option value="no">No</option>
-          <option value="yes">Yes</option>
+      <div class="w-1/3">
+        <label for="degree" class="block text-sm font-medium text-gray-700">Degree</label>
+        <select id="degree" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="">Select Degree</option>
+          <option value="BSc">BSc</option>
+          <option value="MSc">MSc</option>
+          <option value="PhD">PhD</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+      <div class="w-1/3">
+        <label for="specialization" class="block text-sm font-medium text-gray-700">Specialization / Fellowship</label>
+        <select id="specialization" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="">Select Specialization</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Health Informatics">Health Informatics</option>
+          <option value="Data Science">Data Science</option>
+          <!-- Add more options as needed -->
         </select>
       </div>
     </div>
-  </section>
+    
+    <button
+      type="button"
+      class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+      onclick="addEducationalBackground()"
+    >
+      Add Educational Background
+    </button>
+  </div>
 
-  <section class="mb-8">
-    <h3 class="text-xl font-semibold mb-4">Declaration</h3>
-    <div>
-      <label for="declaration" class="block text-sm font-medium text-gray-700"
-        >I declare that the information I have provided is accurate:</label
-      >
-      <input
-        type="checkbox"
-        name="declaration"
-        id="declaration"
-        class="mt-1 block"
-      />
-    </div>
-    <div class="mt-6">
-      <button
-        type="submit"
-        class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
-      >
-        Submit Application
-      </button>
-    </div>
-  </section>
+  <!-- Placeholder for the added education backgrounds -->
+  <div class="mt-6">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Academic Level</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Degree</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Specialization</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+        </tr>
+      </thead>
+      <tbody id="education-list" class="bg-white divide-y divide-gray-200">
+        <!-- Dynamic Rows will be added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex justify-between mt-8">
+    <button
+      type="button"
+      class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+      onclick="showSection(1)"
+    >
+      Previous
+    </button>
+    <button
+      type="button"
+      class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+      onclick="showSection(3)"
+    >
+      Next
+    </button>
+  </div>
+</section>
+
+
+    <!-- Section 3: Evidence of Registration -->
+    <section id="section-3" class="hidden">
+      <h2 class="text-2xl font-semibold mb-6">Evidence of Registration</h2>
+      <!-- Content for Evidence of Registration Section -->
+      <div class="flex justify-between">
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(2)"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(4)"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 4: Medical History -->
+    <section id="section-4" class="hidden">
+      <h2 class="text-2xl font-semibold mb-6">Medical History</h2>
+      <!-- Content for Medical History Section -->
+      <div class="flex justify-between">
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(3)"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(5)"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 5: Posting Preference -->
+    <section id="section-5" class="hidden">
+      <h2 class="text-2xl font-semibold mb-6">Posting Preference</h2>
+      <!-- Content for Posting Preference Section -->
+      <div class="flex justify-between">
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(4)"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(6)"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 6: Medical Certificate -->
+    <section id="section-6" class="hidden">
+      <h2 class="text-2xl font-semibold mb-6">Medical Certificate</h2>
+      <!-- Content for Medical Certificate Section -->
+      <div class="flex justify-between">
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(5)"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(7)"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 7: Addendum -->
+    <section id="section-7" class="hidden">
+      <h2 class="text-2xl font-semibold mb-6">Addendum</h2>
+      <!-- Content for Addendum Section -->
+      <div class="flex justify-between">
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(6)"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(8)"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 8: Acceptance and Declaration -->
+    <section id="section-8" class="hidden">
+      <h2 class="text-2xl font-semibold mb-6">Acceptance and Declaration</h2>
+      <!-- Content for Acceptance and Declaration Section -->
+      <div class="flex justify-between">
+        <button
+          type="button"
+          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+          onclick="showSection(7)"
+        >
+          Previous
+        </button>
+        <button
+          type="submit"
+          class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+        >
+          Submit
+        </button>
+      </div>
+    </section>
+  </div>
 </div>
+
+<script>
+  function showSection(sectionNumber) {
+    // Hide all sections
+    const sections = document.querySelectorAll('[id^="section-"]');
+    sections.forEach((section) => section.classList.add("hidden"));
+
+    // Show selected section
+    document
+      .getElementById(`section-${sectionNumber}`)
+      .classList.remove("hidden");
+
+    // Reset all steps to inactive
+    const steps = document.querySelectorAll('[id^="step-"]');
+    steps.forEach((step) => {
+      step.classList.remove("bg-indigo-100", "text-indigo-700");
+      step
+        .querySelector("span")
+        .classList.replace("bg-indigo-500", "bg-gray-300");
+      step
+        .querySelector("span")
+        .classList.replace("text-white", "text-gray-700");
+    });
+
+    // Activate the selected step
+    const selectedStep = document.getElementById(`step-${sectionNumber}`);
+    selectedStep.classList.add("bg-indigo-100", "text-indigo-700");
+    selectedStep
+      .querySelector("span")
+      .classList.replace("bg-gray-300", "bg-indigo-500");
+    selectedStep
+      .querySelector("span")
+      .classList.replace("text-gray-700", "text-white");
+  }
+
+  // Drag and Drop with Image Preview
+  const dropArea = document.getElementById("image-drop-area");
+  const input = document.getElementById("image-upload");
+  const previewContainer = document.getElementById("image-preview");
+
+  dropArea.addEventListener("click", () => {
+    input.click();
+  });
+
+  dropArea.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    dropArea.classList.add("border-indigo-500");
+  });
+
+  dropArea.addEventListener("dragleave", () => {
+    dropArea.classList.remove("border-indigo-500");
+  });
+
+  dropArea.addEventListener("drop", (event) => {
+    event.preventDefault();
+    dropArea.classList.remove("border-indigo-500");
+
+    const file = event.dataTransfer.files[0];
+    handleFile(file);
+  });
+
+  input.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    handleFile(file);
+  });
+
+  function handleFile(file) {
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = document.createElement("img");
+        img.src = event.target.result;
+        img.classList.add("w-full", "h-full", "object-cover", "rounded-lg");
+        previewContainer.innerHTML = ""; // Clear existing content
+        previewContainer.appendChild(img); // Add the image preview
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please upload an image file.");
+    }
+  }
+
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+  function addEducationalBackground() {
+    // Get values from the dropdowns
+    const academicLevel = document.getElementById('academic-level').value;
+    const degree = document.getElementById('degree').value;
+    const specialization = document.getElementById('specialization').value;
+
+    // Check if all fields are selected
+    if (academicLevel && degree && specialization) {
+      // Get the table body
+      const tableBody = document.getElementById('education-list');
+
+      // Create a new row
+      const newRow = document.createElement('tr');
+
+      // Create table cells for each piece of information
+      newRow.innerHTML = `
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${academicLevel}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${degree}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${specialization}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+          <button class="text-red-600 hover:text-red-900" onclick="removeEducationalBackground(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M8.707 9.293a1 1 0 011.414 0L12 11.586l1.879-1.879a1 1 0 111.414 1.414l-2.586 2.586a1 1 0 01-1.414 0L8.707 10.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </td>
+      `;
+
+      // Append the new row to the table
+      tableBody.appendChild(newRow);
+
+      // Reset the dropdowns
+      document.getElementById('academic-level').value = '';
+      document.getElementById('degree').value = '';
+      document.getElementById('specialization').value = '';
+    } else {
+      alert('Please fill in all fields before adding.');
+    }
+  }
+
+  function removeEducationalBackground(button) {
+    // Remove the row containing the clicked button
+    button.closest('tr').remove();
+  }
+</script>
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    flatpickr("#dob", {
+      dateFormat: "Y-m-d",
+    });
+  });
+</script>
 
 {% endblock %}
