@@ -139,9 +139,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# settings.py
-PAYSTACK_SECRET_KEY = "pk_test_cc6553ae0971823eecb974f618808bae062b02df"
-PAYSTACK_PUBLIC_KEY = "pk_test_cc6553ae0971823eecb974f618808bae062b02df"
+from decouple import config
+
+# Paystack Keys from .env file
+PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
+PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
+
 
 
 # settings.py
