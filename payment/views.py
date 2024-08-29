@@ -1,53 +1,53 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Payment  # Assuming you have a Payment model
+from .models import Payment
 from django.contrib.auth.models import User
 from django.conf import settings
-from application_portal import urls, views
 from django.contrib import messages
-from application_portal import views, urls
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required(login_url="authentication:my-login")
 def initiate_payment(request: HttpRequest) -> HttpResponse:
-    
     if request.method == "POST":
         # Capture the form data from the POST request
         amount = request.POST.get('amount')
-        phone_number = request.POST.get('phone_number')
-        user = request.user.username
-        ref = request.POST.get('ref')
-        
-        
+        email = request.POST.get('email')
+        user = request.user
+
+        # Check if user is authenticated (just an extra precaution)
+        if not user.is_authenticated:
+            messages.error(request, 'You need to log in to make a payment.')
+            return redirect('login')  # Redirect to login page or any other appropriate page
+
         # Perform any necessary validation here
-        if amount and phone_number and ref and ref:
+        if amount and email:
             # Save the payment details to the database
             payment = Payment.objects.create(
                 amount=amount,
-                phone_number=phone_number,
-                user=user,
-                ref=ref,
+                email=email,
+                user=user  # Ensure user is correctly passed here
             )
             context = {
                 'payment': payment,
                 'amount': amount,
-                'phone_number': phone_number,
+                'email': email,
                 'user': user,
-                'ref': ref,
-                'paystack_public_key': settings.PAYSTACK_SECRET_KEY,
-              
+                'ref': payment.ref,  # Use the auto-generated ref from the model
+                'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY,
             }
-            # Redirect to the make_payment.html page with context
+            # Render the make_payment.html page with context
             return render(request, 'payment/make_payment.html', context)
     # For GET requests, just render the initiate_payment page with an empty form
     return render(request, 'payment/initiate_payment.html')
 
-
+@login_required(login_url="authentication:my-login")
 def verify_payment(request: HttpRequest, ref: str) -> HttpResponse:
     payment = get_object_or_404(Payment, ref=ref)
     verified = payment.verify_payment()
     if verified:
         messages.success(request, 'Payment successful')
+        return redirect('application-form')
     else:
         messages.error(request, 'Payment failed')
-    return redirect('application-form')
+    return redirect('initiate-payment')

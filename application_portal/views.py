@@ -1,6 +1,10 @@
-from django.shortcuts import render
 from .models import Application
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from payment.models import Voucher
+import random
+import string
+from payment.decorators import payment_required
 
 @login_required(login_url="my-login")
 def application_list(request):
@@ -21,11 +25,7 @@ def application_portal(request):
     return render(request, 'application_portal/index.html')
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from payment.models import Voucher
-import random
-import string
+
 
 @login_required
 def purchase_voucher(request):
@@ -50,8 +50,12 @@ def purchase_voucher(request):
 
 
 
-@login_required(login_url="my-login")
+
+
+@login_required(login_url='login')  # Ensures only logged-in users can access the view
+@payment_required  # Checks if the user has made a verified payment
 def application_form(request):
     # Your application form logic here
     return render(request, 'application_portal/application-form.html')
+
 

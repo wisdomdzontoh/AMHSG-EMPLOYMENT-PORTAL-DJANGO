@@ -3,7 +3,7 @@ import requests
 
 class PayStack:
     PAYSTACK_SECRET_KEY = settings.PAYSTACK_SECRET_KEY
-    base_url = 'https://api.paystack.co'
+    base_url = 'https://api.paystack.co/'
     
     def verify_payment(self, ref, *args, **kwargs):
         path = f'/transaction/verify/{ref}'
@@ -16,6 +16,7 @@ class PayStack:
         
         url = self.base_url + path
         response = requests.get(url, headers=headers)
+        print(f'Transaction with ref: {ref} has a response {response} and status code of {response.status_code}')
         
         if response.status_code == 200:
             response_data = response.json()

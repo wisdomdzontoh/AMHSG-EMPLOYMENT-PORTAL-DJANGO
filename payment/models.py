@@ -4,48 +4,40 @@ import uuid
 import secrets
 from .paystack import PayStack
 
-
 class Payment(models.Model):
     amount = models.PositiveIntegerField()
-    phone_number = models.CharField(max_length=20)
     user = models.CharField(max_length=200)
-    ref = models.CharField(max_length=200)
+    email = models.EmailField(default="ghs@gmail.com")
+    ref = models.CharField(max_length=200, unique=True)
     verified = models.BooleanField(default=False)
     payment_date = models.DateTimeField(auto_now_add=True)
-    
 
     class Meta:
         ordering = ('-payment_date',)
         
-    def __str__(self) -> str:
-        return f"Payment of: {self.amount}" 
-        
+    def __str__(self) -> str:  # Fixed the method name
+        return f"{self.user} - Payment of: {self.amount}"
+
     def save(self, *args, **kwargs) -> None:
-        while not self.ref:
-            ref = secrets.token_urlsafe(50)
-            object_with_similar_ref = Payment.objects.filter(ref=ref)
-            if not object_with_similar_ref:
-                similar_ref = ref
+        if not self.ref:
+            while True:
+                ref = secrets.token_urlsafe(50)
+                if not Payment.objects.filter(ref=ref).exists():
+                    self.ref = ref
+                    break
         super().save(*args, **kwargs)
         
     def amount_value(self) -> int:
-        return self.amount * 100  # Convert to GHS with two decimal places
+        return self.amount * 100  # Converts to cents (kobo) as required by PayStack
 
-
-    def __str__(self):
-        return f"Payment by {self.user} for {self.amount}"
-    
-
-def verify_payment(self):
-    paystack = PayStack()
-    status, result = paystack.verify_payment(self.ref, self.amount)
-    if status:
-        if result['amount'] / 100 == self.amount:
-            self.verified = True
-        self.save()
-    if self.verified:
-        return True
-    return False
+    def verify_payment(self):
+        paystack = PayStack()
+        status, result = paystack.verify_payment(self.ref, self.amount)
+        if status:
+            if result['amount'] / 100 == self.amount:  # Ensure that the verified amount matches
+                self.verified = True
+                self.save()
+        return self.verified
 
 class Voucher(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -55,5 +47,5 @@ class Voucher(models.Model):
     purchase_date = models.DateTimeField(auto_now_add=True)
     is_redeemed = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __str__(self):  # Fixed the method name
         return f"Voucher {self.voucher_code} for {self.user.username}"

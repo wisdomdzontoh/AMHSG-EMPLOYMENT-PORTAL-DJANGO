@@ -75,7 +75,7 @@ def user_logout(request):
     return redirect("my-login")  # Redirect to homepage after logout
 
 # Dashboard view (requires login)
-@login_required(login_url="my-login")
+@login_required(login_url="authentication:my-login")
 def dashboard(request):
     jobs = Job.objects.all().order_by('-posted_date')[:5]
     notifications = Notification.objects.all().order_by('-date')[:5]

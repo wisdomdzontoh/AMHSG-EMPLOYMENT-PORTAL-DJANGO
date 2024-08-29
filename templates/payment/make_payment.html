@@ -3,11 +3,9 @@
 <div class="container">
   <h1>Make Payment</h1>
   <p><strong>Amount:</strong> {{ amount }}</p>
-  <p><strong>Payment Method:</strong> {{ payment_method }}</p>
   <p><strong>Reference:</strong> {{ ref }}</p>
   <p><strong>Phone Number:</strong> {{ phone_number }}</p>
   <p><strong>User:</strong> {{ user }}</p>
-  <script src="https://js.paystack.co/v2/inline.js"></script>
 
   <button
     type="button"
@@ -20,30 +18,33 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    window.payWithPayStack = function () {
-      const currency = "GHS";
-      const plan = "";
-      const ref = "{{ payment.ref }}";
-      const obj = {
-        key: "{{ paystack_public_key }}",
-        amount: "{{ payment.amount_value }}",
-        ref: ref,
-        callback: function (response) {
-          window.location.href = "{% url 'verify-payment' payment.ref %}";
-        },
-      };
-
-      if (currency) {
-        obj.currency = currency.toUpperCase();
-      }
-      if (plan) {
-        obj.plan = plan;
-      }
-      var handler = Paystack.Pop.setup(obj);
-      handler.openIframe();
+  function payWithPayStack() {
+    let currency = "GHS";
+    let plan = "";
+    let ref = "{{ ref }}";
+    let amount = "{{ payment.amount }}";
+    let obj = {
+      key: "{{paystack_public_key}}",
+      email: "{{ payment.email }}",
+      amount: amount * 100, // amount must be in cedis
+      ref: ref,
+      callback: function (response) {
+        // Handle successful payment
+        console.log("Successful Payment: ", response);
+        // Redirect to success page
+        window.location.href = "{% url 'verify-payment' payment.ref %}";
+      },
     };
-  });
+    if (Boolean(currency)) {
+      obj.currency = currency.toUpperCase();
+    }
+    if (Boolean(plan)) {
+      obj.plan = plan;
+    }
+    var handler = PaystackPop.setup(obj);
+    handler.openIframe();
+  }
 </script>
+<script src="https://js.paystack.co/v2/inline.js"></script>
 
 {% endblock %}
