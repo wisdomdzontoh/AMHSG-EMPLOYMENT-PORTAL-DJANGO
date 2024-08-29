@@ -6,13 +6,13 @@ class Application(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     #payment_status = models.BooleanField(default=False)
     job_title = models.ForeignKey(Job, on_delete=models.CASCADE, blank=True)
-    full_name = models.CharField(max_length=255)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=15)
-    address = models.TextField()
-    date_of_birth = models.DateField()
-    resume = models.FileField(upload_to='resumes/')
-    cover_letter = models.TextField()
+    full_name = models.CharField(max_length=255, default="none")
+    email = models.EmailField(default="none")
+    phone_number = models.CharField(max_length=15, default="0245325587")
+    address = models.TextField(default="none")
+    #date_of_birth = models.DateField(auto_now_add=True)
+    #resume = models.FileField(upload_to='resumes/')
+    cover_letter = models.TextField(default="none")
     # Add more fields as per your form's structure
     
     

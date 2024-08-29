@@ -1,0 +1,62 @@
+{% extends 'authentication/dash-base.html' %} {% load static %}{%block content%}
+
+<div class="container mx-auto p-6 bg-white shadow-md rounded-md">
+  <h1 class="text-2xl font-semibold mb-6 text-gray-800">Initiate Payment</h1>
+  <form action="#" method="POST" class="space-y-4">
+    {% csrf_token %}
+
+    <!-- Amount Input -->
+    <div class="form-group">
+      <label for="amount" class="block text-sm font-medium text-gray-700"
+        >Amount</label
+      >
+      <input
+        type="number"
+        id="amount"
+        name="amount"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        placeholder="Enter amount"
+        required
+      />
+    </div>
+
+    <!-- Phone Number Input -->
+    <div class="form-group">
+      <label for="phone_number" class="block text-sm font-medium text-gray-700"
+        >Phone Number</label
+      >
+      <input
+        type="text"
+        id="phone_number"
+        name="phone_number"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        placeholder="Enter phone number"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="amount" class="block text-sm font-medium text-gray-700"
+        >Reference</label
+      >
+      <input
+        type="text"
+        id="ref"
+        name="ref"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        placeholder="reference"
+        required
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >
+      Proceed to Payment
+    </button>
+  </form>
+</div>
+
+{% endblock %}

@@ -140,6 +140,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # settings.py
+PAYSTACK_SECRET_KEY = 'pk_test_cc6553ae0971823eecb974f618808bae062b02df'
+
+
+# settings.py
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
