@@ -837,160 +837,88 @@
     (NB: Choice is subject to change based on the availability of vacancies)
   </p>
 
-  <!-- Posting Preference Table -->
-  <table class="min-w-full bg-white border border-gray-300 mb-6">
-    <thead class="bg-gray-100">
-      <tr>
-        <th class="py-2 px-4 border-b text-left">S/No.</th>
-        <th class="py-2 px-4 border-b text-left">Region</th>
-        <th class="py-2 px-4 border-b text-left">First Choice</th>
-        <th class="py-2 px-4 border-b text-left">Second Choice</th>
-        <th class="py-2 px-4 border-b text-left">Third Choice</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="py-2 px-4 border-b">1</td>
-        <td class="py-2 px-4 border-b">Western Region</td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="western"
-            value="first"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="western"
-            value="second"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="western"
-            value="third"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td class="py-2 px-4 border-b">2</td>
-        <td class="py-2 px-4 border-b">Central Region</td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="central"
-            value="first"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="central"
-            value="second"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="central"
-            value="third"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td class="py-2 px-4 border-b">3</td>
-        <td class="py-2 px-4 border-b">Ashanti Region</td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="ashanti"
-            value="first"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="ashanti"
-            value="second"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="ashanti"
-            value="third"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td class="py-2 px-4 border-b">4</td>
-        <td class="py-2 px-4 border-b">Brong Ahafo Region</td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="brong"
-            value="first"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="brong"
-            value="second"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="brong"
-            value="third"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td class="py-2 px-4 border-b">5</td>
-        <td class="py-2 px-4 border-b">Upper West Region</td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="upperWest"
-            value="first"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="upperWest"
-            value="second"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-        <td class="py-2 px-4 border-b">
-          <input
-            type="radio"
-            name="upperWest"
-            value="third"
-            class="form-radio text-indigo-600"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Posting Preference Form -->
+<div class="bg-white p-6 rounded-lg shadow-md mb-6">
+  <h2 class="text-2xl font-semibold mb-6">Posting Preference</h2>
+
+  <!-- Dropdown for Selecting Region Preferences -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+    <!-- First Choice -->
+    <div>
+      <label for="first_choice" class="block text-sm font-medium text-gray-700">First Choice</label>
+      <select id="first_choice" name="first_choice" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg">
+        <option value="">Select a Region</option>
+        <option value="western">Western Region</option>
+        <option value="central">Central Region</option>
+        <option value="ashanti">Ashanti Region</option>
+        <option value="brong">Brong Ahafo Region</option>
+        <option value="upperWest">Upper West Region</option>
+        <!-- Add more options as needed -->
+      </select>
+    </div>
+
+    <!-- Second Choice -->
+    <div>
+      <label for="second_choice" class="block text-sm font-medium text-gray-700">Second Choice</label>
+      <select id="second_choice" name="second_choice" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg">
+        <option value="">Select a Region</option>
+        <option value="western">Western Region</option>
+        <option value="central">Central Region</option>
+        <option value="ashanti">Ashanti Region</option>
+        <option value="brong">Brong Ahafo Region</option>
+        <option value="upperWest">Upper West Region</option>
+        <!-- Add more options as needed -->
+      </select>
+    </div>
+
+    <!-- Third Choice -->
+    <div>
+      <label for="third_choice" class="block text-sm font-medium text-gray-700">Third Choice</label>
+      <select id="third_choice" name="third_choice" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg">
+        <option value="">Select a Region</option>
+        <option value="western">Western Region</option>
+        <option value="central">Central Region</option>
+        <option value="ashanti">Ashanti Region</option>
+        <option value="brong">Brong Ahafo Region</option>
+        <option value="upperWest">Upper West Region</option>
+        <!-- Add more options as needed -->
+      </select>
+    </div>
+
+
+    <!-- Fourth Choice -->
+    <div>
+      <label for="fourth_choice" class="block text-sm font-medium text-gray-700">Fourth Choice</label>
+      <select id="fourth_choice" name="fourth_choice" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg">
+        <option value="">Select a Region</option>
+        <option value="western">Western Region</option>
+        <option value="central">Central Region</option>
+        <option value="ashanti">Ashanti Region</option>
+        <option value="brong">Brong Ahafo Region</option>
+        <option value="upperWest">Upper West Region</option>
+        <!-- Add more options as needed -->
+      </select>
+    </div>
+
+
+    <!-- Fifth Choice -->
+    <div>
+      <label for="fifth_choice" class="block text-sm font-medium text-gray-700">Fifth Choice</label>
+      <select id="fifth_choice" name="fifth_choice" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg">
+        <option value="">Select a Region</option>
+        <option value="western">Western Region</option>
+        <option value="central">Central Region</option>
+        <option value="ashanti">Ashanti Region</option>
+        <option value="brong">Brong Ahafo Region</option>
+        <option value="upperWest">Upper West Region</option>
+        <!-- Add more options as needed -->
+      </select>
+    </div>
+
+
+  </div>
+</div>
+
 
   <!-- Navigation Buttons -->
   <div class="flex justify-between mt-6">
@@ -1287,6 +1215,7 @@
       <input
         type="file"
         id="file-input"
+        name="license_cert"
         class="hidden"
         multiple
         onchange="handleFileSelect(event)"

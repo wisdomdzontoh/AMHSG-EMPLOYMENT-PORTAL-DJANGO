@@ -6,7 +6,7 @@ from .paystack import PayStack
 
 class Payment(models.Model):
     amount = models.PositiveIntegerField()
-    user = models.CharField(max_length=200)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Allow null values
     email = models.EmailField(default="ghs@gmail.com")
     ref = models.CharField(max_length=200, unique=True)
     verified = models.BooleanField(default=False)

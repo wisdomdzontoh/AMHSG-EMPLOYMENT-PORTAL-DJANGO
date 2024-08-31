@@ -6,6 +6,7 @@ urlpatterns = [
     #path('application-portal/purchase-voucher', views.purchase_voucher, name='purchase-voucher'),
     path('application-portal/payment', views.initiate_payment, name='initiate-payment'),
     path('application_portal/payment/<str:ref>/', views.verify_payment, name="verify-payment"),
+    path('application_portal/payment/my-transactions', views.user_transactions, name="my-transactions"),
     
     # other paths...
 ]

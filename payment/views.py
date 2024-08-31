@@ -51,3 +51,10 @@ def verify_payment(request: HttpRequest, ref: str) -> HttpResponse:
     else:
         messages.error(request, 'Payment failed')
     return redirect('initiate-payment')
+
+
+@login_required(login_url="authentication:my-login")
+def user_transactions(request):
+    payments = Payment.objects.filter(user=request.user)
+    return render(request, 'payment/user_transactions.html', {'payments': payments})
+
