@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from jobs.models import Job
+from django.utils import timezone
 
 class PersonalInformation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,7 +25,7 @@ class PersonalInformation(models.Model):
     contact_person = models.CharField(max_length=100)
     relation = models.CharField(max_length=50)
     contact_address = models.CharField(max_length=255)
-    passport_picture = models.ImageField(upload_to='passport_pictures/', blank=True, null=True)
+    passport_picture = models.ImageField(upload_to='passport_pictures/')
 
 class EducationalBackground(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
