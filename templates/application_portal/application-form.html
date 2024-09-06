@@ -167,6 +167,7 @@
               class="w-1/4 h-32 border border-gray-300 rounded-lg flex items-center justify-center bg-gray-100"
             >
               <!-- Image preview will be shown here -->
+              <p>Preview</p>
             </div>
           </div>
           <p class="mt-2 text-sm text-red-600">
@@ -1838,10 +1839,9 @@
 
   /*Form submissions handling using AJAX*/
   function submitForm(event, sectionNumber) {
-    event.preventDefault(); // Prevent default form submission
-
+    event.preventDefault();
     const form = document.getElementById(`form-${sectionNumber}`);
-    const formData = new FormData(form); // FormData includes files automatically
+    const formData = new FormData(form);
     const messagesContainer = document.getElementById(
       `form-${sectionNumber}-messages`
     );
@@ -1853,23 +1853,17 @@
         "X-Requested-With": "XMLHttpRequest",
       },
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
         if (data.success) {
           messagesContainer.innerHTML = `<p class="text-green-600">${data.message}</p>`;
-          showSection(sectionNumber + 1); // Move to the next section
+          showSection(sectionNumber + 1);
         } else {
           messagesContainer.innerHTML = `<p class="text-red-600">${data.message}</p>`;
         }
       })
       .catch((error) => {
-        messagesContainer.innerHTML = `<p class="text-red-600">An error occurred: ${error.message}. Please try again.</p>`;
-        console.error("Error:", error); // Log the error to the console for debugging
+        messagesContainer.innerHTML = `<p class="text-red-600">An error occurred: ${error.message}</p>`;
       });
   }
 </script>
