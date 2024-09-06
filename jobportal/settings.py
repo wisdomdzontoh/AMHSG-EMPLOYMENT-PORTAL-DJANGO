@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_admin_kubi',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,12 +42,20 @@ INSTALLED_APPS = [
     'theme',
     'django_browser_reload',  #for automatic reloads
     
+    
     'authentication',
     'jobs',
     'notifications',
     'application_portal',
     'payment',
 ]
+
+
+DJANGO_ADMIN_KUBI = {
+    'ADMIN_HISTORY': True,  # enables the history action panel
+    'ADMIN_SEARCH': True,  # enables a full modal search
+}
+
 
 
 TAILWIND_APP_NAME = 'theme'
