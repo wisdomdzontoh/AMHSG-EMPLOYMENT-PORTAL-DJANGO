@@ -8,8 +8,12 @@ from .models import (
     MedicalCertification,
     Addendum,
     Declaration,
-    Application
+    Application,
+    Region,
+    Facility
 )
+
+
 
 @admin.register(PersonalInformation)
 class PersonalInformationAdmin(admin.ModelAdmin):
@@ -17,15 +21,23 @@ class PersonalInformationAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'first_name', 'surname', 'email')
     list_filter = ('title', 'marital_status', 'gender')
 
-@admin.register(EducationalBackground)
+
+
 class EducationalBackgroundAdmin(admin.ModelAdmin):
-    list_display = ('user', 'level', 'school', 'date_started', 'date_completed')
-    search_fields = ('user__username', 'school')
-    list_filter = ('level',)
+    list_display = (
+        'user',
+        'JHS_level', 'JHS_school', 'JHS_date_started', 'JHS_date_completed',
+        'SHS_level', 'SHS_school', 'SHS_date_started', 'SHS_date_completed',
+        'TERTIARY_level', 'TERTIARY_school', 'TERTIARY_date_started', 'TERTIARY_date_completed'
+    )
+    list_filter = ('JHS_level', 'SHS_level', 'TERTIARY_level')
+    
+admin.site.register(EducationalBackground, EducationalBackgroundAdmin)
+
 
 @admin.register(ProfessionalRegistration)
 class ProfessionalRegistrationAdmin(admin.ModelAdmin):
-    list_display = ('user', 'regulatory_body', 'registration_pin', 'date_received')
+    list_display = ('user', 'regulatory_body', 'license_cert', 'registration_pin', 'date_received')
     search_fields = ('user__username', 'regulatory_body')
 
 @admin.register(MedicalHistory)
@@ -34,21 +46,46 @@ class MedicalHistoryAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
     list_filter = ('physical_disability', 'medical_condition')
 
+
+
+
+
+
+@admin.register(Region)
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ('region_name',)
+
+@admin.register(Facility)
+class FacilityAdmin(admin.ModelAdmin):
+    list_display = ('facility_name', 'town_name', 'region')  # Ensure region exists in the Facility model
+    list_filter = ('region',)  # Filter by region
+
 @admin.register(PostingPreference)
 class PostingPreferenceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'first_choice', 'second_choice', 'third_choice', 'fourth_choice', 'fifth_choice')
-    search_fields = ('user__username',)
-    list_filter = ('first_choice', 'second_choice', 'third_choice', 'fourth_choice', 'fifth_choice')
+    list_display = (
+        'user',
+        'first_choice_region', 'first_choice_facility',
+        'second_choice_region', 'second_choice_facility',
+        'third_choice_region', 'third_choice_facility',
+    )
+    list_filter = (
+        'first_choice_region', 'first_choice_facility',
+        'second_choice_region', 'second_choice_facility',
+        'third_choice_region', 'third_choice_facility',
+    )
+
+
+
+
 
 @admin.register(MedicalCertification)
 class MedicalCertificationAdmin(admin.ModelAdmin):
-    list_display = ('user', 'doctor_name', 'patient_name', 'examination_date', 'certification_status')
-    search_fields = ('user__username', 'doctor_name', 'patient_name')
-    list_filter = ('certification_status',)
+    list_display = ('user', 'medical_cert')
+    
 
 @admin.register(Addendum)
 class AddendumAdmin(admin.ModelAdmin):
-    list_display = ('user', 'license_cert')
+    list_display = ('user', 'other_cert')
     search_fields = ('user__username',)
 
 @admin.register(Declaration)
@@ -59,5 +96,5 @@ class DeclarationAdmin(admin.ModelAdmin):
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('personal_information', 'educational_background', 'medical_history', 'posting_preference', 'medical_certification', 'addendum', 'declaration', 'date_submitted')
-    search_fields = ('personal_information__user__username', 'educational_background__user__username')
+    search_fields = ('personal_information_userusername', 'educational_backgrounduser_username')
     list_filter = ('date_submitted',)

@@ -1,14 +1,26 @@
+import json
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Application
+from .models import Addendum, Application
 from payment.models import Voucher
 from payment.decorators import payment_required
+from django.urls import reverse
 import random
 import string
-from .models import PersonalInformation, EducationalBackground, ProfessionalRegistration, MedicalHistory, PostingPreference, MedicalCertification, Declaration
+from .models import (
+    PersonalInformation, EducationalBackground, ProfessionalRegistration, 
+    MedicalHistory, PostingPreference, MedicalCertification, Declaration, Region, Facility
+    )
 from django.http import JsonResponse
 from datetime import datetime
+from .forms import (
+    PersonalInformationForm, EducationalBackgroundForm, ProfessionalRegistrationForm,
+    MedicalHistoryForm, PostingPreferenceForm, MedicalCertificationForm,
+    AddendumForm, DeclarationForm
+)
+
+
 
 
 @login_required(login_url="authentication:my-login")
@@ -22,9 +34,11 @@ def application_list(request):
     
     return render(request, 'application_portal/job_applications.html', context)
 
+
 @login_required(login_url="authentication:my-login")
 def application_portal(request):
     return render(request, 'application_portal/index.html')
+
 
 @login_required(login_url="authentication:my-login")
 def purchase_voucher(request):
@@ -49,79 +63,119 @@ def purchase_voucher(request):
 
 
 
+
+@login_required(login_url="authentication:my-login")
+def application_success(request):
+    """
+    Renders a success page after the application is successfully submitted.
+    """
+    return render(request, 'application_portal/application_success.html')
+
+
+
+
+
+
 @login_required(login_url="authentication:my-login")
 @payment_required
 def application_form(request):
+    regions = Region.objects.all()
+    facilities_by_region = {}
+
+    for region in regions:
+        facilities = Facility.objects.filter(region=region)
+        facilities_by_region[region.id] = list(facilities.values('id', 'facility_name'))
+
     user = request.user
+
+    context = {
+        'personal_info_form': PersonalInformationForm(instance=PersonalInformation.objects.filter(user=user).first() or None),
+        'education_form': EducationalBackgroundForm(instance=EducationalBackground.objects.filter(user=user).first() or None),
+        'professional_form': ProfessionalRegistrationForm(instance=ProfessionalRegistration.objects.filter(user=user).first() or None),
+        'medical_history_form': MedicalHistoryForm(instance=MedicalHistory.objects.filter(user=user).first() or None),
+        'posting_preference_form': PostingPreferenceForm(instance=PostingPreference.objects.filter(user=user).first() or None),
+        'certification_form': MedicalCertificationForm(instance=MedicalCertification.objects.filter(user=user).first() or None),
+        'addendum_form': AddendumForm(instance=Addendum.objects.filter(user=user).first() or None),
+        'declaration_form': DeclarationForm(instance=Declaration.objects.filter(user=user).first() or None),
+        'regions': regions,
+        'facilities_by_region': facilities_by_region
+    }
 
     if request.method == 'POST':
         section = request.POST.get('section')
 
         if not section:
-            # Return error if section is not provided
             return JsonResponse({'success': False, 'message': 'Form section is missing. Please try again.'})
 
-        try:
-            if section == '1':
-                # Save Personal Information
-                personal_info, created = PersonalInformation.objects.get_or_create(user=user)
-                personal_info.title = request.POST.get('title')
-                personal_info.email = request.POST.get('email')
-                personal_info.first_name = request.POST.get('first_name')
-                personal_info.surname = request.POST.get('surname')
-                personal_info.other_names = request.POST.get('other_names')
-                personal_info.dob = request.POST.get('dob')
-                dob_str = request.POST.get('dob')  # Get the dob field from the form
-                if dob_str:
-                    try:
-                        # Validate and parse the date
-                        personal_info.dob = datetime.strptime(dob_str, '%Y-%m-%d').date()
-                    except ValueError:
-                        return JsonResponse({'success': False, 'message': 'Invalid date format. Please use YYYY-MM-DD.'})
+        form_class_mapping = {
+            '1': PersonalInformationForm,
+            '2': EducationalBackgroundForm,
+            '3': ProfessionalRegistrationForm,
+            '4': MedicalHistoryForm,
+            '5': PostingPreferenceForm,
+            '6': MedicalCertificationForm,
+            '7': AddendumForm,
+            '8': DeclarationForm,
+        }
+
+        model_class_mapping = {
+            '1': PersonalInformation,
+            '2': EducationalBackground,
+            '3': ProfessionalRegistration,
+            '4': MedicalHistory,
+            '5': PostingPreference,
+            '6': MedicalCertification,
+            '7': Addendum, 
+            '8': Declaration,
+        }
+
+        form_class = form_class_mapping.get(section)
+        model_class = model_class_mapping.get(section)
+
+        if not form_class or not model_class:
+            return JsonResponse({'success': False, 'message': 'Invalid form section or model class.'})
+
+        instance = model_class.objects.filter(user=user).first()
+        form_instance = form_class(request.POST, request.FILES, instance=instance)
+        form_instance.instance.user = user
+
+        if form_instance.is_valid():
+            form_instance.save()
+
+            # Check if this is the last section
+            if section == '8':
+                personal_info = PersonalInformation.objects.filter(user=user).first()
+                education = EducationalBackground.objects.filter(user=user).first()
+                medical_history = MedicalHistory.objects.filter(user=user).first()
+                posting_preference = PostingPreference.objects.filter(user=user).first()
+                medical_certification = MedicalCertification.objects.filter(user=user).first()
+                addendum = Addendum.objects.filter(user=user).first()
+                declaration = Declaration.objects.filter(user=user).first()
+
+                # Ensure all sections are completed
+                if all([personal_info, education, medical_history, posting_preference, medical_certification, addendum, declaration]):
+                    Application.objects.create(
+                        personal_information=personal_info,
+                        educational_background=education,
+                        medical_history=medical_history,
+                        posting_preference=posting_preference,
+                        medical_certification=medical_certification,
+                        addendum=addendum,
+                        declaration=declaration,
+                    )
+                    messages.success(request, 'Application submitted successfully!')
+                    return redirect('application-success')
                 else:
-                    return JsonResponse({'success': False, 'message': 'Date of Birth is required.'})
-                personal_info.telephone = request.POST.get('telephone')
-                personal_info.birthplace = request.POST.get('birthplace')
-                personal_info.marital_status = request.POST.get('marital_status')
-                personal_info.gender = request.POST.get('gender')
-                personal_info.fathers_name = request.POST.get('fathers_name')
-                personal_info.fathers_occupation = request.POST.get('fathers_occupation')
-                personal_info.mothers_name = request.POST.get('mothers_name')
-                personal_info.mothers_occupation = request.POST.get('mothers_occupation')
-                personal_info.next_of_kin = request.POST.get('next_of_kin')
-                personal_info.next_of_kin_occupation = request.POST.get('next_of_kin_occupation')
-                personal_info.contact_person = request.POST.get('contact_person')
-                personal_info.relation = request.POST.get('relation')
-                personal_info.contact_address = request.POST.get('contact_address')
-                
-                if 'passport_picture' in request.FILES:
-                    personal_info.passport_picture = request.FILES['passport_picture']
-                personal_info.save()
+                    return JsonResponse({'success': False, 'message': 'Some form sections are missing or incomplete.'})
 
-                return JsonResponse({'success': True, 'message': 'Personal Information saved successfully!'})
-
-            elif section == '2':
-                # Save Educational Background
-                education = EducationalBackground(user=user)
-                education.level = request.POST.get('level')
-                education.school = request.POST.get('school')
-                education.date_started = request.POST.get('date_started')
-                education.date_completed = request.POST.get('date_completed')
-                if 'certificates' in request.FILES:
-                    education.certificates = request.FILES['certificates']
-                education.save()
-
-                return JsonResponse({'success': True, 'message': 'Educational Background saved successfully!'})
-
-            # Add logic for other sections (3 to 8)
-
-            # Handle the "Next" button click by returning the next section number
-            next_section = int(section) + 1
+            # Proceed to the next section
+            next_section = int(section) + 1 if section != '8' else None
             return JsonResponse({'success': True, 'next_section': next_section, 'message': f'Section {section} saved successfully!'})
 
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': f'Error: {str(e)}'})
+        else:
+            return JsonResponse({'success': False, 'message': form_instance.errors})
 
-    # Render the form template for the initial load
-    return render(request, 'application_portal/application-form.html')
+    return render(request, 'application_portal/application-form.html', context)
+
+
 

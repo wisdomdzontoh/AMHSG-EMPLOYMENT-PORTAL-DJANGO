@@ -29,17 +29,36 @@ class PersonalInformation(models.Model):
 
 class EducationalBackground(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    level = models.CharField(max_length=50)
-    school = models.CharField(max_length=100)
-    date_started = models.DateField()
-    date_completed = models.DateField()
-    certificates = models.FileField(upload_to='certificates/', blank=True, null=True)
+    JHS_level = models.CharField(max_length=50, default="none")
+    JHS_school = models.CharField(max_length=100, default="none")
+    JHS_field_of_study = models.CharField(max_length=100, default="none")
+    JHS_date_started = models.DateField(default=timezone.now)
+    JHS_date_completed = models.DateField(default=timezone.now)
+    JHS_certificates = models.FileField(upload_to='certificates/JHS/', blank=True, null=True)
+    
+    SHS_level = models.CharField(max_length=50, default="none")
+    SHS_school = models.CharField(max_length=100, default="none")
+    SHS_field_of_study = models.CharField(max_length=100, default="none")
+    SHS_date_started = models.DateField(default=timezone.now)
+    SHS_date_completed = models.DateField(default=timezone.now)
+    SHS_certificates = models.FileField(upload_to='certificates/SHS/', blank=True, null=True)
+    
+    
+    TERTIARY_level = models.CharField(max_length=50, default="none")
+    TERTIARY_school = models.CharField(max_length=100, default="none")
+    TERTIARY_field_of_study = models.CharField(max_length=100, default="none")
+    TERTIARY_date_started = models.DateField(default=timezone.now)
+    TERTIARY_date_completed = models.DateField(default=timezone.now)
+    TERTIARY_certificates = models.FileField(upload_to='certificates/TERTIARY/', blank=True, null=True)
+
 
 class ProfessionalRegistration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     regulatory_body = models.CharField(max_length=100)
     registration_pin = models.CharField(max_length=50)
     date_received = models.DateField()
+    license_cert = models.FileField(upload_to='license_cert/', blank=True, null=True)
+    
 
 class MedicalHistory(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -48,46 +67,49 @@ class MedicalHistory(models.Model):
     medical_condition = models.BooleanField()
     condition_details = models.TextField(blank=True, null=True)
 
-class PostingPreference(models.Model):
-    REGION_CHOICES = [
-        ('western', 'Western Region'),
-        ('central', 'Central Region'),
-        ('ashanti', 'Ashanti Region'),
-        ('brong', 'Brong Ahafo Region'),
-        ('upperWest', 'Upper West Region'),
-        # Add more choices as needed
-    ]
+class Region(models.Model):
+    region_name = models.CharField(max_length=50, default="none")
+    
+    def __str__(self):
+        return self.region_name
 
+class Facility(models.Model):
+    facility_name = models.CharField(max_length=50, default="none")
+    town_name = models.CharField(max_length=50, default="none")
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name='facilities')  # Add this field
+
+    def __str__(self):
+        return f"{self.facility_name} - {self.town_name}"
+
+
+class PostingPreference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_choice = models.CharField(max_length=20, choices=REGION_CHOICES, blank=True, null=True)
-    second_choice = models.CharField(max_length=20, choices=REGION_CHOICES, blank=True, null=True)
-    third_choice = models.CharField(max_length=20, choices=REGION_CHOICES, blank=True, null=True)
-    fourth_choice = models.CharField(max_length=20, choices=REGION_CHOICES, blank=True, null=True)
-    fifth_choice = models.CharField(max_length=20, choices=REGION_CHOICES, blank=True, null=True)
+
+    # First choice of region and facility
+    first_choice_region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="first_choice_region", null=True, blank=True)
+    first_choice_facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name="first_choice_facility", null=True, blank=True)
+
+    # Second choice of region and facility
+    second_choice_region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="second_choice_region", null=True, blank=True)
+    second_choice_facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name="second_choice_facility", null=True, blank=True)
+
+    # Third choice of region and facility
+    third_choice_region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="third_choice_region", null=True, blank=True)
+    third_choice_facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name="third_choice_facility", null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Posting Preferences"
+
+
 
 class MedicalCertification(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    doctor_name = models.CharField(max_length=100)
-    patient_name = models.CharField(max_length=100)
-    position_applied_for = models.CharField(max_length=100)
-    examination_date = models.DateField()
-    chest_xray = models.CharField(max_length=255, blank=True, null=True)
-    blood_pressure = models.CharField(max_length=50, blank=True, null=True)
-    heart = models.CharField(max_length=255, blank=True, null=True)
-    stool = models.CharField(max_length=255, blank=True, null=True)
-    haemoglobin = models.CharField(max_length=50, blank=True, null=True)
-    abdomen = models.CharField(max_length=255, blank=True, null=True)
-    vision = models.CharField(max_length=255, blank=True, null=True)
-    hearing = models.CharField(max_length=255, blank=True, null=True)
-    lungs = models.CharField(max_length=255, blank=True, null=True)
-    urine = models.CharField(max_length=255, blank=True, null=True)
-    sickling = models.CharField(max_length=255, blank=True, null=True)
-    extremities = models.CharField(max_length=255, blank=True, null=True)
-    certification_status = models.CharField(max_length=255, choices=[('fit', 'Medically Fit'), ('fit_with_condition', 'Medically Fit with Condition'), ('unfit', 'Medically Unfit')])
+    medical_cert = models.FileField(upload_to='medical_cert/', blank=True, null=True)
+    
 
 class Addendum(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    license_cert = models.FileField(upload_to='license_cert/', blank=True, null=True)
+    other_cert = models.FileField(upload_to='other_cert/', blank=True, null=True)
 
 class Declaration(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -103,4 +125,5 @@ class Application(models.Model):
     medical_certification = models.ForeignKey(MedicalCertification, on_delete=models.CASCADE,default=1)
     addendum = models.ForeignKey(Addendum, on_delete=models.CASCADE, default=1)  # Replace '1' with the ID of an existing Addendum
     declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE, default=1)
+    status = models.CharField(max_length=50, default="pending")
     date_submitted = models.DateTimeField(auto_now_add=True)

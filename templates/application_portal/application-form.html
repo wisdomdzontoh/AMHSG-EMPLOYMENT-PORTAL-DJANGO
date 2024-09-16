@@ -8,6 +8,7 @@
         id="step-1"
         class="flex items-center cursor-pointer p-3 rounded-lg bg-indigo-100 text-indigo-700"
         onclick="showSection(1)"
+        role="button"
       >
         <span
           class="mr-3 bg-indigo-500 text-white rounded-full h-8 w-8 flex items-center justify-center"
@@ -22,6 +23,7 @@
         id="step-2"
         class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
         onclick="showSection(2)"
+        role="button"
       >
         <span
           class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
@@ -36,6 +38,7 @@
         id="step-3"
         class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
         onclick="showSection(3)"
+        role="button"
       >
         <span
           class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
@@ -50,6 +53,7 @@
         id="step-4"
         class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
         onclick="showSection(4)"
+        role="button"
       >
         <span
           class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
@@ -64,6 +68,7 @@
         id="step-5"
         class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
         onclick="showSection(5)"
+        role="button"
       >
         <span
           class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
@@ -78,6 +83,7 @@
         id="step-6"
         class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
         onclick="showSection(6)"
+        role="button"
       >
         <span
           class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
@@ -92,6 +98,7 @@
         id="step-7"
         class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
         onclick="showSection(7)"
+        role="button"
       >
         <span
           class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
@@ -102,1259 +109,686 @@
           <p class="text-sm text-gray-500">Brief summary</p>
         </div>
       </li>
-      <li
-        id="step-8"
-        class="flex items-center cursor-pointer p-3 rounded-lg hover:bg-gray-200"
-        onclick="showSection(8)"
-      >
-        <span
-          class="mr-3 bg-gray-300 text-gray-700 rounded-full h-8 w-8 flex items-center justify-center"
-          >8</span
-        >
-        <div>
-          <p class="font-semibold">Acceptance and Declaration</p>
-          <p class="text-sm text-gray-500">Add acceptance letter here</p>
-        </div>
-      </li>
     </ul>
   </aside>
-
-  <!-- Form Sections -->
+  <!-- Main Form Content -->
   <div class="w-3/4">
-    <!-- Section 1: Personal Information -->
-    <!-- Add this just above the form in each section -->
-    <div id="form-1-messages" class="my-4"></div>
+    
     <form
-      id="form-1"
+      id="applicationForm"
       method="POST"
-      onsubmit="submitForm(event, 1)"
-      action="{% url 'application_form' %}"
       enctype="multipart/form-data"
+      action="{% url 'application_form' %}"
     >
       {% csrf_token %}
-      <input type="hidden" name="section" value="1" />
-      <section id="section-1">
-        <h2 class="text-2xl font-semibold mb-6">Personal Information</h2>
+      <div id="form-1-messages" class="my-4"></div>
+      <input type="hidden" name="section" id="sectionInput" value="1" />
 
-        <!-- Upload Image -->
-        <div class="col-span-2">
-          <label class="block text-sm font-medium text-gray-700"
-            >Edit Passport Picture</label
-          >
-          <div class="flex items-center gap-4">
-            <!-- Drop Area for Drag and Drop -->
-            <div
-              id="image-drop-area"
-              class="flex items-center justify-center mt-1 w-1/2 h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer"
-              onclick="document.getElementById('image-upload').click()"
-            >
-              <input
-                type="file"
-                id="image-upload"
-                name="passport_picture"
-                class="hidden"
-                accept="image/*"
-                onchange="handleImageUpload(this)"
-              />
-              <p class="text-gray-500">
-                Drag & drop an image here or click to select
-              </p>
-            </div>
+      <!-- Section 1: Personal Information -->
+      <div
+        id="section-1"
+        class="form-section bg-white p-6 shadow-lg rounded-lg mb-8"
+      >
+        <h2 class="text-2xl font-bold text-blue-950 mb-6">
+          Personal Information
+        </h2>
 
-            <!-- Preview Area -->
-            <div
-              id="image-preview"
-              class="w-1/4 h-32 border border-gray-300 rounded-lg flex items-center justify-center bg-gray-100"
+        <!-- Personal Information Fields -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Field rendering with .as_p replaced by custom divs for better control -->
+          <div class="flex flex-col">
+            <label for="id_title" class="font-semibold text-gray-700 mb-1"
+              >Job Title</label
             >
-              <!-- Image preview will be shown here -->
-              <p>Preview</p>
-            </div>
+            {{ personal_info_form.job_title }}
           </div>
-          <p class="mt-2 text-sm text-red-600">
-            Please upload a JPEG or JPG passport picture
-          </p>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <!-- Title -->
-          <div>
-            <label for="title" class="block text-sm font-medium text-gray-700"
+          <div class="flex flex-col">
+            <label for="id_title" class="font-semibold text-gray-700 mb-1"
               >Title</label
             >
-            <select
-              id="title"
-              name="title"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            >
-              <option value="mr">Mr</option>
-              <option value="mrs">Mrs</option>
-              <option value="ms">Ms</option>
-            </select>
+            {{ personal_info_form.title }}
           </div>
 
-          <!-- Email Address -->
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700"
-              >Email Address</label
-            >
-            <input
-              type="email"
-              name="email"
-              id="email"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-
-          <!-- First Name -->
-          <div>
-            <label
-              for="first-name"
-              class="block text-sm font-medium text-gray-700"
+          <div class="flex flex-col">
+            <label for="id_first_name" class="font-semibold text-gray-700 mb-1"
               >First Name</label
             >
-            <input
-              type="text"
-              name="first_name"
-              id="first-name"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.first_name }}
           </div>
 
-          <!-- Surname -->
-          <div>
-            <label for="surname" class="block text-sm font-medium text-gray-700"
+          <div class="flex flex-col">
+            <label for="id_surname" class="font-semibold text-gray-700 mb-1"
               >Surname</label
             >
-            <input
-              type="text"
-              name="surname"
-              id="surname"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.surname }}
           </div>
 
-          <!-- Other Name(s) -->
-          <div>
-            <label
-              for="other_names"
-              class="block text-sm font-medium text-gray-700"
-              >Other Name(s)</label
+          <div class="flex flex-col">
+            <label for="id_other_names" class="font-semibold text-gray-700 mb-1"
+              >Other Names</label
             >
-            <input
-              type="text"
-              name="other_names"
-              id="other-names"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.other_names }}
           </div>
 
-          <!-- Date of Birth -->
-          <div>
-            <label for="dob" class="block text-sm font-medium text-gray-700"
-              >Date of Birth</label
+          <div class="flex flex-col">
+            <label for="id_email" class="font-semibold text-gray-700 mb-1"
+              >Email</label
             >
-            <input
-              type="date"
-              name="dob"
-              id="dob"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              required
-            />
+            {{ personal_info_form.email }}
           </div>
 
-          <!-- Telephone -->
-          <div>
-            <label
-              for="telephone"
-              class="block text-sm font-medium text-gray-700"
+          <div class="flex flex-col">
+            <label for="id_telephone" class="font-semibold text-gray-700 mb-1"
               >Telephone</label
             >
-            <input
-              type="text"
-              name="telephone"
-              id="telephone"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.telephone }}
           </div>
 
-          <!-- Place of Birth -->
-          <div>
-            <label
-              for="birthplace"
-              class="block text-sm font-medium text-gray-700"
-              >Place of Birth</label
+          <div class="flex flex-col">
+            <label for="id_dob" class="font-semibold text-gray-700 mb-1"
+              >Date of Birth</label
             >
-            <input
-              type="text"
-              name="birthplace"
-              id="birthplace"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.dob }}
           </div>
 
-          <!-- Marital Status -->
-          <div>
-            <label
-              for="marital_status"
-              class="block text-sm font-medium text-gray-700"
+          <div class="flex flex-col">
+            <label for="id_birthplace" class="font-semibold text-gray-700 mb-1"
+              >Birthplace</label
+            >
+            {{ personal_info_form.birthplace }}
+          </div>
+
+          <div class="flex flex-col">
+            <label for="marital_status" class="font-semibold text-gray-700 mb-1"
               >Marital Status</label
             >
-            <select
-              id="marital_status"
-              name="marital_status"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+            {{ personal_info_form.marital_status }}
+          </div>
+
+          <div class="flex flex-col">
+            <label for="gender" class="font-semibold text-gray-700 mb-1"
+              >Gender</label
             >
-              <option value="single">Single</option>
-              <option value="married">Married</option>
-              <option value="divorced">Divorced/Separated</option>
-              <option value="widow">Widow</option>
-            </select>
+            {{ personal_info_form.gender }}
           </div>
 
-          <!-- Gender -->
-          <div class="flex items-center">
-            <span class="mr-4 text-sm font-medium text-gray-700">Gender:</span>
-            <label class="inline-flex items-center">
-              <input
-                type="radio"
-                name="gender"
-                value="male"
-                class="form-radio text-indigo-600"
-              />
-              <span class="ml-2">Male</span>
-            </label>
-            <label class="inline-flex items-center ml-6">
-              <input
-                type="radio"
-                name="gender"
-                value="female"
-                class="form-radio text-indigo-600"
-              />
-              <span class="ml-2">Female</span>
-            </label>
-          </div>
-
-          <!-- Fathers Name -->
-          <div>
-            <label
-              for="fathers_name"
-              class="block text-sm font-medium text-gray-700"
+          <div class="flex flex-col">
+            <label for="fathers_name" class="font-semibold text-gray-700 mb-1"
               >Fathers Name</label
             >
-            <input
-              type="text"
-              name="fathers_name"
-              id="fathers_name"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.fathers_name }}
           </div>
 
-          <!-- Fathers Occupation -->
-          <div>
+          <div class="flex flex-col">
             <label
               for="fathers_occupation"
-              class="block text-sm font-medium text-gray-700"
+              class="font-semibold text-gray-700 mb-1"
               >Fathers Occupation</label
             >
-            <input
-              type="text"
-              name="fathers_occupation"
-              id="fathers_occupation"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.fathers_occupation }}
           </div>
 
-          <!-- Mothers Name -->
-          <div>
-            <label
-              for="mothers_name"
-              class="block text-sm font-medium text-gray-700"
-              >Mother Name</label
+          <div class="flex flex-col">
+            <label for="mothers_name" class="font-semibold text-gray-700 mb-1"
+              >Mothers Name</label
             >
-            <input
-              type="text"
-              name="mothers_name"
-              id="mothers_name"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.mothers_name }}
           </div>
 
-          <!-- Mothers Occupation -->
-          <div>
+          <div class="flex flex-col">
             <label
               for="mothers_occupation"
-              class="block text-sm font-medium text-gray-700"
+              class="font-semibold text-gray-700 mb-1"
               >Mothers Occupation</label
             >
-            <input
-              type="text"
-              name="mothers_occupation"
-              id="mothers_occupation"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.mothers_occupation }}
           </div>
 
-          <!-- Next of kin Name -->
-          <div>
-            <label
-              for="next_of_kin"
-              class="block text-sm font-medium text-gray-700"
+          <div class="flex flex-col">
+            <label for="next_of_kin" class="font-semibold text-gray-700 mb-1"
               >Next of Kin</label
             >
-            <input
-              type="text"
-              name="next_of_kin"
-              id="next_of_kin"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.next_of_kin }}
           </div>
 
-          <!-- Next of kin Occupation -->
-          <div>
+          <div class="flex flex-col">
             <label
               for="next_of_kin_occupation"
-              class="block text-sm font-medium text-gray-700"
+              class="font-semibold text-gray-700 mb-1"
               >Next of Kin Occupation</label
             >
-            <input
-              type="text"
-              name="next_of_kin_occupation"
-              id="next_of_kin_occupation"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.next_of_kin_occupation }}
           </div>
 
-          <!--contact person -->
-          <div>
-            <label
-              for="contact_person"
-              class="block text-sm font-medium text-gray-700"
-              >Contact person in case of emergency</label
+          <div class="flex flex-col">
+            <label for="contact_person" class="font-semibold text-gray-700 mb-1"
+              >Name of contact person</label
             >
-            <input
-              type="text"
-              name="contact_person"
-              id="contact_person"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.contact_person }}
           </div>
 
-          <!-- Next of kin Occupation -->
-          <div>
-            <label
-              for="relation"
-              class="block text-sm font-medium text-gray-700"
-              >Relation with contact person</label
+          <div class="flex flex-col">
+            <label for="relation" class="font-semibold text-gray-700 mb-1"
+              >Relation</label
             >
-            <input
-              type="text"
-              name="relation"
-              id="relation"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
+            {{ personal_info_form.relation }}
           </div>
 
-          <div>
+          <div class="flex flex-col">
             <label
               for="contact_address"
-              class="block text-sm font-medium text-gray-700"
-              >Contacts Adress</label
+              class="font-semibold text-gray-700 mb-1"
+              >Contact Address</label
             >
+            {{ personal_info_form.contact_address }}
+          </div>
+
+          <div class="flex flex-col">
+            <label
+              for="passport_picture"
+              class="font-semibold text-gray-700 mb-1"
+            >
+              Passport Picture
+            </label>
+
+            <!-- Custom Upload Button -->
             <input
-              type="text"
-              name="contact_address"
-              id="contact_address"
-              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
+              type="file"
+              name="passport_picture"
+              id="passport_picture"
+              class="hidden"
             />
+            <label
+              for="passport_picture"
+              class="bg-indigo-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-indigo-700"
+            >
+              Upload Passport Picture
+            </label>
+
+            <!-- Preview Image Placeholder -->
+            <img
+              id="image_preview"
+              class="mt-4 w-32 h-32 object-cover rounded-full border border-gray-300"
+              src="#"
+              alt="Image Preview"
+              style="display: none"
+            />
+
+            <!-- Help text or validation messages -->
+            <small class="text-gray-500 mt-1"
+              >Accepted formats: JPG, PNG. Max size: 2MB</small
+            >
           </div>
         </div>
 
-        <!-- Navigation Buttons -->
-        <div class="flex justify-between">
+        <!-- Button Group -->
+        <div class="flex justify-between mt-8">
           <button
             type="button"
-            class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 cursor-not-allowed"
+            class="bg-gray-400 text-white px-6 py-2 rounded-lg cursor-not-allowed opacity-50"
+            id="prevButton-1"
             disabled
           >
             Previous
           </button>
+
           <button
-            type="submit"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+            type="button"
+            class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700"
+            onclick="showNextSection(1)"
           >
             Next
           </button>
         </div>
-      </section>
-    </form>
+      </div>
 
-    <!-- Add this just above the form in each section -->
-    <div id="form-2-messages" class="my-4"></div>
-    <form id="form-2" method="POST" onsubmit="submitForm(event, 2)">
-      {% csrf_token %}
-      <input type="hidden" name="section" value="2" />
       <!-- Section 2: Educational Background -->
-      <section id="section-2" class="hidden">
-        <h2 class="text-2xl font-semibold mb-6">Educational Background</h2>
+      <div id="form-2-messages" class="my-4"></div>
+      <div id="section-2" class="form-section hidden">
+        
+        <h2 class="text-xl font-bold mb-4">Educational Background</h2>
 
-        <!-- Dynamic Educational Background Fields -->
-        <div class="space-y-4">
-          <div class="flex space-x-4">
-            <div class="w-1/4">
-              <label for="level" class="block text-sm font-medium text-gray-700"
-                >Level</label
-              >
-              <select
-                id="level"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="">Select Level</option>
-                <option value="Certificate">Certificate</option>
-                <option value="Diploma">Diploma</option>
-                <option value="Bachelor's Degree">Bachelor's Degree</option>
-                <option value="Master's Degree">Master's Degree</option>
-                <option value="Doctorate">Doctorate</option>
-                <!-- Add more options as needed -->
-              </select>
-            </div>
-            <div class="w-1/4">
-              <label
-                for="school"
-                class="block text-sm font-medium text-gray-700"
-                >Name of School</label
-              >
-              <input
-                type="text"
-                id="school"
-                name="school"
-                placeholder="Enter school name"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-            <div class="w-1/4">
-              <label
-                for="date-started"
-                class="block text-sm font-medium text-gray-700"
-                >Date Started</label
-              >
-              <input
-                type="text"
-                id="date-started"
-                name="date-started"
-                placeholder="dd/mm/yyyy"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-            <div class="w-1/4">
-              <label
-                for="date-completed"
-                class="block text-sm font-medium text-gray-700"
-                >Date Completed</label
-              >
-              <input
-                type="text"
-                id="date-completed"
-                name="date-completed"
-                placeholder="dd/mm/yyyy"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-          </div>
-
-          <button
-            type="button"
-            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-            onclick="addEducationalBackground()"
-          >
-            Add Educational Background
-          </button>
-        </div>
-
-        <!-- Placeholder for the added education backgrounds -->
-        <div class="mt-6">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Level
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Name of School
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Date Started
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Date Completed
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              id="education-list"
-              class="bg-white divide-y divide-gray-200"
-            >
-              <!-- Dynamic Rows will be added here -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Drag and Drop / Click to Select for Certificates -->
-        <div class="w-full mt-4">
-          <label class="block text-sm font-medium text-gray-700"
-            >Certificates</label
-          >
-          <div
-            id="dropzone"
-            class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-gray-300 rounded-md"
-          >
-            <div class="space-y-1 text-center">
-              <svg
-                class="mx-auto h-12 w-12 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M7 16V7m10 10V7m-5 13l5-5m0 0l-5-5m5 5H3"
-                />
-              </svg>
-              <div class="flex text-sm text-gray-600">
+        <!-- Educational Fields -->
+        <div class="grid grid-cols-1 gap-8">
+          <!-- JHS Section -->
+          <div class="border p-4 rounded-lg bg-gray-100 mb-6">
+            <h3 class="text-lg font-semibold mb-3">JHS</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col">
                 <label
-                  for="certificates"
-                  class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                  for="id_JHS_school"
+                  class="font-semibold text-gray-700 mb-1"
+                  >School Name</label
                 >
-                  <span>Upload files</span>
-                  <input
-                    id="certificates"
-                    name="certificates[]"
-                    type="file"
-                    multiple
-                    class="sr-only"
-                    onchange="handleFiles(this.files)"
-                  />
-                </label>
-                <p class="pl-1">or drag and drop</p>
+                {{ education_form.JHS_school }}
               </div>
-              <p class="text-xs text-gray-500">
-                PDF, DOCX, PNG, JPG up to 10MB each
-              </p>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_JHS_level"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Degree</label
+                >
+                {{ education_form.JHS_level }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_JHS_field_of_study"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Field of Study</label
+                >
+                {{ education_form.JHS_field_of_study }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_JHS_date_started"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Start Date</label
+                >
+                {{ education_form.JHS_date_started }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_JHS_date_completed"
+                  class="font-semibold text-gray-700 mb-1"
+                  >End Date</label
+                >
+                {{ education_form.JHS_date_completed }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_JHS_certificates"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Upload Certificates</label
+                >
+                <input
+                  type="file"
+                  id="id_JHS_certificates"
+                  name="JHS_certificates"
+                  class="border rounded p-2"
+                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                  onchange="previewFile('JHS')"
+                />
+                <div id="file-preview-JHS" class="mt-4"></div>
+              </div>
             </div>
           </div>
 
-          <!-- Preview of Uploaded Files -->
-          <div id="file-preview" class="mt-4">
-            <!-- File previews will be added here -->
+          <!-- SHS Section -->
+          <div class="border p-4 rounded-lg bg-gray-100 mb-6">
+            <h3 class="text-lg font-semibold mb-3">SHS</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col">
+                <label
+                  for="id_SHS_school"
+                  class="font-semibold text-gray-700 mb-1"
+                  >School Name</label
+                >
+                {{ education_form.SHS_school }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_SHS_level"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Degree</label
+                >
+                {{ education_form.SHS_level }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_SHS_field_of_study"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Field of Study</label
+                >
+                {{ education_form.SHS_field_of_study }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_SHS_date_started"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Start Date</label
+                >
+                {{ education_form.SHS_date_started }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_SHS_date_completed"
+                  class="font-semibold text-gray-700 mb-1"
+                  >End Date</label
+                >
+                {{ education_form.SHS_date_completed }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_SHS_certificates"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Upload Certificates</label
+                >
+                <input
+                  type="file"
+                  id="id_SHS_certificates"
+                  name="SHS_certificates"
+                  class="border rounded p-2"
+                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                  onchange="previewFile('SHS')"
+                />
+                <div id="file-preview-SHS" class="mt-4"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tertiary Section -->
+          <div class="border p-4 rounded-lg bg-gray-100 mb-6">
+            <h3 class="text-lg font-semibold mb-3">Tertiary</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col">
+                <label
+                  for="id_TERTIARY_school"
+                  class="font-semibold text-gray-700 mb-1"
+                  >School Name</label
+                >
+                {{ education_form.TERTIARY_school }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_TERTIARY_level"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Degree</label
+                >
+                {{ education_form.TERTIARY_level }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_TERTIARY_field_of_study"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Field of Study</label
+                >
+                {{ education_form.TERTIARY_field_of_study }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_TERTIARY_date_started"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Start Date</label
+                >
+                {{ education_form.TERTIARY_date_started }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_TERTIARY_date_completed"
+                  class="font-semibold text-gray-700 mb-1"
+                  >End Date</label
+                >
+                {{ education_form.TERTIARY_date_completed }}
+              </div>
+
+              <div class="flex flex-col">
+                <label
+                  for="id_TERTIARY_certificates"
+                  class="font-semibold text-gray-700 mb-1"
+                  >Upload Certificates</label
+                >
+                <input
+                  type="file"
+                  id="id_TERTIARY_certificates"
+                  name="TERTIARY_certificates"
+                  class="border rounded p-2"
+                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                  onchange="previewFile('TERTIARY')"
+                />
+                <div id="file-preview-TERTIARY" class="mt-4"></div>
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Button Group -->
         <div class="flex justify-between mt-8">
           <button
             type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(1)"
+            class="bg-gray-500 text-white py-2 px-4 rounded"
+            onclick="showPrevSection(2)"
           >
             Previous
           </button>
           <button
             type="button"
             class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(3)"
+            onclick="showNextSection(2)"
           >
             Next
           </button>
         </div>
-      </section>
-    </form>
+      </div>
 
-    <!-- Add this just above the form in each section -->
-    <div id="form-3-messages" class="my-4"></div>
-    <form id="form-3" method="POST" onsubmit="submitForm(event, 3)">
-      <input type="hidden" name="section" value="3" />
-      {% csrf_token %}
-      <!-- Section 3: Evidence of Registration -->
-      <section id="section-3" class="hidden">
-        <h2 class="text-2xl font-semibold mb-6">Evidence of Registration</h2>
-        <!-- Content for Evidence of Registration Section -->
-        <div class="p-6 bg-white rounded-md shadow-md">
-          <!-- Header Section -->
-          <div class="mb-4">
-            <h2 class="text-xl font-semibold">Profession</h2>
-            <p class="text-sm text-gray-500">Add / Edit Profession</p>
-          </div>
+      <!-- Section 3: Professional Registration -->
+      <div id="form-3-messages" class="my-4"></div>
+      <div id="section-3" class="form-section hidden">
+        <h2 class="text-xl font-bold mb-4">Professional Registration</h2>
 
-          <!-- Form Section -->
-          <div class="grid grid-cols-3 gap-4 mb-4">
-            <div>
-              <label class="block text-gray-700 mb-2"
-                >Name of regulatory body</label
-              >
-              <input
-                type="text"
-                id="regulatory_body"
-                name="regulatory_body"
-                placeholder="eg. NMC"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700 mb-2">Registration Pin</label>
-              <input
-                type="text"
-                id="registration_pin"
-                name="registration_pin"
-                placeholder="Eg. NIA-1324567"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-            <div>
-              <label class="block text-gray-700 mb-2">Date recieved</label>
-              <input
-                type="text"
-                id="date_received"
-                name="date_received"
-                placeholder="dd/mm/yyyy"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-          </div>
-
-          <!-- Add Button -->
-          <div class="mb-6">
-            <button
-              id="addProfessionBtn"
-              class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+        <!-- Professional Registration Fields -->
+        <div class="grid grid-cols-1 gap-6">
+          <!-- Regulatory Body -->
+          <div class="flex flex-col">
+            <label
+              for="regulatory_body"
+              class="font-semibold text-gray-700 mb-1"
+              >Regulatory Body</label
             >
-              Add Profession
-            </button>
+            {{ professional_form.regulatory_body }}
           </div>
 
-          <!-- Table Section -->
-          <div class="overflow-x-auto">
-            <table class="min-w-full bg-white">
-              <thead class="bg-gray-100">
-                <tr>
-                  <th class="py-2 px-4 text-left text-gray-600">
-                    Regulatory Body
-                  </th>
-                  <th class="py-2 px-4 text-left text-gray-600">
-                    Registration Pin
-                  </th>
-                  <th class="py-2 px-4 text-left text-gray-600">
-                    Date Received
-                  </th>
-                  <th class="py-2 px-4 text-left text-gray-600">ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="professionTableBody">
-                <!-- Dynamic Rows Will Be Added Here -->
-              </tbody>
-            </table>
+          <!-- Registration Pin -->
+          <div class="flex flex-col">
+            <label
+              for="registration_pin"
+              class="font-semibold text-gray-700 mb-1"
+              >Registration Pin</label
+            >
+            {{ professional_form.registration_pin }}
+          </div>
+
+          <!-- Date Received -->
+          <div class="flex flex-col">
+            <label for="date_received" class="font-semibold text-gray-700 mb-1"
+              >Date Reeived</label
+            >
+            {{ professional_form.date_received }}
+          </div>
+
+          <!-- License Certificate -->
+          <div class="flex flex-col">
+            <label
+              for="id_license_cert"
+              class="font-semibold text-gray-700 mb-1"
+              >Upload License Certificate</label
+            >
+            <input
+              type="file"
+              id="id_license_cert"
+              name="license_cert"
+              class="border border-gray-300 rounded-lg px-3 py-2"
+              onchange="previewFile(this)"
+            />
+            <div id="license_cert_preview" class="mt-2">
+              <!-- Preview content will be inserted here -->
+            </div>
           </div>
         </div>
 
+        <!-- Button Group -->
+        <div class="flex justify-between mt-8">
+          <button
+            type="button"
+            class="bg-gray-500 text-white py-2 px-4 rounded"
+            onclick="showPrevSection(3)"
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+            onclick="showNextSection(3)"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 4: Work Experience -->
+      <div id="form-4-messages" class="my-4"></div>
+      <div id="section-4" class="form-section hidden">
+        <h2 class="text-xl font-bold mb-4">Medical History</h2>
+        {{ medical_history_form.as_p }}
         <div class="flex justify-between">
           <button
             type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(2)"
+            class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+            onclick="showPrevSection(4)"
           >
             Previous
           </button>
           <button
             type="button"
             class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(4)"
+            onclick="showNextSection(4)"
           >
             Next
           </button>
         </div>
-      </section>
-    </form>
+      </div>
 
-    <!-- Add this just above the form in each section -->
-    <div id="form-4-messages" class="my-4"></div>
-    <form id="form-4" method="POST" onsubmit="submitForm(event, 4)">
-      <input type="hidden" name="section" value="4" />
-      {% csrf_token %}
-      <!-- Section 4: Medical History -->
-      <section id="section-4" class="hidden">
-        <h2 class="text-2xl font-semibold mb-6">Medical History</h2>
-
-        <!-- Medical History Questions -->
-        <div class="mb-4">
-          <label class="block text-gray-700 font-medium mb-2">
-            Do you have any physical disability?
-          </label>
-          <div class="flex items-center space-x-4">
-            <label class="flex items-center">
-              <input
-                type="radio"
-                name="physicalDisability"
-                value="Yes"
-                class="form-radio text-indigo-600"
-              />
-              <span class="ml-2">Yes</span>
-            </label>
-            <label class="flex items-center">
-              <input
-                type="radio"
-                name="physicalDisability"
-                value="No"
-                class="form-radio text-indigo-600"
-              />
-              <span class="ml-2">No</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="mb-6">
-          <label class="block text-gray-700 font-medium mb-2"
-            >If yes, specify:</label
-          >
-          <textarea
-            name="disabilityDetails"
-            rows="3"
-            class="w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 p-2"
-            placeholder="Provide details if you have any physical disability..."
-          ></textarea>
-        </div>
-
-        <div class="mb-4">
-          <label class="block text-gray-700 font-medium mb-2">
-            Do you have any medical condition that requires management?
-          </label>
-          <div class="flex items-center space-x-4">
-            <label class="flex items-center">
-              <input
-                type="radio"
-                name="medicalCondition"
-                value="Yes"
-                class="form-radio text-indigo-600"
-              />
-              <span class="ml-2">Yes</span>
-            </label>
-            <label class="flex items-center">
-              <input
-                type="radio"
-                name="medicalCondition"
-                value="No"
-                class="form-radio text-indigo-600"
-              />
-              <span class="ml-2">No</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="mb-6">
-          <label class="block text-gray-700 font-medium mb-2"
-            >If yes, specify:</label
-          >
-          <textarea
-            name="conditionDetails"
-            rows="3"
-            class="w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 p-2"
-            placeholder="Provide details if you have any medical condition..."
-          ></textarea>
-        </div>
-
-        <!-- Declaration Section -->
-        <div class="mb-6">
-          <p class="text-gray-700 font-medium mb-2">
-            Declaration and endorsement by applicant
-          </p>
-          <p class="text-sm text-gray-600 mb-4">
-            I declare that the information I have provided in this Application
-            Form is accurate, and I hereby willingly offer myself to be
-            considered for permanent appointment and postings to wherever my
-            services will be needed.
-          </p>
-        </div>
-
-        <!-- Signature and Date -->
-        <div class="flex space-x-6">
-          <div class="flex-1">
-            <label class="block text-gray-700 font-medium mb-2">
-              Signature of Applicant
-            </label>
-            <input
-              type="text"
-              name="applicantSignature"
-              class="w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 p-2"
-              placeholder="Applicant Signature"
-            />
-          </div>
-          <div class="flex-1">
-            <label class="block text-gray-700 font-medium mb-2">Date</label>
-            <input
-              type="date"
-              name="signatureDate"
-              id="signatureDate"
-              placeholder="dd/mm/yyyy"
-              class="w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 p-2"
-            />
-          </div>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="flex justify-between mt-6">
-          <button
-            type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(3)"
-          >
-            Previous
-          </button>
-          <button
-            type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(5)"
-          >
-            Next
-          </button>
-        </div>
-      </section>
-    </form>
-
-    <!-- Add this just above the form in each section -->
-    <div id="form-5-messages" class="my-4"></div>
-    <form id="form-5" method="POST" onsubmit="submitForm(event, 5)">
-      <input type="hidden" name="section" value="5" />
-      {% csrf_token %}
       <!-- Section 5: Posting Preference -->
-      <section id="section-5" class="hidden">
-        <h2 class="text-2xl font-semibold mb-6">Posting Preference</h2>
+      <div id="form-5-messages" class="my-4"></div>
+<div id="section-5" class="form-section hidden">
+  <h2 class="text-xl font-bold mb-4">Posting Preference</h2>
+  
+  <form id="posting-preference-form">
+      <div class="mb-4">
+          <label for="first_choice_region" class="block text-sm font-medium text-gray-700">First Choice Region</label>
+          <select id="first_choice_region" name="first_choice_region" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm">
+              <option value="">Select a region</option>
+              {% for region in regions %}
+                  <option value="{{ region.id }}">{{ region.region_name }}</option>
+              {% endfor %}
+          </select>
+      </div>
 
-        <!-- Note about choices -->
-        <p class="mb-4 text-gray-600">
-          (NB: Choice is subject to change based on the availability of
-          vacancies)
-        </p>
+      <div class="mb-4">
+          <label for="first_choice_facility" class="block text-sm font-medium text-gray-700">First Choice Facility</label>
+          <select id="first_choice_facility" name="first_choice_facility" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm" disabled>
+              <option value="">Select a facility</option>
+          </select>
+      </div>
 
-        <!-- Posting Preference Form -->
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-          <h2 class="text-2xl font-semibold mb-6">Posting Preference</h2>
+      <div class="mb-4">
+          <label for="second_choice_region" class="block text-sm font-medium text-gray-700">Second Choice Region</label>
+          <select id="second_choice_region" name="second_choice_region" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm">
+              <option value="">Select a region</option>
+              {% for region in regions %}
+                  <option value="{{ region.id }}">{{ region.region_name }}</option>
+              {% endfor %}
+          </select>
+      </div>
 
-          <!-- Dropdown for Selecting Region Preferences -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <!-- First Choice -->
-            <div>
-              <label
-                for="first_choice"
-                class="block text-sm font-medium text-gray-700"
-                >First Choice</label
-              >
-              <select
-                id="first_choice"
-                name="first_choice"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                <option value="">Select a Region</option>
-                <option value="western">Western Region</option>
-                <option value="central">Central Region</option>
-                <option value="ashanti">Ashanti Region</option>
-                <option value="brong">Brong Ahafo Region</option>
-                <option value="upperWest">Upper West Region</option>
-                <!-- Add more options as needed -->
-              </select>
-            </div>
+      <div class="mb-4">
+          <label for="second_choice_facility" class="block text-sm font-medium text-gray-700">Second Choice Facility</label>
+          <select id="second_choice_facility" name="second_choice_facility" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm" disabled>
+              <option value="">Select a facility</option>
+          </select>
+      </div>
 
-            <!-- Second Choice -->
-            <div>
-              <label
-                for="second_choice"
-                class="block text-sm font-medium text-gray-700"
-                >Second Choice</label
-              >
-              <select
-                id="second_choice"
-                name="second_choice"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                <option value="">Select a Region</option>
-                <option value="western">Western Region</option>
-                <option value="central">Central Region</option>
-                <option value="ashanti">Ashanti Region</option>
-                <option value="brong">Brong Ahafo Region</option>
-                <option value="upperWest">Upper West Region</option>
-                <!-- Add more options as needed -->
-              </select>
-            </div>
+      <div class="mb-4">
+          <label for="third_choice_region" class="block text-sm font-medium text-gray-700">Third Choice Region</label>
+          <select id="third_choice_region" name="third_choice_region" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm">
+              <option value="">Select a region</option>
+              {% for region in regions %}
+                  <option value="{{ region.id }}">{{ region.region_name }}</option>
+              {% endfor %}
+          </select>
+      </div>
 
-            <!-- Third Choice -->
-            <div>
-              <label
-                for="third_choice"
-                class="block text-sm font-medium text-gray-700"
-                >Third Choice</label
-              >
-              <select
-                id="third_choice"
-                name="third_choice"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                <option value="">Select a Region</option>
-                <option value="western">Western Region</option>
-                <option value="central">Central Region</option>
-                <option value="ashanti">Ashanti Region</option>
-                <option value="brong">Brong Ahafo Region</option>
-                <option value="upperWest">Upper West Region</option>
-                <!-- Add more options as needed -->
-              </select>
-            </div>
+      <div class="mb-4">
+          <label for="third_choice_facility" class="block text-sm font-medium text-gray-700">Third Choice Facility</label>
+          <select id="third_choice_facility" name="third_choice_facility" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm" disabled>
+              <option value="">Select a facility</option>
+          </select>
+      </div>
+  </form>
 
-            <!-- Fourth Choice -->
-            <div>
-              <label
-                for="fourth_choice"
-                class="block text-sm font-medium text-gray-700"
-                >Fourth Choice</label
-              >
-              <select
-                id="fourth_choice"
-                name="fourth_choice"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                <option value="">Select a Region</option>
-                <option value="western">Western Region</option>
-                <option value="central">Central Region</option>
-                <option value="ashanti">Ashanti Region</option>
-                <option value="brong">Brong Ahafo Region</option>
-                <option value="upperWest">Upper West Region</option>
-                <!-- Add more options as needed -->
-              </select>
-            </div>
+  <div class="flex justify-between">
+      <button type="button" class="bg-gray-500 text-white py-2 px-4 rounded" onclick="showPrevSection(5)">Previous</button>
+      <button type="button" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700" onclick="showNextSection(5)">Next</button>
+  </div>
+</div>
 
-            <!-- Fifth Choice -->
-            <div>
-              <label
-                for="fifth_choice"
-                class="block text-sm font-medium text-gray-700"
-                >Fifth Choice</label
-              >
-              <select
-                id="fifth_choice"
-                name="fifth_choice"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                <option value="">Select a Region</option>
-                <option value="western">Western Region</option>
-                <option value="central">Central Region</option>
-                <option value="ashanti">Ashanti Region</option>
-                <option value="brong">Brong Ahafo Region</option>
-                <option value="upperWest">Upper West Region</option>
-                <!-- Add more options as needed -->
-              </select>
-            </div>
-          </div>
+
+
+      <!-- Section 6: Medical Certificate Upload -->
+      <div id="form-6-messages" class="my-4"></div>
+      <div id="section-6" class="form-section hidden">
+        <h2 class="text-xl font-bold mb-4">Medical Certificate</h2>
+
+        <div class="flex flex-col mb-4">
+          <label
+            for="id_medical_certificate"
+            class="font-semibold text-gray-700 mb-2"
+            >Upload Medical Certificate</label
+          >
+          <input
+            type="file"
+            id="id_medical_certificate"
+            name="medical_cert"
+            class="border rounded p-2"
+            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+            onchange="previewCertificate()"
+          />
+          <div id="certificate-preview" class="mt-4"></div>
         </div>
 
-        <!-- Navigation Buttons -->
-        <div class="flex justify-between mt-6">
+        <!-- Button Group -->
+        <div class="flex justify-between">
           <button
             type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(4)"
+            class="bg-gray-500 text-white py-2 px-4 rounded"
+            onclick="showPrevSection(6)"
           >
             Previous
           </button>
           <button
             type="button"
             class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(6)"
+            onclick="showNextSection(6)"
           >
             Next
           </button>
         </div>
-      </section>
-    </form>
+      </div>
 
-    <!-- Add this just above the form in each section -->
-    <div id="form-6-messages" class="my-4"></div>
-    <form id="form-6" method="POST" onsubmit="submitForm(event, 6)">
-      <input type="hidden" name="section" value="6" />
-      {% csrf_token %}
-      <!-- Section 6: Medical Certification -->
-      <section id="section-6" class="hidden">
-        <h2 class="text-2xl font-semibold mb-6">Medical Certification</h2>
-
-        <!-- Instructions and Certification Form -->
-        <p class="mb-4 text-gray-600">
-          (To be completed by a Medical Officer in any government/AMHSG
-          hospital)
-        </p>
-
-        <!-- Doctor's Certification Form -->
-        <div class="mb-6">
-          <label class="block mb-2 text-gray-700">
-            I, Dr.
-            <input
-              type="text"
-              class="border border-gray-300 rounded px-2 py-1"
-              placeholder="Doctor's Name"
-            />
-            hereby certify that having examined Mr./Mrs./Ms.
-            <input
-              type="text"
-              class="border border-gray-300 rounded px-2 py-1"
-              placeholder="Patient's Name"
-            />
-            who is applying for permanent appointment in the AMHSG as
-            <input
-              type="text"
-              class="border border-gray-300 rounded px-2 py-1"
-              placeholder="Position"
-            />
-            on
-            <input
-              type="date"
-              class="border border-gray-300 rounded px-2 py-1"
-            />.
-          </label>
-        </div>
-
-        <!-- Medical Examination Findings -->
-        <div class="grid grid-cols-2 gap-4 mb-6">
-          <div>
-            <label class="block mb-2 text-gray-700">
-              Chest X-ray Report:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Chest X-ray findings"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Blood Pressure:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Blood Pressure reading"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Heart:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Heart condition"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Stool:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Stool analysis"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Haemoglobin:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Haemoglobin level"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Abdomen:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Abdomen condition"
-              />
-            </label>
-          </div>
-
-          <div>
-            <label class="block mb-2 text-gray-700">
-              Vision:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Vision assessment"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Hearing:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Hearing assessment"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Lungs:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Lungs condition"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Urine:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Urine analysis"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Sickling:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Sickling test results"
-              />
-            </label>
-            <label class="block mb-2 text-gray-700">
-              Extremities:
-              <input
-                type="text"
-                class="border border-gray-300 rounded w-full px-2 py-1"
-                placeholder="Extremities condition"
-              />
-            </label>
-          </div>
-        </div>
-
-        <!-- Certification Status -->
-        <div class="mb-6">
-          <p class="text-gray-700 mb-2">
-            I consider therefore that he/she (please tick the appropriate box):
-          </p>
-          <label class="flex items-center mb-2">
-            <input
-              type="radio"
-              name="certificationStatus"
-              value="fit"
-              class="form-radio text-indigo-600"
-            />
-            <span class="ml-2">
-              a) Is medically fit for permanent appointment and posting to any
-              part of Ghana
-            </span>
-          </label>
-          <label class="flex items-center mb-2">
-            <input
-              type="radio"
-              name="certificationStatus"
-              value="fitWithCondition"
-              class="form-radio text-indigo-600"
-            />
-            <span class="ml-2">
-              b) Is medically fit for permanent appointment but has a health
-              condition that requires special posting, support and management
-              (Please provide detail information on the health condition in a
-              sealed envelope with your recommendation on the support required)
-            </span>
-          </label>
-          <label class="flex items-center mb-2">
-            <input
-              type="radio"
-              name="certificationStatus"
-              value="fitWithCondition"
-              class="form-radio text-indigo-600"
-            />
-            <span class="ml-2">
-              c) Is medically fit but not suitable for immediate postings
-              (Please provide detail information in a sealed envelope on the
-              reason(s) for deferredposting)
-            </span>
-          </label>
-          <label class="flex items-center mb-2">
-            <input
-              type="radio"
-              name="certificationStatus"
-              value="fitWithCondition"
-              class="form-radio text-indigo-600"
-            />
-            <span class="ml-2">
-              d) Is medically unfit for permanent appointment Please provide
-              detail information in a sealed envelope)
-            </span>
-          </label>
-          <div class="flex space-x-6">
-            <div class="flex-1">
-              <label class="block text-gray-700 font-medium mb-2">
-                Signature of Applicant
-              </label>
-              <input
-                type="text"
-                name="doctorSignature"
-                class="w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 p-2"
-                placeholder="Applicant Signature"
-              />
-            </div>
-            <div class="flex-1">
-              <label class="block text-gray-700 font-medium mb-2">Date</label>
-              <input
-                type="date"
-                name="doctorSignatureDate"
-                id="doctorSignatureDate"
-                placeholder="dd/mm/yyyy"
-                class="w-full border-gray-300 rounded-md focus:ring focus:ring-indigo-200 p-2"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="flex justify-between mt-6">
-          <button
-            type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(5)"
-          >
-            Previous
-          </button>
-          <button
-            type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(7)"
-          >
-            Next
-          </button>
-        </div>
-      </section>
-    </form>
-
-    <!-- Add this just above the form in each section -->
-    <div id="form-7-messages" class="my-4"></div>
-    <form id="form-7" method="POST" onsubmit="submitForm(event, 7)">
-      <input type="hidden" name="section" value="7" />
-      {% csrf_token %}
       <!-- Section 7: Addendum -->
-      <section id="section-7" class="hidden">
-        <h2 class="text-2xl font-semibold mb-6">Addendum</h2>
+      <div id="form-7-messages" class="my-4"></div>
+      <div id="section-7" class="form-section hidden">
+        <h2 class="text-xl font-bold mb-4">Addendum</h2>
 
-        <!-- A. Attachments -->
-        <h3 class="text-lg font-semibold mb-4">A. Attachments</h3>
-        <ol class="list-decimal list-inside mb-6 text-gray-700">
+        <!-- Attachments Section -->
+        <h3 class="text-lg font-bold mt-4">A. Attachments</h3>
+        <ol class="list-decimal list-inside ml-6 text-gray-700">
           <li>
-            Registered General Nurses, Registered Midwives, and auxiliary nurses
+            Registered General Nurses, Registered Midwives and auxiliary nurses
             are required to attach photocopies of the NMC results slips and
             PIN/AIN.
           </li>
@@ -1371,501 +805,494 @@
           </li>
         </ol>
 
-        <!-- Drag and Drop File Upload -->
-        <div class="mb-6">
-          <label class="block mb-2 text-gray-700">Upload Attachments:</label>
-          <div
-            id="file-drop-area"
-            class="border-2 border-dashed border-gray-300 p-4 rounded-lg flex items-center justify-center bg-gray-50"
-            ondragover="event.preventDefault()"
-            ondrop="handleFileDrop(event)"
-          >
-            <p class="text-gray-500">
-              Drag and drop files here or click to upload
-            </p>
-            <input
-              type="file"
-              id="file-input"
-              name="license_cert"
-              class="hidden"
-              multiple
-              onchange="handleFileSelect(event)"
-            />
-          </div>
-          <ul id="file-list" class="mt-4 text-gray-600"></ul>
-        </div>
-
-        <!-- B. Programmes and Corresponding Grades -->
-        <h3 class="text-lg font-semibold mb-4">
-          B. Programmes and Corresponding Grades
+        <!-- Programs and Grades Section -->
+        <h3 class="text-lg font-bold mt-4">
+          B. Programmes and Other Corresponding Grades
         </h3>
-        <table class="min-w-full border-collapse border border-gray-300">
-          <thead class="bg-gray-200">
-            <tr>
-              <th class="border border-gray-300 px-4 py-2">S/No.</th>
-              <th class="border border-gray-300 px-4 py-2">
-                Programme of Study
-              </th>
-              <th class="border border-gray-300 px-4 py-2">
-                Corresponding Grade
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">1</td>
-              <td class="border border-gray-300 px-4 py-2">
-                Degree/Advanced Diploma in CM/COH
-              </td>
-              <td class="border border-gray-300 px-4 py-2">
-                Physician Assistant
-              </td>
-            </tr>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">2</td>
-              <td class="border border-gray-300 px-4 py-2">
-                Diploma in Community Medicine & Health
-              </td>
-              <td class="border border-gray-300 px-4 py-2">
-                Medical Assistant
-              </td>
-            </tr>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">3</td>
-              <td class="border border-gray-300 px-4 py-2">
-                Diploma General Nursing, Psychiatry & Midwifery
-              </td>
-              <td class="border border-gray-300 px-4 py-2">
-                Staff Nurse, Staff Nurse (Psy) & Staff Midwife
-              </td>
-            </tr>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">4</td>
-              <td class="border border-gray-300 px-4 py-2">
-                Diploma in Community Health Nursing
-              </td>
-              <td class="border border-gray-300 px-4 py-2">Staff Nurse RCN</td>
-            </tr>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">5</td>
-              <td class="border border-gray-300 px-4 py-2">
-                Certificate in Community Health Nursing
-              </td>
-              <td class="border border-gray-300 px-4 py-2">
-                Community Health Nurse
-              </td>
-            </tr>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">6</td>
-              <td class="border border-gray-300 px-4 py-2">
-                Certificate Health Assistant Clinical
-              </td>
-              <td class="border border-gray-300 px-4 py-2">Enrolled Nurse</td>
-            </tr>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">7</td>
-              <td class="border border-gray-300 px-4 py-2">
-                Diploma in Disease Control, Health Information, Medical
-                Laboratory, etc.
-              </td>
-              <td class="border border-gray-300 px-4 py-2">
-                Technical Officer (Specialty)
-              </td>
-            </tr>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">8</td>
-              <td class="border border-gray-300 px-4 py-2">
-                Other Certificates
-              </td>
-              <td class="border border-gray-300 px-4 py-2">
-                Field Technicians/Technical Assistant (Social)
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Navigation Buttons -->
-        <div class="flex justify-between mt-6">
-          <button
-            type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(6)"
+        <div class="overflow-x-auto">
+          <table
+            class="min-w-full table-auto border-collapse border border-gray-300 text-left text-sm"
           >
-            Previous
-          </button>
-          <button
-            type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(8)"
-          >
-            Next
-          </button>
-        </div>
-      </section>
-    </form>
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="border border-gray-300 px-4 py-2">S/No.</th>
+                <th class="border border-gray-300 px-4 py-2">
+                  Programme of Study
+                </th>
+                <th class="border border-gray-300 px-4 py-2">
+                  Corresponding Grade
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">1</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Degree/Advanced Diploma in CM/COH
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Physician Assistant
+                </td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">2</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Diploma in Community Medicine & Health
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Medical Assistant
+                </td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">3</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Diploma General Nursing, Psychiatry & Midwifery
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Staff Nurse, Staff Midwife
+                </td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">4</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Diploma in Community Health Nursing
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Staff Nurse (RCN)
+                </td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">5</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Certificate in Community Health Nursing
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Community Health Nurse
+                </td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">6</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Certificate Health Assistant Clinical
+                </td>
+                <td class="border border-gray-300 px-4 py-2">Enrolled Nurse</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">7</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Diploma in Disease Control, Health Information, Medical
+                  Laboratory etc.
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Technical Officer (Specialty)
+                </td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">8</td>
+                <td class="border border-gray-300 px-4 py-2">Others</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  Field Technicians/Technical Assistant (Specialty)
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-    <!-- Add this just above the form in each section -->
-    <div id="form-8-messages" class="my-4"></div>
-    <form id="form-8" method="POST" onsubmit="submitForm(event, 8)">
-      <input type="hidden" name="section" value="8" />
-      {% csrf_token %}
-      <!-- Section 8: Acceptance and Declaration -->
-      <section id="section-8" class="hidden">
-        <h2 class="text-2xl font-semibold mb-6">Declaration</h2>
-        <p class="text-sm text-gray-500 mb-2">Consent to details given</p>
-
-        <!-- Declaration Text -->
-        <div class="border-t border-gray-300 pt-4 mb-4 text-gray-700">
-          <p>
-            I confirm that the information I have provided in this form is
-            accurate to the best of my knowledge and belief. If however, it is
-            detected that I have made any false claims, I may be committing an
-            offence under Part One of Act 857 (2013).
-          </p>
-        </div>
-
-        <!-- Checkbox for Agreement -->
-        <div class="flex items-center mb-6">
-          <input
-            type="checkbox"
-            id="agree"
-            name="agree"
-            class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-            required
-          />
-          <label for="agree" class="ml-2 text-gray-700">Agree</label>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="flex justify-between">
-          <button
-            type="button"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
-            onclick="showSection(7)"
-          >
-            Previous
-          </button>
-          <button
-            type="submit"
-            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
-          >
-            Submit
-          </button>
-        </div>
-      </section>
-    </form>
-  </div>
+          <!-- Other Certificate Upload Field with Preview -->
+<div class="flex flex-col mb-6">
+  <label for="id_other_cert" class="font-semibold text-gray-700 mb-2">
+    Upload Other Certificate (e.g. Transcript)
+  </label>
+  <input
+    type="file"
+    id="id_other_cert"
+    name="other_cert"
+    class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500 transition duration-200"
+    accept=".pdf, .jpg, .jpeg, .png, .doc, .docx"
+    onchange="previewOtherFile(this)"
+  />
+  <!-- Preview Area for Selected File -->
+  <div id="file-preview" class="mt-3 text-gray-600"></div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<h2 class="text-2xl font-semibold mb-6">Declaration</h2>
+<p class="text-sm text-gray-600 mb-4">Consent to details given</p>
+
+<!-- Declaration Text -->
+<div class="border-t border-gray-300 pt-4 mb-6 text-gray-700">
+  <p>
+    I confirm that the information I have provided in this form is
+    accurate to the best of my knowledge and belief. If however, it is
+    detected that I have made any false claims, I may be committing an
+    offence under Part One of Act 857 (2013).
+  </p>
+</div>
+
+<!-- Table Structure for Final Declaration Fields -->
+<form id="final-declaration-form" method="POST">
+    {% csrf_token %}
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg mb-6">
+      <tbody>
+        <tr class="border-b border-gray-300">
+          <td class="py-4 px-6 font-semibold text-gray-700">Agreement</td>
+          <td class="py-4 px-6">
+            {{ declaration_form.agree }}
+          </td>
+        </tr>
+        <tr class="border-b border-gray-300">
+          <td class="py-4 px-6 font-semibold text-gray-700">Date</td>
+          <td class="py-4 px-6">
+            {{ declaration_form.date }}
+          </td>
+        </tr>
+        <tr>
+          <td class="py-4 px-6 font-semibold text-gray-700">Signature</td>
+          <td class="py-4 px-6">
+            {{ declaration_form.signature }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Button Group with Improved Styling -->
+    <div class="flex justify-between">
+      <button
+        type="button"
+        class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+        onclick="showSection(7)"
+      >
+        Previous
+      </button>
+      <button
+        type="submit"
+        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+      >
+        Submit Application
+      </button>
+    </div>
+</form>
+
+</div>
+</div>
+
+
+
+<!-- Embed the facilities data into a JavaScript object -->
+<script type="text/javascript">
+  const facilitiesByRegion = {{ facilities_by_region|safe }};  // This passes the Python dictionary to JS
+</script>
+
+
+<!--other certificates javascript code-->
+<script>
+  // Function to preview selected file
+  function previewOtherFile(input) {
+    const file = input.files[0];
+    const previewContainer = document.getElementById('file-preview');
+
+    if (file) {
+      const fileType = file.type;
+      const fileName = file.name;
+
+      // Check if the file is an image
+      if (fileType.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewContainer.innerHTML = `<img src="${e.target.result}" alt="${fileName}" class="w-32 h-32 object-cover mt-3">`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // Show file name and type for non-image files
+        previewContainer.innerHTML = `<p class="text-gray-700 mt-3">File: ${fileName}</p>`;
+      }
+    } else {
+      previewContainer.innerHTML = ''; // Clear the preview if no file is selected
+    }
+  }
+</script>
+
+
+
+
+
+
 
 <script>
   function showSection(sectionNumber) {
-    // Hide all sections
     const sections = document.querySelectorAll('[id^="section-"]');
+    
+    // Hide all sections
     sections.forEach((section) => section.classList.add("hidden"));
-
-    // Show selected section
-    document
-      .getElementById(`section-${sectionNumber}`)
-      .classList.remove("hidden");
-
-    // Reset all steps to inactive
+  
+    // Show the selected section
+    document.getElementById(`section-${sectionNumber}`).classList.remove("hidden");
+  
+    // Update step navigation visual indicators
     const steps = document.querySelectorAll('[id^="step-"]');
     steps.forEach((step) => {
       step.classList.remove("bg-indigo-100", "text-indigo-700");
-      step
-        .querySelector("span")
-        .classList.replace("bg-indigo-500", "bg-gray-300");
-      step
-        .querySelector("span")
-        .classList.replace("text-white", "text-gray-700");
+      step.querySelector("span").classList.replace("bg-indigo-500", "bg-gray-300");
+      step.querySelector("span").classList.replace("text-white", "text-gray-700");
     });
-
-    // Activate the selected step
+  
+    // Highlight the current step
     const selectedStep = document.getElementById(`step-${sectionNumber}`);
     selectedStep.classList.add("bg-indigo-100", "text-indigo-700");
-    selectedStep
-      .querySelector("span")
-      .classList.replace("bg-gray-300", "bg-indigo-500");
-    selectedStep
-      .querySelector("span")
-      .classList.replace("text-gray-700", "text-white");
-  }
+    selectedStep.querySelector("span").classList.replace("bg-gray-300", "bg-indigo-500");
+    selectedStep.querySelector("span").classList.replace("text-gray-700", "text-white");
+}
 
-  // Drag and Drop with Image Preview
-  const dropArea = document.getElementById("image-drop-area");
-  const input = document.getElementById("image-upload");
-  const previewContainer = document.getElementById("image-preview");
 
-  dropArea.addEventListener("click", () => {
-    input.click();
-  });
+function showNextSection(current) {
+  const form = document.getElementById("applicationForm");
+  const formData = new FormData(form);
 
-  dropArea.addEventListener("dragover", (event) => {
-    event.preventDefault();
-    dropArea.classList.add("border-indigo-500");
-  });
+  // Get the message container for the current section
+  const messagesContainer = document.getElementById(`form-${current}-messages`);
 
-  dropArea.addEventListener("dragleave", () => {
-    dropArea.classList.remove("border-indigo-500");
-  });
+  // Update the section input to match the current section number
+  const sectionInput = document.getElementById("sectionInput");
+  sectionInput.value = current;
 
-  dropArea.addEventListener("drop", (event) => {
-    event.preventDefault();
-    dropArea.classList.remove("border-indigo-500");
+  // Add the CSRF token for Django form submission security
+  const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+  formData.append("csrfmiddlewaretoken", csrfToken);
 
-    const file = event.dataTransfer.files[0];
-    handleFile(file);
-  });
-
-  input.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    handleFile(file);
-  });
-
-  function handleFile(file) {
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = document.createElement("img");
-        img.src = event.target.result;
-        img.classList.add("w-full", "h-full", "object-cover", "rounded-lg");
-        previewContainer.innerHTML = ""; // Clear existing content
-        previewContainer.appendChild(img); // Add the image preview
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("Please upload an image file.");
-    }
-  }
-
-  // Initialize flatpickr for date fields
-  document.addEventListener("DOMContentLoaded", function () {
-    flatpickr("#date-started", {
-      dateFormat: "d/m/Y",
-    });
-    flatpickr("#date-completed", {
-      dateFormat: "d/m/Y",
-    });
-  });
-
-  function addEducationalBackground() {
-    // Get values from the input fields
-    const level = document.getElementById("level").value;
-    const school = document.getElementById("school").value;
-    const dateStarted = document.getElementById("date-started").value;
-    const dateCompleted = document.getElementById("date-completed").value;
-
-    // Check if all fields are filled
-    if (level && school && dateStarted && dateCompleted) {
-      // Get the table body
-      const tableBody = document.getElementById("education-list");
-
-      // Create a new row
-      const newRow = document.createElement("tr");
-
-      // Create table cells for each piece of information
-      newRow.innerHTML = `
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${level}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${school}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${dateStarted}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${dateCompleted}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-            <button class="text-red-600 hover:text-red-900" onclick="removeEducationalBackground(this)">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M8.707 9.293a1 1 0 011.414 0L12 11.586l1.879-1.879a1 1 0 111.414 1.414l-2.586 2.586a1 1 0 01-1.414 0L8.707 10.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </button>
-          </td>
-        `;
-
-      // Append the new row to the table
-      tableBody.appendChild(newRow);
-
-      // Reset the fields
-      document.getElementById("level").value = "";
-      document.getElementById("school").value = "";
-      document.getElementById("date-started").value = "";
-      document.getElementById("date-completed").value = "";
-    } else {
-      alert("Please fill in all fields before adding.");
-    }
-  }
-
-  function removeEducationalBackground(button) {
-    // Remove the row containing the clicked button
-    button.closest("tr").remove();
-  }
-
-  function handleFiles(files) {
-    const preview = document.getElementById("file-preview");
-    preview.innerHTML = ""; // Clear existing previews
-
-    Array.from(files).forEach((file) => {
-      const fileItem = document.createElement("div");
-      fileItem.classList.add(
-        "flex",
-        "items-center",
-        "justify-between",
-        "p-2",
-        "border",
-        "rounded-md",
-        "mb-2"
-      );
-
-      const fileName = document.createElement("span");
-      fileName.classList.add("text-sm", "text-gray-700");
-      fileName.textContent = file.name;
-
-      const removeButton = document.createElement("button");
-      removeButton.classList.add(
-        "text-red-500",
-        "hover:text-red-700",
-        "focus:outline-none"
-      );
-      removeButton.innerHTML =
-        '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>';
-
-      removeButton.onclick = () => {
-        const newFileList = Array.from(files).filter((f) => f !== file);
-        handleFiles(newFileList);
-      };
-
-      fileItem.appendChild(fileName);
-      fileItem.appendChild(removeButton);
-      preview.appendChild(fileItem);
-    });
-  }
-
-  /*script for adding professional body registration*/
-  document
-    .getElementById("addProfessionBtn")
-    .addEventListener("click", function () {
-      // Get values from input fields
-      const regulatory_body = document.getElementById("regulatory_body").value;
-      const registration_pin =
-        document.getElementById("registration_pin").value;
-      const date_received = document.getElementById("date_received").value;
-
-      // Check if all fields are selected
-      if (!regulatory_body || !registration_pin || !date_received) {
-        alert("Please select all fields before adding a profession.");
-        return;
-      }
-
-      // Create a new row and cells
-      const tableBody = document.getElementById("professionTableBody");
-      const newRow = document.createElement("tr");
-      newRow.classList.add("border-b");
-
-      // Create and append cells with data
-      newRow.innerHTML = `
-    <td class="py-2 px-4 text-gray-800">${regulatory_body}</td>
-    <td class="py-2 px-4 text-gray-800">${registration_pin}</td>
-    <td class="py-2 px-4 text-gray-800">${date_received}</td>
-    <td class="py-2 px-4 text-gray-800">Active</td>
-    <td class="py-2 px-4 text-center">
-      <button class="text-purple-600 hover:text-purple-800" onclick="deleteRow(this)">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </td>
-  `;
-
-      // Append the new row to the table body
-      tableBody.appendChild(newRow);
-
-      // Clear the selection fields
-      document.getElementById("regulatory_body").value = "";
-      document.getElementById("registration_pin").value = "";
-      document.getElementById("date_received").value = "";
-    });
-
-  // Function to delete a row
-  function deleteRow(button) {
-    button.closest("tr").remove();
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    flatpickr("#date_received", {
-      dateFormat: "Y-m-d",
-    });
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    flatpickr("#signatureDate", {
-      dateFormat: "Y-m-d",
-    });
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    flatpickr("#doctorSignatureDate", {
-      dateFormat: "Y-m-d",
-    });
-
-    // Set the date format to YYYY-MM-DD
-    flatpickr("#dob", {
-      dateFormat: "Y-m-d", // Correct format to match YYYY-MM-DD
-    });
-  });
-
-  /*JavaScript for handling file drag and drop */
-  const fileDropArea = document.getElementById("file-drop-area");
-  const fileInput = document.getElementById("file-input");
-  const fileList = document.getElementById("file-list");
-
-  fileDropArea.addEventListener("click", () => fileInput.click());
-
-  function handleFileDrop(event) {
-    event.preventDefault();
-    const files = event.dataTransfer.files;
-    handleFiles(files);
-  }
-
-  function handleFileSelect(event) {
-    const files = event.target.files;
-    handleFiles(files);
-  }
-
-  function handleFiles(files) {
-    Array.from(files).forEach((file) => {
-      const li = document.createElement("li");
-      li.textContent = file.name;
-      fileList.appendChild(li);
-    });
-  }
-
-  /*Form submissions handling using AJAX*/
-  function submitForm(event, sectionNumber) {
-    event.preventDefault();
-    const form = document.getElementById(`form-${sectionNumber}`);
-    const formData = new FormData(form);
-    const messagesContainer = document.getElementById(
-      `form-${sectionNumber}-messages`
-    );
-
-    fetch(form.action, {
+  // Fetch request to submit the form via AJAX
+  fetch(form.action, {
       method: "POST",
       body: formData,
       headers: {
-        "X-Requested-With": "XMLHttpRequest",
+          "X-CSRFToken": csrfToken, // Important for Django CSRF protection
       },
-    })
+  })
       .then((response) => response.json())
       .then((data) => {
-        if (data.success) {
-          messagesContainer.innerHTML = `<p class="text-green-600">${data.message}</p>`;
-          showSection(sectionNumber + 1);
-        } else {
-          messagesContainer.innerHTML = `<p class="text-red-600">${data.message}</p>`;
-        }
+          if (data.success) {
+              // Display success message in the message container
+              messagesContainer.innerHTML = `<p class="text-green-600">${data.message}</p>`;
+              if (data.redirect_url) {
+                  // Redirect to success page if provided
+                  window.location.href = data.redirect_url;
+              } else if (data.next_section === null) {
+                  // If it's the final section, submit the form
+                  form.submit(); // Submit the entire form
+              } else {
+                  // Move to the next section, including section 8
+                  showSection(data.next_section);
+              }
+          } else {
+              // Show any validation or form errors from the server response
+              messagesContainer.innerHTML = `<p class="text-red-600">${data.message || 'Please correct the errors in the form.'}</p>`;
+          }
       })
       .catch((error) => {
-        messagesContainer.innerHTML = `<p class="text-red-600">An error occurred: ${error.message}</p>`;
+          // Handle any network or other errors
+          console.error("Error:", error);
+          messagesContainer.innerHTML = `<p class="text-red-600">An error occurred while submitting the form. Please try again.</p>`;
       });
+}
+
+  
+
+  function showPrevSection(current) {
+    // Navigate to the previous section
+    if (current > 1) showSection(current - 1);
+  }
+  
+  // Initialize by showing the first section on page load
+  document.addEventListener("DOMContentLoaded", function () {
+    showSection(1);  // Show the first section initially
+  });
+</script>
+
+
+<script>
+  // JavaScript to handle the image preview
+  document
+    .getElementById("passport_picture")
+    .addEventListener("change", function (event) {
+      const imagePreview = document.getElementById("image_preview");
+      const file = event.target.files[0];
+
+      // Ensure file is selected and is an image
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+
+        // Set the preview image source to the selected file
+        reader.onload = function (e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = "block";
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        imagePreview.style.display = "none";
+      }
+    });
+</script>
+
+<!-- JavaScript for license cert File Preview -->
+<script>
+  function previewFile(input) {
+    const previewContainer = document.getElementById("license_cert_preview");
+    const file = input.files[0];
+    previewContainer.innerHTML = ""; // Clear previous preview
+
+    if (file) {
+      const fileType = file.type;
+      const fileUrl = URL.createObjectURL(file);
+
+      if (fileType.startsWith("image/")) {
+        const img = document.createElement("img");
+        img.src = fileUrl;
+        img.alt = "Preview";
+        img.className = "w-full h-auto border border-gray-300 rounded-lg mt-2";
+        previewContainer.appendChild(img);
+      } else if (fileType === "application/pdf") {
+        const pdfEmbed = document.createElement("embed");
+        pdfEmbed.src = fileUrl;
+        pdfEmbed.type = "application/pdf";
+        pdfEmbed.className =
+          "w-full h-60 border border-gray-300 rounded-lg mt-2";
+        previewContainer.appendChild(pdfEmbed);
+      } else {
+        const text = document.createElement("p");
+        text.textContent = "Preview not available for this file type.";
+        text.className = "text-gray-500 mt-2";
+        previewContainer.appendChild(text);
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    flatpickr("#id_date_received", {
+      dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#id_dob", {
+      dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#id_JHS_date_started", {
+      dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#id_JHS_date_completed", {
+      dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#id_SHS_date_started", {
+      dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#id_SHS_date_completed", {
+      dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#id_TERTIARY_date_started", {
+      dateFormat: "Y-m-d",
+    });
+
+    flatpickr("#id_TERTIARY_date_completed", {
+      dateFormat: "Y-m-d",
+    });
+  });
+</script>
+
+<!--Medical Certificate upload-->
+<script>
+  function previewCertificate() {
+    const fileInput = document.getElementById("id_medical_certificate");
+    const previewDiv = document.getElementById("certificate-preview");
+
+    const file = fileInput.files[0];
+    previewDiv.innerHTML = ""; // Clear previous content
+
+    if (file) {
+      const fileName = file.name;
+      const fileType = file.type;
+
+      if (fileType.startsWith("image/")) {
+        // If it's an image, show the image preview
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.classList.add("w-32", "h-32", "object-cover", "mt-4");
+        previewDiv.appendChild(img);
+      } else {
+        // For non-image files, just show the file name
+        const fileLabel = document.createElement("p");
+        fileLabel.textContent = `Selected File: ${fileName}`;
+        fileLabel.classList.add("text-gray-700", "mt-2");
+        previewDiv.appendChild(fileLabel);
+      }
+    }
   }
 </script>
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Handle cascading dropdowns
+    function handleRegionChange(regionSelectId, facilitySelectId) {
+        const regionSelect = document.getElementById(regionSelectId);
+        const facilitySelect = document.getElementById(facilitySelectId);
+        
+        regionSelect.addEventListener('change', function () {
+            const selectedRegion = regionSelect.value;
+            facilitySelect.innerHTML = '<option value="">Select a facility</option>'; // Reset options
+            if (selectedRegion && facilitiesByRegion[selectedRegion]) {
+                facilitiesByRegion[selectedRegion].forEach(function (facility) {
+                    const option = document.createElement('option');
+                    option.value = facility.id;
+                    option.textContent = facility.facility_name;
+                    facilitySelect.appendChild(option);
+                });
+                facilitySelect.disabled = false;
+            } else {
+                facilitySelect.disabled = true;
+            }
+        });
+    }
+
+    // Apply cascading logic to the first, second, and third choices
+    handleRegionChange('first_choice_region', 'first_choice_facility');
+    handleRegionChange('second_choice_region', 'second_choice_facility');
+    handleRegionChange('third_choice_region', 'third_choice_facility');
+
+    // Prevent duplicate region and facility selections
+    const allRegionSelects = [
+        document.getElementById('first_choice_region'),
+        document.getElementById('second_choice_region'),
+        document.getElementById('third_choice_region')
+    ];
+    const allFacilitySelects = [
+        document.getElementById('first_choice_facility'),
+        document.getElementById('second_choice_facility'),
+        document.getElementById('third_choice_facility')
+    ];
+
+    function preventDuplicateSelections(selects) {
+        selects.forEach(function (select, index) {
+            select.addEventListener('change', function () {
+                const selectedValues = selects.map(s => s.value);
+                selects.forEach(function (s, idx) {
+                    if (idx !== index) {
+                        [...s.options].forEach(function (option) {
+                            option.disabled = selectedValues.includes(option.value) && option.value !== "";
+                        });
+                    }
+                });
+            });
+        });
+    }
+
+    preventDuplicateSelections(allRegionSelects);
+    preventDuplicateSelections(allFacilitySelects);
+});
+
+  </script>
 
 {% endblock %}

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_browser_reload',  #for automatic reloads
+    'crispy_forms',
+    'crispy_bootstrap4',  # Add this
     
     
     'authentication',
@@ -49,6 +51,9 @@ INSTALLED_APPS = [
     'application_portal',
     'payment',
 ]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 DJANGO_ADMIN_KUBI = {
