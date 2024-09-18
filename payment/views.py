@@ -5,52 +5,69 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from jobs.models import Job
+
+
 
 
 @login_required(login_url="authentication:my-login")
 def initiate_payment(request: HttpRequest) -> HttpResponse:
+    jobs = Job.objects.all()
+
     if request.method == "POST":
-        # Capture the form data from the POST request
         amount = request.POST.get('amount')
         email = request.POST.get('email')
+        job_id = request.POST.get('job_id')
         user = request.user
 
-        # Check if user is authenticated (just an extra precaution)
+        if job_id:
+            job = get_object_or_404(Job, id=job_id)
+        else:
+            messages.error(request, 'Job not found.')
+            return redirect('job-list')
+
         if not user.is_authenticated:
             messages.error(request, 'You need to log in to make a payment.')
-            return redirect('login')  # Redirect to login page or any other appropriate page
+            return redirect('login')
 
-        # Perform any necessary validation here
         if amount and email:
-            # Save the payment details to the database
             payment = Payment.objects.create(
                 amount=amount,
                 email=email,
-                user=user  # Ensure user is correctly passed here
+                user=user,
+                job_id=job_id
             )
             context = {
                 'payment': payment,
                 'amount': amount,
                 'email': email,
                 'user': user,
-                'ref': payment.ref,  # Use the auto-generated ref from the model
+                'jobs': jobs,  # Make sure jobs is included here
+                'job': job,
+                'ref': payment.ref,
                 'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY,
             }
-            # Render the make_payment.html page with context
             return render(request, 'payment/make_payment.html', context)
-    # For GET requests, just render the initiate_payment page with an empty form
-    return render(request, 'payment/initiate_payment.html')
+
+    return render(request, 'payment/initiate_payment.html', {'jobs': jobs})  # Include jobs in the context
+
+
+
 
 @login_required(login_url="authentication:my-login")
-def verify_payment(request: HttpRequest, ref: str) -> HttpResponse:
+def verify_payment(request: HttpRequest, ref: str, job_id: int) -> HttpResponse:
     payment = get_object_or_404(Payment, ref=ref)
     verified = payment.verify_payment()
+
     if verified:
         messages.success(request, 'Payment successful')
-        return redirect('application-form')
+        return redirect('application_form', job_id=job_id)
     else:
         messages.error(request, 'Payment failed')
+
     return redirect('initiate-payment')
+
+
 
 
 @login_required(login_url="authentication:my-login")

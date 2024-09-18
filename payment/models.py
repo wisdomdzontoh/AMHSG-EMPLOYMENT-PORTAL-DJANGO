@@ -3,10 +3,12 @@ from django.contrib.auth.models import User
 import uuid
 import secrets
 from .paystack import PayStack
+from jobs.models import Job
 
 class Payment(models.Model):
     amount = models.PositiveIntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Allow null values
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, default=1)  # Foreign key to Job
     email = models.EmailField(default="ghs@gmail.com")
     ref = models.CharField(max_length=200, unique=True)
     verified = models.BooleanField(default=False)

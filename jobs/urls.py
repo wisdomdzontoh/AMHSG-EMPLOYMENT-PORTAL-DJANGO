@@ -6,3 +6,4 @@ urlpatterns = [
     path('jobs/<int:id>', views.job_detail, name='job-detail'),
     # other paths...
 ]
+

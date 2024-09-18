@@ -8,16 +8,18 @@ from payment.decorators import payment_required
 from django.urls import reverse
 import random
 import string
-from .models import (
-    PersonalInformation, EducationalBackground, ProfessionalRegistration, 
-    MedicalHistory, PostingPreference, MedicalCertification, Declaration, Region, Facility
-    )
 from django.http import JsonResponse
 from datetime import datetime
+from django.db import IntegrityError
+from django.utils import timezone  # Import timezone
+from django.db import IntegrityError
 from .forms import (
     PersonalInformationForm, EducationalBackgroundForm, ProfessionalRegistrationForm,
-    MedicalHistoryForm, PostingPreferenceForm, MedicalCertificationForm,
-    AddendumForm, DeclarationForm
+    MedicalHistoryForm, PostingPreferenceForm, MedicalCertificationForm, AddendumForm, DeclarationForm
+)
+from .models import (
+    Application, PersonalInformation, EducationalBackground, ProfessionalRegistration,
+    MedicalHistory, PostingPreference, MedicalCertification, Addendum, Job, Declaration, Region, Facility
 )
 
 
@@ -65,6 +67,7 @@ def purchase_voucher(request):
 
 
 @login_required(login_url="authentication:my-login")
+@payment_required
 def application_success(request):
     """
     Renders a success page after the application is successfully submitted.
@@ -78,104 +81,135 @@ def application_success(request):
 
 @login_required(login_url="authentication:my-login")
 @payment_required
-def application_form(request):
-    regions = Region.objects.all()
-    facilities_by_region = {}
-
-    for region in regions:
-        facilities = Facility.objects.filter(region=region)
-        facilities_by_region[region.id] = list(facilities.values('id', 'facility_name'))
-
-    user = request.user
-
-    context = {
-        'personal_info_form': PersonalInformationForm(instance=PersonalInformation.objects.filter(user=user).first() or None),
-        'education_form': EducationalBackgroundForm(instance=EducationalBackground.objects.filter(user=user).first() or None),
-        'professional_form': ProfessionalRegistrationForm(instance=ProfessionalRegistration.objects.filter(user=user).first() or None),
-        'medical_history_form': MedicalHistoryForm(instance=MedicalHistory.objects.filter(user=user).first() or None),
-        'posting_preference_form': PostingPreferenceForm(instance=PostingPreference.objects.filter(user=user).first() or None),
-        'certification_form': MedicalCertificationForm(instance=MedicalCertification.objects.filter(user=user).first() or None),
-        'addendum_form': AddendumForm(instance=Addendum.objects.filter(user=user).first() or None),
-        'declaration_form': DeclarationForm(instance=Declaration.objects.filter(user=user).first() or None),
-        'regions': regions,
-        'facilities_by_region': facilities_by_region
-    }
+def application_form(request, job_id):
+    # Fetch the job using job_id
+    job = get_object_or_404(Job, id=job_id)
 
     if request.method == 'POST':
-        section = request.POST.get('section')
+        # Instantiate forms with POST data and files
+        personal_info_form = PersonalInformationForm(request.POST, request.FILES)
+        education_form = EducationalBackgroundForm(request.POST, request.FILES)
+        registration_form = ProfessionalRegistrationForm(request.POST, request.FILES)
+        medical_history_form = MedicalHistoryForm(request.POST)
+        posting_preference_form = PostingPreferenceForm(request.POST)
+        medical_certification_form = MedicalCertificationForm(request.POST, request.FILES)
+        addendum_form = AddendumForm(request.POST, request.FILES)
+        declaration_form = DeclarationForm(request.POST, request.FILES)
 
-        if not section:
-            return JsonResponse({'success': False, 'message': 'Form section is missing. Please try again.'})
+        # Validate each form
+        if (personal_info_form.is_valid() and education_form.is_valid() and
+                registration_form.is_valid() and medical_history_form.is_valid() and
+                posting_preference_form.is_valid() and medical_certification_form.is_valid() and
+                addendum_form.is_valid() and declaration_form.is_valid()):
+            
+            try:
+                # Create or update each form's corresponding model (user-specific)
+                personal_info, _ = PersonalInformation.objects.get_or_create(
+                    user=request.user,
+                    defaults=personal_info_form.cleaned_data
+                )
 
-        form_class_mapping = {
-            '1': PersonalInformationForm,
-            '2': EducationalBackgroundForm,
-            '3': ProfessionalRegistrationForm,
-            '4': MedicalHistoryForm,
-            '5': PostingPreferenceForm,
-            '6': MedicalCertificationForm,
-            '7': AddendumForm,
-            '8': DeclarationForm,
-        }
+                education, _ = EducationalBackground.objects.get_or_create(
+                    user=request.user,
+                    defaults=education_form.cleaned_data
+                )
 
-        model_class_mapping = {
-            '1': PersonalInformation,
-            '2': EducationalBackground,
-            '3': ProfessionalRegistration,
-            '4': MedicalHistory,
-            '5': PostingPreference,
-            '6': MedicalCertification,
-            '7': Addendum, 
-            '8': Declaration,
-        }
+                registration, _ = ProfessionalRegistration.objects.get_or_create(
+                    user=request.user,
+                    defaults=registration_form.cleaned_data
+                )
 
-        form_class = form_class_mapping.get(section)
-        model_class = model_class_mapping.get(section)
+                medical_history, _ = MedicalHistory.objects.get_or_create(
+                    user=request.user,
+                    defaults=medical_history_form.cleaned_data
+                )
 
-        if not form_class or not model_class:
-            return JsonResponse({'success': False, 'message': 'Invalid form section or model class.'})
+                posting_preference, _ = PostingPreference.objects.get_or_create(
+                    user=request.user,
+                    defaults=posting_preference_form.cleaned_data
+                )
 
-        instance = model_class.objects.filter(user=user).first()
-        form_instance = form_class(request.POST, request.FILES, instance=instance)
-        form_instance.instance.user = user
+                medical_certification, _ = MedicalCertification.objects.get_or_create(
+                    user=request.user,
+                    defaults=medical_certification_form.cleaned_data
+                )
 
-        if form_instance.is_valid():
-            form_instance.save()
+                addendum, _ = Addendum.objects.get_or_create(
+                    user=request.user,
+                    defaults=addendum_form.cleaned_data
+                )
 
-            # Check if this is the last section
-            if section == '8':
-                personal_info = PersonalInformation.objects.filter(user=user).first()
-                education = EducationalBackground.objects.filter(user=user).first()
-                medical_history = MedicalHistory.objects.filter(user=user).first()
-                posting_preference = PostingPreference.objects.filter(user=user).first()
-                medical_certification = MedicalCertification.objects.filter(user=user).first()
-                addendum = Addendum.objects.filter(user=user).first()
-                declaration = Declaration.objects.filter(user=user).first()
+                declaration, _ = Declaration.objects.get_or_create(
+                    user=request.user,
+                    defaults=declaration_form.cleaned_data
+                )
 
-                # Ensure all sections are completed
-                if all([personal_info, education, medical_history, posting_preference, medical_certification, addendum, declaration]):
-                    Application.objects.create(
-                        personal_information=personal_info,
-                        educational_background=education,
-                        medical_history=medical_history,
-                        posting_preference=posting_preference,
-                        medical_certification=medical_certification,
-                        addendum=addendum,
-                        declaration=declaration,
-                    )
-                    messages.success(request, 'Application submitted successfully!')
-                    return redirect('application-success')
-                else:
-                    return JsonResponse({'success': False, 'message': 'Some form sections are missing or incomplete.'})
+                # Create or update application for the job
+                application, _ = Application.objects.get_or_create(
+                    personal_information=personal_info,
+                    educational_background=education,
+                    medical_history=medical_history,
+                    posting_preference=posting_preference,
+                    medical_certification=medical_certification,
+                    addendum=addendum,
+                    declaration=declaration,
+                    defaults={
+                        'status': 'pending',
+                        'date_submitted': timezone.now(),
+                        'jobs': job  # Save the current job for this application
+                    }
+                )
 
-            # Proceed to the next section
-            next_section = int(section) + 1 if section != '8' else None
-            return JsonResponse({'success': True, 'next_section': next_section, 'message': f'Section {section} saved successfully!'})
+                return redirect('application-success')  # Redirect on success
 
-        else:
-            return JsonResponse({'success': False, 'message': form_instance.errors})
+            except IntegrityError:
+                # Handle form save errors
+                return render(request, 'application_portal/application-form.html', {
+                    'personal_info_form': personal_info_form,
+                    'education_form': education_form,
+                    'registration_form': registration_form,
+                    'medical_history_form': medical_history_form,
+                    'posting_preference_form': posting_preference_form,
+                    'medical_certification_form': medical_certification_form,
+                    'addendum_form': addendum_form,
+                    'declaration_form': declaration_form,
+                    'job': job,
+                    'error': 'An error occurred while saving your data. Please try again.'
+                })
 
-    return render(request, 'application_portal/application-form.html', context)
+    else:
+        # Instantiate empty forms for GET request
+        personal_info_form = PersonalInformationForm()
+        education_form = EducationalBackgroundForm()
+        registration_form = ProfessionalRegistrationForm()
+        medical_history_form = MedicalHistoryForm()
+        posting_preference_form = PostingPreferenceForm()
+        medical_certification_form = MedicalCertificationForm()
+        addendum_form = AddendumForm()
+        declaration_form = DeclarationForm()
+
+    return render(request, 'application_portal/application-form.html', {
+        'personal_info_form': personal_info_form,
+        'education_form': education_form,
+        'registration_form': registration_form,
+        'medical_history_form': medical_history_form,
+        'posting_preference_form': posting_preference_form,
+        'medical_certification_form': medical_certification_form,
+        'addendum_form': addendum_form,
+        'declaration_form': declaration_form,
+        'job': job  # Pass the job to the template so its ID can be used
+    })
+
+
+
+
+
+
+
+
+
+
+
 
 
 

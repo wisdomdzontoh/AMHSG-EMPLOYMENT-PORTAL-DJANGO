@@ -36,10 +36,10 @@
 
     <div class="flex flex-wrap justify-start space-x-4 mt-6">
       <a
-        href="{% url 'application-portal' %}"
-        class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full shadow"
-        >Apply Now</a
-      >
+    href="{% url 'application_form' job_id=job.id %}"
+    class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full shadow"
+>Apply Now</a>
+
       <a
         href="{% url 'job-list' %}"
         class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-full shadow"

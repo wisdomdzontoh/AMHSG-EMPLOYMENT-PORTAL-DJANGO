@@ -127,3 +127,9 @@ class Application(models.Model):
     declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE, default=1)
     status = models.CharField(max_length=50, default="pending")
     date_submitted = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, default=1)
+    application_id = models.CharField(max_length=100, unique=True, default="xxx")
+    
+    
+    

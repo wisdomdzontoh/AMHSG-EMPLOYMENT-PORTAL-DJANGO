@@ -47,7 +47,7 @@
         // Handle successful payment
         console.log("Successful Payment: ", response);
         // Redirect to success page
-        window.location.href = "{% url 'verify-payment' payment.ref %}";
+        window.location.href = "{% url 'verify-payment' payment.ref job.id %}";
       },
     };
     if (Boolean(currency)) {

@@ -5,6 +5,24 @@
   <form action="#" method="POST" class="space-y-4">
     {% csrf_token %}
 
+<!-- Job Dropdown Input -->
+<div class="form-group">
+  <label for="job_id" class="block text-sm font-medium text-gray-700">Job Title</label>
+  <select id="job_id" name="job_id" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm">
+    <option value="">Select a job</option>
+    {% if jobs %}
+        {% for job in jobs %}
+            <option value="{{ job.id }}">{{ job.title }}</option>
+        {% endfor %}
+    {% else %}
+        <option value="">No jobs available</option>
+    {% endif %}
+  </select>
+</div>
+
+
+
+
     <!-- Amount Input -->
     <div class="form-group">
       <label for="amount" class="block text-sm font-medium text-gray-700"
