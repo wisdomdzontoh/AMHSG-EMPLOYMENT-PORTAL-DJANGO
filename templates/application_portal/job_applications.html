@@ -1,18 +1,101 @@
-{% extends 'authentication/dash-base.html' %} {% block content %}
+{% extends 'authentication/dash-base.html' %}
+{% block content %}
 
-<div class="container">
-  <h1 class="text-2xl font-semibold text-blue-950 mb-4">Job Applications</h1>
-  <div class="application-list">
-    {% if applications %} {% for application in applications %}
-    <div class="application">
-      <h3 class="text-blue-800 font-semibold text-1xl">
-        {{ application.job_title }}
-      </h3>
-      <p>Submitted on: {{ application.date }}</p>
-      <p>Status: {{ application.status }}</p>
-    </div>
-    {% endfor %} {% else %}
-    <p>No applications found.</p>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-blue-900 mb-6">Your Job Applications</h1>
+
+  <div class="bg-white shadow-lg rounded-lg p-6">
+    {% if applications %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for application in applications %}
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300 relative">
+            
+            <!-- Job Information -->
+            <h3 class="text-xl font-semibold text-blue-800 mb-2">{{ application.job.title }}</h3>
+            <p class="text-sm text-gray-600">Application ID: <span class="font-bold">{{ application.application_id }}</span></p>
+            <p class="text-sm text-gray-600">Submitted on: <span class="font-bold">{{ application.date_submitted|date:"F j, Y" }}</span></p>
+            
+            <!-- Application Status with progress bar -->
+            <p class="text-sm text-gray-600">Status: 
+              {% if application.status == "pending" %}
+                <span class="text-yellow-500 font-bold">Pending</span>
+                <div class="bg-gray-300 h-1 w-full mt-2">
+                  <div class="bg-yellow-500 h-1 w-1/3"></div>
+                </div>
+              {% elif application.status == "accepted" %}
+                <span class="text-green-500 font-bold">Accepted</span>
+                <div class="bg-gray-300 h-1 w-full mt-2">
+                  <div class="bg-green-500 h-1 w-full"></div>
+                </div>
+              {% else %}
+                <span class="text-red-500 font-bold">{{ application.status }}</span>
+                <div class="bg-gray-300 h-1 w-full mt-2">
+                  <div class="bg-red-500 h-1 w-1/2"></div>
+                </div>
+              {% endif %}
+            </p>
+
+            <!-- Personal Information -->
+<div class="mt-4">
+  <h4 class="text-lg font-semibold text-gray-700">Personal Information</h4>
+  <p class="text-sm text-gray-600">Name: {{ application.personal_information.first_name }} {{ application.personal_information.surname }}</p>
+  <p class="text-sm text-gray-600">Email: {{ application.personal_information.email }}</p>
+  <p class="text-sm text-gray-600">Phone: {{ application.personal_information.telephone }}</p>
+
+  <!-- Passport Image -->
+  <div class="mt-4">
+    <h5 class="text-md font-semibold text-gray-700">Passport Image</h5>
+    <img src="{{ application.personal_information.passport_picture.url }}" alt="Passport Image" class="w-32 h-32 object-cover mt-2 border border-gray-300 rounded">
+  </div>
+</div>
+
+
+            <!-- Educational Background -->
+            <div class="mt-4">
+              <h4 class="text-lg font-semibold text-gray-700">Educational Background</h4>
+              <p class="text-sm text-gray-600">JHS: {{ application.educational_background.JHS_school }} ({{ application.educational_background.JHS_level }})</p>
+              <p class="text-sm text-gray-600">SHS: {{ application.educational_background.SHS_school }} ({{ application.educational_background.SHS_level }})</p>
+              <p class="text-sm text-gray-600">Tertiary: {{ application.educational_background.TERTIARY_school }} ({{ application.educational_background.TERTIARY_level }})</p>
+            </div>
+
+            <!-- Posting Preferences -->
+            <div class="mt-4">
+              <h4 class="text-lg font-semibold text-gray-700">Posting Preference</h4>
+              <p class="text-sm text-gray-600">1st Choice: {{ application.posting_preference.first_choice_facility.facility_name }} ({{ application.posting_preference.first_choice_region.region_name }})</p>
+              <p class="text-sm text-gray-600">2nd Choice: {{ application.posting_preference.second_choice_facility.facility_name }} ({{ application.posting_preference.second_choice_region.region_name }})</p>
+              <p class="text-sm text-gray-600">3rd Choice: {{ application.posting_preference.third_choice_facility.facility_name }} ({{ application.posting_preference.third_choice_region.region_name }})</p>
+            </div>
+
+            <!-- Documents Section with Preview -->
+            <div class="mt-4">
+              <h4 class="text-lg font-semibold text-gray-700">Documents</h4>
+              <p class="text-sm text-gray-600">Medical Certification: 
+                {% if application.medical_certification.medical_cert %}
+                  <a href="{{ application.medical_certification.medical_cert.url }}" class="text-blue-600 underline" target="_blank">View Certificate</a>
+                {% else %}
+                  <span class="text-red-500">Not uploaded</span>
+                {% endif %}
+              </p>
+              <p class="text-sm text-gray-600">JHS Certification: 
+                {% if application.educational_background.JHS_certificates %}
+                  <a href="{{ application.educational_background.JHS_certificates.url }}" class="text-blue-600 underline" target="_blank">View Certificate</a>
+                {% else %}
+                  <span class="text-red-500">Not uploaded</span>
+                {% endif %}
+              </p>
+              <p class="text-sm text-gray-600">SHS Certification: 
+                {% if application.educational_background.SHS_certificates %}
+                  <a href="{{ application.educational_background.SHS_certificates.url }}" class="text-blue-600 underline" target="_blank">View Certificate</a>
+                {% else %}
+                  <span class="text-red-500">Not uploaded</span>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-600 text-center">No applications found.</p>
     {% endif %}
   </div>
 </div>

@@ -25,6 +25,7 @@ from .models import (
 
 
 
+
 @login_required(login_url="authentication:my-login")
 def application_list(request):
     # Fetch all applications for the logged-in user, ordered by date in descending order
@@ -37,9 +38,13 @@ def application_list(request):
     return render(request, 'application_portal/job_applications.html', context)
 
 
+
+
 @login_required(login_url="authentication:my-login")
 def application_portal(request):
     return render(request, 'application_portal/index.html')
+
+
 
 
 @login_required(login_url="authentication:my-login")
@@ -67,7 +72,6 @@ def purchase_voucher(request):
 
 
 @login_required(login_url="authentication:my-login")
-@payment_required
 def application_success(request):
     """
     Renders a success page after the application is successfully submitted.
@@ -79,11 +83,25 @@ def application_success(request):
 
 
 
+from django.http import JsonResponse
+from .models import Facility
+
+def get_facilities(request, region_id):
+    facilities = Facility.objects.filter(region_id=region_id).values('id', 'facility_name')
+    return JsonResponse({'facilities': list(facilities)})
+
+
+
+
+
+
 @login_required(login_url="authentication:my-login")
 @payment_required
 def application_form(request, job_id):
     # Fetch the job using job_id
     job = get_object_or_404(Job, id=job_id)
+    jobs = Job.objects.all()
+    regions = Region.objects.all()
 
     if request.method == 'POST':
         # Instantiate forms with POST data and files
@@ -144,7 +162,7 @@ def application_form(request, job_id):
                     defaults=declaration_form.cleaned_data
                 )
 
-                # Create or update application for the job
+                # Create or update application for the job (add job and user as part of uniqueness)
                 application, _ = Application.objects.get_or_create(
                     personal_information=personal_info,
                     educational_background=education,
@@ -153,10 +171,11 @@ def application_form(request, job_id):
                     medical_certification=medical_certification,
                     addendum=addendum,
                     declaration=declaration,
+                    user=request.user,  # Added user to make application specific to a user
+                    job=job,  # Ensure job is included in the uniqueness check
                     defaults={
                         'status': 'pending',
                         'date_submitted': timezone.now(),
-                        'jobs': job  # Save the current job for this application
                     }
                 )
 
@@ -197,8 +216,11 @@ def application_form(request, job_id):
         'medical_certification_form': medical_certification_form,
         'addendum_form': addendum_form,
         'declaration_form': declaration_form,
-        'job': job  # Pass the job to the template so its ID can be used
+        'job': job,  # Pass the job to the template so its ID can be used
+        'jobs': jobs,
+        'regions': regions  # Pass the regions to the template for dropdown options
     })
+
 
 
 
