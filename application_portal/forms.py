@@ -16,7 +16,7 @@ class PersonalInformationForm(forms.ModelForm):
         model = PersonalInformation
         fields = [
             'job_title', 'title', 'email', 'first_name', 'surname', 'other_names',
-            'dob', 'telephone', 'birthplace', 'marital_status', 'gender', 'fathers_name',
+            'dob', 'telephone', 'ghana_card_number', 'birthplace', 'marital_status', 'gender', 'fathers_name',
             'fathers_occupation', 'mothers_name', 'mothers_occupation', 'next_of_kin',
             'next_of_kin_occupation', 'contact_person', 'relation', 'contact_address', 
             'passport_picture'
@@ -29,9 +29,7 @@ class EducationalBackgroundForm(forms.ModelForm):
         fields = ['JHS_level', 'JHS_school', 'JHS_date_started', 'JHS_date_completed', 'JHS_field_of_study', 'JHS_certificates', 
                   'SHS_level', 'SHS_school', 'SHS_date_started', 'SHS_date_completed', 'SHS_field_of_study', 'SHS_certificates',
                   'TERTIARY_level', 'TERTIARY_school', 'TERTIARY_date_started', 'TERTIARY_date_completed', 'TERTIARY_field_of_study', 'TERTIARY_certificates',]
-        widgets = {'JHS_date_started': forms.DateInput(attrs={'type': 'date'}),'JHS_date_completed': forms.DateInput(attrs={'type': 'date'}),
-                   'SHS_date_completed': forms.DateInput(attrs={'type': 'date'}), 'SHS_date_completed': forms.DateInput(attrs={'type': 'date'}), 
-                   'TERTIARY_date_completed': forms.DateInput(attrs={'type': 'date'}), 'TERTIARY_date_completed': forms.DateInput(attrs={'type': 'date'})}
+        widgets = {'JHS_date_started': forms.DateInput(attrs={'type': 'date'}),'JHS_date_completed': forms.DateInput(attrs={'type': 'date'}),'SHS_date_started': forms.DateInput(attrs={'type': 'date'}), 'SHS_date_completed': forms.DateInput(attrs={'type': 'date'}), 'TERTIARY_date_started': forms.DateInput(attrs={'type': 'date'}), 'TERTIARY_date_completed': forms.DateInput(attrs={'type': 'date'})}
 
 class ProfessionalRegistrationForm(forms.ModelForm):
     class Meta:

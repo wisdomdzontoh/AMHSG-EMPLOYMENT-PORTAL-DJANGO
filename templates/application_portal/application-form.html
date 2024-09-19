@@ -145,19 +145,10 @@
             <label for="job_id" class="block text-sm font-medium text-gray-700"
               >Job Title</label
             >
-            <select
-              id="job_id"
-              name="job_id"
-              class="block w-full mt-1 rounded-md border-gray-300 shadow-sm"
-            >
-              <option value="">Select a job</option>
-              {% for job in jobs %}
-              <option value="{{ job.id }}">{{ job.title }}</option>
-              {% endfor %}
-            </select>
+            {{personal_info_form.job_title}}
+            
           </div>
 
-          <!-- Add other fields here as needed -->
 
           <!-- Add other fields here as needed -->
           <div class="flex flex-col">
@@ -200,6 +191,14 @@
               >Telephone</label
             >
             {{ personal_info_form.telephone }}
+          </div>
+
+          <div class="form-group">
+            <label for="ghana_card_number" class="block text-sm font-medium text-gray-700"
+              >Ghana Card Number</label
+            >
+            {{personal_info_form.ghana_card_number}}
+            
           </div>
 
           <div class="flex flex-col">

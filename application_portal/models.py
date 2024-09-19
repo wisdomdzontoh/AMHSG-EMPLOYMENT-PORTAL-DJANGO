@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from jobs.models import Job
 from django.utils import timezone
+import uuid
+
 
 class PersonalInformation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -12,6 +14,7 @@ class PersonalInformation(models.Model):
     surname = models.CharField(max_length=50)
     other_names = models.CharField(max_length=100, blank=True, null=True)
     dob = models.DateField()
+    ghana_card_number = models.CharField(max_length=50, default="none")
     telephone = models.CharField(max_length=15)
     birthplace = models.CharField(max_length=100)
     marital_status = models.CharField(max_length=20, choices=[('single', 'Single'), ('married', 'Married'), ('divorced', 'Divorced/Separated'), ('widow', 'Widow')])
@@ -117,19 +120,31 @@ class Declaration(models.Model):
     date = models.DateField()
     signature = models.CharField(max_length=100)
 
+
+
+
+def generate_application_id():
+    # Generate a unique application ID, you can customize this as needed
+    return str(uuid.uuid4()).replace('-', '')[:10]  # Returns the first 10 characters of a UUID
+
+
+
+
 class Application(models.Model):
-    personal_information = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, default=1)
-    educational_background = models.ForeignKey(EducationalBackground, on_delete=models.CASCADE, default=1)
-    medical_history = models.ForeignKey(MedicalHistory, on_delete=models.CASCADE, default=1)
-    posting_preference = models.ForeignKey(PostingPreference, on_delete=models.CASCADE, default=1)
-    medical_certification = models.ForeignKey(MedicalCertification, on_delete=models.CASCADE,default=1)
-    addendum = models.ForeignKey(Addendum, on_delete=models.CASCADE, default=1)  # Replace '1' with the ID of an existing Addendum
+    personal_information = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE)
+    educational_background = models.ForeignKey(EducationalBackground, on_delete=models.CASCADE)
+    medical_history = models.ForeignKey(MedicalHistory, on_delete=models.CASCADE)
+    professional_registration = models.ForeignKey(ProfessionalRegistration, on_delete=models.CASCADE, blank=True, null=True)
+    posting_preference = models.ForeignKey(PostingPreference, on_delete=models.CASCADE)
+    medical_certification = models.ForeignKey(MedicalCertification, on_delete=models.CASCADE)
+    addendum = models.ForeignKey(Addendum, on_delete=models.CASCADE)  # Replace '1' with the ID of an existing Addendum
     declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE, default=1)
-    status = models.CharField(max_length=50, default="pending")
+    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('accepted', 'Accepted')])
     date_submitted = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE, default=1)
-    application_id = models.CharField(max_length=100, unique=True, default="xxx")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    application_id = models.CharField(max_length=100, unique=True, default=generate_application_id)
+    
     
     
     
