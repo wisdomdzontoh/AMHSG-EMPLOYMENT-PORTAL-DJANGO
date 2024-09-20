@@ -28,14 +28,23 @@ from .models import (
 
 @login_required(login_url="authentication:my-login")
 def application_list(request):
-    # Fetch all applications for the logged-in user, ordered by date in descending order
-    applications = Application.objects.filter(personal_information__user=request.user).order_by('-date_submitted')
-    
-    context = {
-        'applications': applications
-    }
-    
-    return render(request, 'application_portal/job_applications.html', context)
+    try:
+        # Fetch all applications for the logged-in user, ordered by date in descending order
+        applications = Application.objects.filter(
+            personal_information__user=request.user
+        ).order_by('-date_submitted')
+
+        context = {
+            'applications': applications
+        }
+
+        return render(request, 'application_portal/job_applications.html', context)
+
+    except Exception as e:
+        # Handle any exceptions and log errors if needed
+        messages.error(request, "An error occurred while fetching applications.")
+        return render(request, 'application_portal/job_applications.html', {'applications': None})
+
 
 
 
@@ -98,7 +107,6 @@ def get_facilities(request, region_id):
 @login_required(login_url="authentication:my-login")
 @payment_required
 def application_form(request, job_id):
-    # Fetch the job using job_id
     job = get_object_or_404(Job, id=job_id)
     jobs = Job.objects.all()
     regions = Region.objects.all()
@@ -114,75 +122,78 @@ def application_form(request, job_id):
         addendum_form = AddendumForm(request.POST, request.FILES)
         declaration_form = DeclarationForm(request.POST, request.FILES)
 
-        # Validate each form
         if (personal_info_form.is_valid() and education_form.is_valid() and
                 registration_form.is_valid() and medical_history_form.is_valid() and
                 posting_preference_form.is_valid() and medical_certification_form.is_valid() and
                 addendum_form.is_valid() and declaration_form.is_valid()):
             
             try:
-                # Create or update each form's corresponding model (user-specific)
-                personal_info, _ = PersonalInformation.objects.get_or_create(
+                # Handle personal info separately
+                personal_info, created = PersonalInformation.objects.get_or_create(
                     user=request.user,
-                    defaults=personal_info_form.cleaned_data
+                    defaults={**personal_info_form.cleaned_data, 'job_title': job}
                 )
+                personal_info.job_title = job
+                if 'passport_picture' in request.FILES:
+                    personal_info.passport_picture = request.FILES['passport_picture']
+                personal_info.save()
 
+                # Handle other forms similarly (especially for file fields)
                 education, _ = EducationalBackground.objects.get_or_create(
                     user=request.user,
                     defaults=education_form.cleaned_data
                 )
-
                 registration, _ = ProfessionalRegistration.objects.get_or_create(
                     user=request.user,
                     defaults=registration_form.cleaned_data
                 )
-
                 medical_history, _ = MedicalHistory.objects.get_or_create(
                     user=request.user,
                     defaults=medical_history_form.cleaned_data
                 )
-
                 posting_preference, _ = PostingPreference.objects.get_or_create(
                     user=request.user,
                     defaults=posting_preference_form.cleaned_data
                 )
-
                 medical_certification, _ = MedicalCertification.objects.get_or_create(
                     user=request.user,
                     defaults=medical_certification_form.cleaned_data
                 )
-
                 addendum, _ = Addendum.objects.get_or_create(
                     user=request.user,
                     defaults=addendum_form.cleaned_data
                 )
-
                 declaration, _ = Declaration.objects.get_or_create(
                     user=request.user,
                     defaults=declaration_form.cleaned_data
                 )
 
-                # Create or update application for the job (add job and user as part of uniqueness)
+                # Save files in forms explicitly if needed
+                if 'other_cert' in request.FILES:
+                    registration.other_cert = request.FILES['other_cert']
+                    registration.save()
+
+                # Handle application creation
                 application, _ = Application.objects.get_or_create(
                     personal_information=personal_info,
                     educational_background=education,
+                    professional_registration=registration,
                     medical_history=medical_history,
                     posting_preference=posting_preference,
                     medical_certification=medical_certification,
                     addendum=addendum,
                     declaration=declaration,
-                    user=request.user,  # Added user to make application specific to a user
-                    job=job,  # Ensure job is included in the uniqueness check
+                    user=request.user,
+                    job=job,
                     defaults={
                         'status': 'pending',
                         'date_submitted': timezone.now(),
                     }
                 )
-
-                return redirect('application-success')  # Redirect on success
+                messages.success(request, "Application submitted successfully!")
+                return redirect('application-success')
 
             except IntegrityError:
-                # Handle form save errors
                 return render(request, 'application_portal/application-form.html', {
                     'personal_info_form': personal_info_form,
                     'education_form': education_form,
@@ -216,10 +227,14 @@ def application_form(request, job_id):
         'medical_certification_form': medical_certification_form,
         'addendum_form': addendum_form,
         'declaration_form': declaration_form,
-        'job': job,  # Pass the job to the template so its ID can be used
+        'job': job,
         'jobs': jobs,
-        'regions': regions  # Pass the regions to the template for dropdown options
+        'regions': regions
     })
+
+
+
+
 
 
 

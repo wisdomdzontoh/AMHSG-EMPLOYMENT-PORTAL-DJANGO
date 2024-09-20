@@ -23,7 +23,7 @@ def payment_required(view_func):
         job = get_object_or_404(Job, id=job_id)
         user = request.user
         
-        has_applied_for_job = PersonalInformation.objects.filter(user=user, job_title=job).exists()
+        has_applied_for_job = Application.objects.filter(user=user, job=job).exists()
         verified_payments = Payment.objects.filter(user=user, verified=True, job_id=job_id)
         
         if has_applied_for_job:

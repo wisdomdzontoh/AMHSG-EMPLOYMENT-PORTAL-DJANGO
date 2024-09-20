@@ -15,7 +15,7 @@ class PersonalInformationForm(forms.ModelForm):
     class Meta:
         model = PersonalInformation
         fields = [
-            'job_title', 'title', 'email', 'first_name', 'surname', 'other_names',
+            'title', 'email', 'first_name', 'surname', 'other_names',
             'dob', 'telephone', 'ghana_card_number', 'birthplace', 'marital_status', 'gender', 'fathers_name',
             'fathers_occupation', 'mothers_name', 'mothers_occupation', 'next_of_kin',
             'next_of_kin_occupation', 'contact_person', 'relation', 'contact_address', 

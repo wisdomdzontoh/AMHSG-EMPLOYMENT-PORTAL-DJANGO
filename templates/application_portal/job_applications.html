@@ -11,7 +11,7 @@
           <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300 relative">
             
             <!-- Job Information -->
-            <h3 class="text-xl font-semibold text-blue-800 mb-2">{{ application.job.title }}</h3>
+            <h3 class="text-xl font-semibold text-blue-800 mb-2">{{ application.job }}</h3>
             <p class="text-sm text-gray-600">Application ID: <span class="font-bold">{{ application.application_id }}</span></p>
             <p class="text-sm text-gray-600">Submitted on: <span class="font-bold">{{ application.date_submitted|date:"F j, Y" }}</span></p>
             
@@ -20,35 +20,34 @@
               {% if application.status == "pending" %}
                 <span class="text-yellow-500 font-bold">Pending</span>
                 <div class="bg-gray-300 h-1 w-full mt-2">
-                  <div class="bg-yellow-500 h-1 w-1/3"></div>
+                  <div class="bg-yellow-500 h-1 w-1/3 transition-all duration-500 ease-in-out"></div>
                 </div>
               {% elif application.status == "accepted" %}
                 <span class="text-green-500 font-bold">Accepted</span>
                 <div class="bg-gray-300 h-1 w-full mt-2">
-                  <div class="bg-green-500 h-1 w-full"></div>
+                  <div class="bg-green-500 h-1 w-full transition-all duration-500 ease-in-out"></div>
                 </div>
               {% else %}
                 <span class="text-red-500 font-bold">{{ application.status }}</span>
                 <div class="bg-gray-300 h-1 w-full mt-2">
-                  <div class="bg-red-500 h-1 w-1/2"></div>
+                  <div class="bg-red-500 h-1 w-1/2 transition-all duration-500 ease-in-out"></div>
                 </div>
               {% endif %}
             </p>
 
             <!-- Personal Information -->
-<div class="mt-4">
-  <h4 class="text-lg font-semibold text-gray-700">Personal Information</h4>
-  <p class="text-sm text-gray-600">Name: {{ application.personal_information.first_name }} {{ application.personal_information.surname }}</p>
-  <p class="text-sm text-gray-600">Email: {{ application.personal_information.email }}</p>
-  <p class="text-sm text-gray-600">Phone: {{ application.personal_information.telephone }}</p>
+            <div class="mt-4">
+              <h4 class="text-lg font-semibold text-gray-700">Personal Information</h4>
+              <p class="text-sm text-gray-600">Name: {{ application.personal_information.first_name }} {{ application.personal_information.surname }}</p>
+              <p class="text-sm text-gray-600">Email: {{ application.personal_information.email }}</p>
+              <p class="text-sm text-gray-600">Phone: {{ application.personal_information.telephone }}</p>
 
-  <!-- Passport Image -->
-  <div class="mt-4">
-    <h5 class="text-md font-semibold text-gray-700">Passport Image</h5>
-    <img src="{{ application.personal_information.passport_picture.url }}" alt="Passport Image" class="w-32 h-32 object-cover mt-2 border border-gray-300 rounded">
-  </div>
-</div>
-
+              <!-- Passport Image -->
+              <div class="mt-4">
+                <h5 class="text-md font-semibold text-gray-700">Passport Image</h5>
+                <img src="{{ application.personal_information.passport_picture.url }}" alt="Passport Image" class="w-32 h-32 object-cover mt-2 border border-gray-300 rounded">
+              </div>
+            </div>
 
             <!-- Educational Background -->
             <div class="mt-4">

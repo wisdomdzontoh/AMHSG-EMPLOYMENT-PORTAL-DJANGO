@@ -16,126 +16,43 @@ import openpyxl
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from xhtml2pdf import pisa
-
-
-# Excel Export Functionality
-def export_as_excel(modeladmin, request, queryset):
-    # Create an in-memory workbook
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "Applications"
-
-    # Write header row
-    headers = [
-        "User", "Job Title", "Title", "First Name", "Surname", "Email", "DOB", "Telephone",
-        "JHS Level", "SHS Level", "TERTIARY Level", "Regulatory Body", "Registration PIN", "Date Received",
-        "Physical Disability", "Medical Condition", "First Choice Region", "First Choice Facility",
-        "Second Choice Region", "Second Choice Facility", "Third Choice Region", "Third Choice Facility",
-        "Medical Certificate", "Other Certificates", "Declaration Date", "Date Submitted"
-    ]
-    ws.append(headers)
-
-    # Write data rows
-    for obj in queryset:
-        # Personal Information
-        personal_info = obj.personal_information
-        educational_background = obj.educational_background
-        professional_registration = obj.professional_registration
-        medical_history = obj.medical_history
-        posting_preference = obj.posting_preference
-        medical_cert = obj.medical_certification.medical_cert.url if obj.medical_certification.medical_cert else 'N/A'
-        addendum = obj.addendum.other_cert.url if obj.addendum.other_cert else 'N/A'
-        declaration = obj.declaration.date.strftime('%Y-%m-%d') if obj.declaration else 'N/A'
-        date_submitted = obj.date_submitted.strftime('%Y-%m-%d')
-
-        # Prepare a row of data
-        row = [
-            personal_info.user.username,
-            str(personal_info.job_title) if personal_info.job_title else 'N/A',  # Convert Job ForeignKey to string
-            personal_info.title,
-            personal_info.first_name,
-            personal_info.surname,
-            personal_info.email,
-            personal_info.dob.strftime('%Y-%m-%d'),
-            personal_info.telephone,
-
-            # Educational Background
-            educational_background.JHS_level,
-            educational_background.SHS_level,
-            educational_background.TERTIARY_level,
-
-            # Professional Registration
-            professional_registration.regulatory_body,
-            professional_registration.registration_pin,
-            professional_registration.date_received.strftime('%Y-%m-%d'),
-
-            # Medical History
-            "Yes" if medical_history.physical_disability else "No",
-            "Yes" if medical_history.medical_condition else "No",
-
-            # Posting Preferences
-            posting_preference.first_choice_region.region_name if posting_preference.first_choice_region else 'N/A',
-            posting_preference.first_choice_facility.facility_name if posting_preference.first_choice_facility else 'N/A',
-            posting_preference.second_choice_region.region_name if posting_preference.second_choice_region else 'N/A',
-            posting_preference.second_choice_facility.facility_name if posting_preference.second_choice_facility else 'N/A',
-            posting_preference.third_choice_region.region_name if posting_preference.third_choice_region else 'N/A',
-            posting_preference.third_choice_facility.facility_name if posting_preference.third_choice_facility else 'N/A',
-
-            # Medical Certificate and Other Documents
-            medical_cert,
-            addendum,
-
-            # Declaration and Date Submitted
-            declaration,
-            date_submitted
-        ]
-        ws.append(row)
-
-    # Create HTTP response with the Excel file
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=applications.xlsx'
-    wb.save(response)
-    return response
-
-export_as_excel.short_description = "Export selected applications to Excel"
-
-
-# PDF Export Functionality
-def export_application_as_pdf(modeladmin, request, queryset):
-    for obj in queryset:
-        # Render the HTML template for the application as a string
-        html_string = render_to_string('application_portal/applicant_details.html', {'application': obj})
-        
-        # Create an HttpResponse object with the correct PDF headers
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="application_{obj.personal_information.user.username}.pdf"'
-        
-        # Convert the HTML string to a PDF using xhtml2pdf (pisa)
-        pisa_status = pisa.CreatePDF(html_string, dest=response)
-        
-        # If there was an error, show it in the response
-        if pisa_status.err:
-            return HttpResponse('We had some errors <pre>' + html_string + '</pre>')
-        return response
-
-export_application_as_pdf.short_description = "Download selected applications as PDF"
-
-
+import io
+import os
+from django.conf import settings
+from PyPDF2 import PdfMerger
 # Register Application Admin with export functionalities
+from django.contrib import admin
+from .models import Application
+from .actions import export_as_excel, export_application_as_pdf
+
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('personal_information', 'educational_background', 'medical_history', 'posting_preference', 'medical_certification', 'addendum', 'declaration', 'date_submitted')
-    search_fields = ('personal_information__user__username', 'educational_background__user__username')
-    list_filter = ('date_submitted',)
-    actions = [export_as_excel, export_application_as_pdf]  # Added PDF export action
+    list_display = (
+        'personal_information', 
+        'educational_background', 
+        'medical_history', 
+        'professional_registration',
+        'posting_preference', 
+        'medical_certification', 
+        'addendum', 
+        'declaration', 
+        'date_submitted'
+    )
+    search_fields = (
+        'personal_information__user__username',  # Searching by username in personal information
+        'personal_information__application_id',  # Searching by application ID
+    )
+    list_filter = ('date_submitted',)  # Filter by submission date
+    actions = [export_as_excel, export_application_as_pdf]  # Actions for export
+
 
 
 # For Personal Information Admin
 @admin.register(PersonalInformation)
 class PersonalInformationAdmin(admin.ModelAdmin):
-    list_display = ('user', 'job_title', 'title', 'email', 'first_name', 'surname', 'dob', 'telephone')
+    list_display = ('user', 'title', 'email', 'first_name', 'surname', 'dob', 'telephone')
     search_fields = ('user__username', 'first_name', 'surname', 'email', 'ghana_card_number')
-    list_filter = ('title', 'marital_status', 'gender', 'job_title')
+    list_filter = ('title', 'marital_status', 'gender')
 
 
 # Educational Background Admin

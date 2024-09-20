@@ -7,7 +7,7 @@ import uuid
 
 class PersonalInformation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    job_title = models.ForeignKey(Job, on_delete=models.CASCADE, blank=True, null=True)  # Add null=True if job_title can be empty
+    #job_title = models.ForeignKey(Job, on_delete=models.CASCADE, blank=True, null=True)  # Add null=True if job_title can be empty
     title = models.CharField(max_length=10, choices=[('mr', 'Mr'), ('mrs', 'Mrs'), ('ms', 'Ms')])
     email = models.EmailField()
     first_name = models.CharField(max_length=50)
@@ -29,6 +29,9 @@ class PersonalInformation(models.Model):
     relation = models.CharField(max_length=50)
     contact_address = models.CharField(max_length=255)
     passport_picture = models.ImageField(upload_to='passport_pictures/')
+    
+    def __str__(self):
+        return f"{self.first_name} personal Info"
 
 class EducationalBackground(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -55,6 +58,9 @@ class EducationalBackground(models.Model):
     TERTIARY_certificates = models.FileField(upload_to='certificates/TERTIARY/', blank=True, null=True)
 
 
+    def __str__(self):
+        return f"{self.user} Educational Background Info"
+
 class ProfessionalRegistration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     regulatory_body = models.CharField(max_length=100)
@@ -62,6 +68,9 @@ class ProfessionalRegistration(models.Model):
     date_received = models.DateField()
     license_cert = models.FileField(upload_to='license_cert/', blank=True, null=True)
     
+    
+    def __str__(self):
+        return f"{self.user} Professional Registration"
 
 class MedicalHistory(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -69,6 +78,9 @@ class MedicalHistory(models.Model):
     disability_details = models.TextField(blank=True, null=True)
     medical_condition = models.BooleanField()
     condition_details = models.TextField(blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.user} Medical History"
 
 class Region(models.Model):
     region_name = models.CharField(max_length=50, default="none")
@@ -109,10 +121,16 @@ class MedicalCertification(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     medical_cert = models.FileField(upload_to='medical_cert/', blank=True, null=True)
     
+    
+    def __str__(self):
+        return f"{self.user} Medical Certificate"
 
 class Addendum(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     other_cert = models.FileField(upload_to='other_cert/', blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.user}'s Addendum"
 
 class Declaration(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -120,7 +138,8 @@ class Declaration(models.Model):
     date = models.DateField()
     signature = models.CharField(max_length=100)
 
-
+    def __str__(self):
+        return f"{self.user}'s Declaration"
 
 
 def generate_application_id():
@@ -145,6 +164,7 @@ class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     application_id = models.CharField(max_length=100, unique=True, default=generate_application_id)
     
-    
+    class Meta:
+        unique_together = ('user', 'job')
     
     
