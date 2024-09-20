@@ -1,0 +1,95 @@
+{% extends 'authentication/base.html' %}
+{% block title %}How to Apply{% endblock %}
+{% load static %} 
+{% block content %}
+
+<body class="bg-gray-100">
+    <div class="container mx-auto max-w-2xl bg-white p-6 shadow-lg mt-10 rounded-lg">
+        <div class="tabs flex justify-between border-b-2 border-gray-300 mb-6">
+            <a href="#" class="tab-link active py-2 px-4 text-gray-700 border-b-2 border-transparent hover:border-blue-700" data-tab="tab1">Page Instructions</a>
+            <a href="#" class="tab-link py-2 px-4 text-gray-700 border-b-2 border-transparent hover:border-blue-700" data-tab="tab2">Application Form</a>
+            <a href="#" class="tab-link py-2 px-4 text-gray-700 border-b-2 border-transparent hover:border-blue-700" data-tab="tab3">Purchase Voucher</a>
+            <a href="#" class="tab-link py-2 px-4 text-gray-700 border-b-2 border-transparent hover:border-blue-700" data-tab="tab4">Contact Us</a>
+        </div>
+
+        <div id="tab1" class="tab-content active">
+            <div class="bg-blue-700 text-white p-6 rounded-t-lg">
+                <h1 class="text-2xl font-semibold">Job Application Instructions</h1>
+            </div>
+            <div class="instructions p-6">
+                <h2 class="text-xl font-semibold text-blue-700 mb-4 text-center">How to Apply</h2>
+
+                <ol class="list-decimal list-inside text-gray-700 mb-4">
+                    <li class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Step 1: Create an Account</h3>
+                        <p>Visit our website and create an account if you do not have one. Make sure to verify your email.</p>
+                    </li>
+                    <li class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Step 2: Purchase a Voucher</h3>
+                        <p>Go to the "Purchase Voucher" tab to buy a voucher. Keep the serial number and PIN safe.</p>
+                    </li>
+                    <li class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Step 3: Complete the Application Form</h3>
+                        <p>Click on the "Application" tab to access the application form. Fill in all required fields accurately.</p>
+                    </li>
+                    <li class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Step 4: Upload Required Documents</h3>
+                        <p>Ensure you upload all necessary documents, including your CV, certificates, and identification.</p>
+                    </li>
+                    <li class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Step 5: Submit Your Application</h3>
+                        <p>After completing the form, click "Submit" to send your application. You will receive a confirmation email.</p>
+                    </li>
+                    <li class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Step 6: Follow Up</h3>
+                        <p>If you do not hear back within a week, feel free to contact us for updates.</p>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div id="tab2" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">My Application</h2>
+            <p class="text-gray-700">Track your application status and make any necessary edits.</p>
+            <a href="#" class="info-link block text-center text-blue-700 hover:underline">Have not purchased a form yet?</a>
+            <a href="#" class="info-link block text-center text-red-700 mt-2 hover:underline">Click here for more information</a>
+        </div>
+
+        <div id="tab3" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Purchase Voucher</h2>
+            <p class="text-gray-700">Details on how to purchase a voucher...</p>
+            <form action="purchase-voucher" method="post">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                <a href="{% url 'my-login' %}" class="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 cursor-pointer">Purchase Form</a>
+            </form>
+        </div>
+
+        <div id="tab4" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Contact Us</h2>
+            <p class="text-gray-700">For inquiries, reach out to us at: <strong>info@example.com</strong> or call <strong>(123) 456-7890</strong>.</p>
+            <p class="text-gray-700">You can also fill out our <a href="#" class="text-blue-700 hover:underline">contact form</a>.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabs = document.querySelectorAll(".tab-link");
+            const tabContents = document.querySelectorAll(".tab-content");
+
+            tabs.forEach((tab) => {
+                tab.addEventListener("click", function (e) {
+                    e.preventDefault();
+
+                    // Remove active class from all tabs and contents
+                    tabs.forEach((t) => t.classList.remove("active"));
+                    tabContents.forEach((c) => c.classList.add("hidden"));
+
+                    // Add active class to the clicked tab and corresponding content
+                    tab.classList.add("active");
+                    document.getElementById(tab.dataset.tab).classList.remove("hidden");
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

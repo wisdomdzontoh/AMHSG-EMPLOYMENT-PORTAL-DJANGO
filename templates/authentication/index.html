@@ -1,14 +1,16 @@
 {% extends 'authentication/base.html' %} {% block title %}Home{% endblock %}
 {%load static %} {% block content %}
 
-<!-- Hero Section -->
-<div class="relative bg-cover bg-center h-screen w-full bg-hero-pattern">
-  <div
-    class="absolute inset-0 bg-gradient-to-r from-blue-800 to-green-500 opacity-75"
-  ></div>
-  <div
-    class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4"
-  >
+<!-- Hero Section with Background Image Slider -->
+<div class="relative h-screen w-full overflow-hidden">
+  <!-- Background Images Slider -->
+  <div id="slider" class="absolute inset-0 bg-cover bg-center h-full w-full transition-all duration-700"></div>
+
+  <!-- Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-green-400 opacity-50"></div>
+
+  <!-- Hero Content -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
     <h1 class="text-4xl lg:text-6xl font-extrabold text-white mb-6">
       AHMADIYYA MUSLIM HEALTH SERVICE
     </h1>
@@ -19,6 +21,7 @@
       SERVICE TO HUMANITY THROUGH HEALTH CARE DELIVERY
     </p>
 
+    <!-- Call to Action Buttons -->
     <div class="flex flex-wrap justify-center space-x-4 mt-6">
       <a
         href="#"
@@ -49,6 +52,9 @@
   </div>
 </div>
 
+
+
+
 <!-- Welcome Section -->
 <section class="bg-white py-12 px-4 lg:px-0">
   <div class="text-center max-w-3xl mx-auto">
@@ -67,7 +73,7 @@
 <section class="bg-gray-100 py-12">
   <div class="flex flex-wrap justify-center space-x-4 px-4 lg:px-0">
     <a
-      href="#"
+    href="{% url 'how-to-apply' %}"
       class="bg-pink-300 hover:bg-pink-400 text-white px-8 py-4 rounded-full shadow-lg text-lg transform transition-transform hover:scale-105"
       >How to Apply</a
     >
@@ -215,4 +221,28 @@
   </div>
 </section>
 
+
+<!-- Image Slider Script -->
+<script>
+  const images = [
+    'url("{% static 'img/logo.png' %}")',
+    'url("{% static 'img/hero-bg.jpg' %}")',
+    'url("{% static 'img/muslim-nurses.png' %}")',
+    'url("{% static 'img/image.png' %}")',
+  ];
+
+  let currentIndex = 0;
+  const slider = document.getElementById('slider');
+
+  function changeBackgroundImage() {
+    slider.style.backgroundImage = images[currentIndex];
+    currentIndex = (currentIndex + 1) % images.length;
+  }
+
+  // Change image every 5 seconds
+  setInterval(changeBackgroundImage, 5000);
+
+  // Initial call
+  changeBackgroundImage();
+</script>
 {% endblock %}

@@ -16,6 +16,19 @@ from notifications.models import Notification
 def homepage(request):
     return render(request, 'authentication/index.html')
 
+
+def how_to_apply(request):
+    return render(request, 'authentication/how-to-apply.html')
+
+def contact_us(request):
+    return render(request, 'authentication/contact-us.html')
+
+
+def about_us(request):
+    return render(request, 'authentication/about-us.html')
+
+
+
 # User registration view
 def register(request):
     if request.user.is_authenticated:

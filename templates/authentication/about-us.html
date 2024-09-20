@@ -1,0 +1,54 @@
+{% extends 'authentication/base.html' %}
+{% block title %}About Us{% endblock %}
+{% load static %} 
+{% block content %}
+
+<body class="bg-gray-100">
+    <div class="container mx-auto max-w-3xl bg-white p-6 shadow-lg mt-10 rounded-lg">
+        <h1 class="text-3xl font-semibold text-blue-700 mb-6 text-center">About Us</h1>
+
+        <div class="mb-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Our Mission</h2>
+            <p class="text-gray-700 mb-4">
+                At Ahmadiyya Muslim Health Service, our mission is to provide exceptional healthcare services to our community while promoting the values of compassion, respect, and excellence. We are committed to serving humanity through quality healthcare delivery.
+            </p>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Our Values</h2>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Integrity: We uphold the highest standards of honesty and accountability.</li>
+                <li>Compassion: We care for our patients with empathy and kindness.</li>
+                <li>Quality: We strive for excellence in every aspect of our services.</li>
+                <li>Community: We believe in supporting and improving the health of our communities.</li>
+            </ul>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Our Services</h2>
+            <p class="text-gray-700 mb-4">
+                We offer a range of healthcare services designed to meet the needs of our patients, including:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Primary Care</li>
+                <li>Specialized Medical Services</li>
+                <li>Preventive Health Programs</li>
+                <li>Mental Health Support</li>
+                <li>Community Health Education</li>
+            </ul>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Join Us</h2>
+            <p class="text-gray-700 mb-4">
+                We invite you to join us in our mission to improve healthcare delivery in our communities. Whether you are looking to apply for a job, volunteer, or support our initiatives, we welcome your involvement.
+            </p>
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'contact-us' %}" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition">Contact Us for More Information</a>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
