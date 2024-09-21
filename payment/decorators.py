@@ -21,7 +21,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 def payment_required(view_func):
-    def _wrapped_view(request, job_id, *args, **kwargs):
+    def _wrapped_view(request, *args, **kwargs):  # Modify the decorator to handle any args
+        job_id = kwargs.get('job_id') or args[0]  # Ensure job_id is correctly unpacked
         job = get_object_or_404(Job, id=job_id)
         user = request.user
         
@@ -35,13 +36,15 @@ def payment_required(view_func):
         
         if verified_payments.exists():
             logger.debug(f"User {user} has verified payment for job {job_id}.")
-            return view_func(request, job_id, *args, **kwargs)
+            return view_func(request, *args, **kwargs)  # Pass args and kwargs correctly
         
         logger.debug(f"User {user} does not have a verified payment for job {job_id}.")
         messages.error(request, "You must complete a payment to apply for this job.")
         return redirect('initiate-payment')
         
     return _wrapped_view
+
+
 
 
 

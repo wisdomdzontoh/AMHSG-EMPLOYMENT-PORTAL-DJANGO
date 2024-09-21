@@ -126,7 +126,7 @@ def application_form(request, job_id):
             MedicalCertification.DoesNotExist, Addendum.DoesNotExist, Declaration.DoesNotExist):
         # Initialize to None if data doesn't exist
         personal_info, education, registration = None, None, None
-        medical_history, medical_certification, addendum, declaration = None, None, None
+        medical_history, medical_certification, addendum, declaration = None, None, None, None
 
     if request.method == 'POST':
         # Instantiate forms with POST data and files

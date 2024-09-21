@@ -95,93 +95,126 @@
 </section>
 
 <!-- Agencies Section -->
-<section class="bg-white py-12 px-4 lg:px-0">
-  <div class="text-center">
-    <h2 class="text-3xl font-bold text-blue-800 mb-8">Our Partner Agencies</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-      <div class="flex flex-col items-center">
-        <img
-          src="{% static 'img/tamale_teaching_hospital.png' %}"
-          alt="Tamale Teaching Hospital"
-          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
-        />
-        <span class="text-lg text-green-700 font-semibold"
-          >Tamale Teaching Hospital (TTH)</span
-        >
-      </div>
-      <div class="flex flex-col items-center">
-        <img
-          src="{% static 'img/mental_health_authority.png' %}"
-          alt="Mental Health Authority"
-          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
-        />
-        <span class="text-lg text-green-700 font-semibold"
-          >Mental Health Authority (MHA)</span
-        >
-      </div>
-      <div class="flex flex-col items-center">
-        <img
-          src="{% static 'img/korle_bu_teaching_hospital.png' %}"
-          alt="Korle Bu Teaching Hospital"
-          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
-        />
-        <span class="text-lg text-green-700 font-semibold"
-          >Korle Bu Teaching Hospital (KBTH)</span
-        >
-      </div>
-      <div class="flex flex-col items-center">
-        <img
-          src="{% static 'img/cape_coast_teaching_hospital.png' %}"
-          alt="Cape Coast Teaching Hospital"
-          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
-        />
-        <span class="text-lg text-green-700 font-semibold"
-          >Cape Coast Teaching Hospital (CCTH)</span
-        >
-      </div>
-      <div class="flex flex-col items-center">
-        <img
-          src="{% static 'img/ho_teaching_hospital.png' %}"
-          alt="Ho Teaching Hospital"
-          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
-        />
-        <span class="text-lg text-green-700 font-semibold"
-          >Ho Teaching Hospital (HTH)</span
-        >
-      </div>
-      <div class="flex flex-col items-center">
-        <img
-          src="{% static 'img/christian_health_association.png' %}"
-          alt="Christian Health Association"
-          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
-        />
-        <span class="text-lg text-green-700 font-semibold"
-          >Christian Health Association of Ghana (CHAG)</span
-        >
-      </div>
-      <div class="flex flex-col items-center">
-        <img
-          src="{% static 'img/komfo_anokye_teaching_hospital.png' %}"
-          alt="Komfo Anokye Teaching Hospital"
-          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
-        />
-        <span class="text-lg text-green-700 font-semibold"
-          >Komfo Anokye Teaching Hospital (KATH)</span
-        >
-      </div>
-      <div class="flex flex-col items-center">
-        <img
-          src="{% static 'img/ghana_health_service.png' %}"
-          alt="Ghana Health Service"
-          class="h-20 lg:h-24 mb-4 transition-transform transform hover:scale-110"
-        />
-        <span class="text-lg text-green-700 font-semibold"
-          >Ghana Health Service (GHS)</span
-        >
-      </div>
+<section class="bg-gray-50 py-16 px-6 lg:px-20">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-extrabold text-blue-900">Our Partner Agencies</h2>
+    <p class="mt-4 text-lg text-gray-600">
+      We are proud to partner with these esteemed organizations to provide quality healthcare services across the country.
+    </p>
+  </div>
+
+  <div class="text-center mb-12">
+    <div class="flex flex-col items-center">
+      <span class="text-xl text-blue-800 font-semibold tracking-wide mb-2"
+        ><b>Ministry of Health - Ghana</b></span
+      >
+      <img
+        src="{% static 'img/MOH.jpeg' %}"
+        alt="MOH"
+        class="h-24 lg:h-28 mb-6 rounded-lg shadow-lg transition-transform transform hover:scale-110 hover:rotate-1"
+      />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
+    <!-- Partner 1 -->
+    <div class="flex flex-col items-center group">
+      <img
+        src="{% static 'img/tamale_teaching_hospital.png' %}"
+        alt="Tamale Teaching Hospital"
+        class="h-24 lg:h-28 mb-4 rounded-lg shadow-lg transition-transform transform group-hover:scale-110 group-hover:rotate-1"
+      />
+      <span class="text-lg text-green-700 font-semibold group-hover:text-green-800"
+        >Tamale Teaching Hospital (TTH)</span
+      >
+    </div>
+
+    <!-- Partner 2 -->
+    <div class="flex flex-col items-center group">
+      <img
+        src="{% static 'img/mental_health_authority.png' %}"
+        alt="Mental Health Authority"
+        class="h-24 lg:h-28 mb-4 rounded-lg shadow-lg transition-transform transform group-hover:scale-110 group-hover:rotate-1"
+      />
+      <span class="text-lg text-green-700 font-semibold group-hover:text-green-800"
+        >Mental Health Authority (MHA)</span
+      >
+    </div>
+
+    <!-- Partner 3 -->
+    <div class="flex flex-col items-center group">
+      <img
+        src="{% static 'img/korle_bu_teaching_hospital.png' %}"
+        alt="Korle Bu Teaching Hospital"
+        class="h-24 lg:h-28 mb-4 rounded-lg shadow-lg transition-transform transform group-hover:scale-110 group-hover:rotate-1"
+      />
+      <span class="text-lg text-green-700 font-semibold group-hover:text-green-800"
+        >Korle Bu Teaching Hospital (KBTH)</span
+      >
+    </div>
+
+    <!-- Partner 4 -->
+    <div class="flex flex-col items-center group">
+      <img
+        src="{% static 'img/cape_coast_teaching_hospital.png' %}"
+        alt="Cape Coast Teaching Hospital"
+        class="h-24 lg:h-28 mb-4 rounded-lg shadow-lg transition-transform transform group-hover:scale-110 group-hover:rotate-1"
+      />
+      <span class="text-lg text-green-700 font-semibold group-hover:text-green-800"
+        >Cape Coast Teaching Hospital (CCTH)</span
+      >
+    </div>
+
+    <!-- Partner 5 -->
+    <div class="flex flex-col items-center group">
+      <img
+        src="{% static 'img/ho_teaching_hospital.png' %}"
+        alt="Ho Teaching Hospital"
+        class="h-24 lg:h-28 mb-4 rounded-lg shadow-lg transition-transform transform group-hover:scale-110 group-hover:rotate-1"
+      />
+      <span class="text-lg text-green-700 font-semibold group-hover:text-green-800"
+        >Ho Teaching Hospital (HTH)</span
+      >
+    </div>
+
+    <!-- Partner 6 -->
+    <div class="flex flex-col items-center group">
+      <img
+        src="{% static 'img/christian_health_association.png' %}"
+        alt="Christian Health Association"
+        class="h-24 lg:h-28 mb-4 rounded-lg shadow-lg transition-transform transform group-hover:scale-110 group-hover:rotate-1"
+      />
+      <span class="text-lg text-green-700 font-semibold group-hover:text-green-800"
+        >Christian Health Association (CHAG)</span
+      >
+    </div>
+
+    <!-- Partner 7 -->
+    <div class="flex flex-col items-center group">
+      <img
+        src="{% static 'img/komfo_anokye_teaching_hospital.png' %}"
+        alt="Komfo Anokye Teaching Hospital"
+        class="h-24 lg:h-28 mb-4 rounded-lg shadow-lg transition-transform transform group-hover:scale-110 group-hover:rotate-1"
+      />
+      <span class="text-lg text-green-700 font-semibold group-hover:text-green-800"
+        >Komfo Anokye Teaching Hospital (KATH)</span
+      >
+    </div>
+
+    <!-- Partner 8 -->
+    <div class="flex flex-col items-center group">
+      <img
+        src="{% static 'img/ghana_health_service.png' %}"
+        alt="Ghana Health Service"
+        class="h-24 lg:h-28 mb-4 rounded-lg shadow-lg transition-transform transform group-hover:scale-110 group-hover:rotate-1"
+      />
+      <span class="text-lg text-green-700 font-semibold group-hover:text-green-800"
+        >Ghana Health Service (GHS)</span
+      >
     </div>
   </div>
 </section>
+
 
 <!-- Additional Sections -->
 <section class="bg-gradient-to-r from-green-400 to-blue-500 py-16 text-white">

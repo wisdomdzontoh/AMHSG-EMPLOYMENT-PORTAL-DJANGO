@@ -166,7 +166,7 @@ class Application(models.Model):
     medical_certification = models.ForeignKey(MedicalCertification, on_delete=models.CASCADE)
     addendum = models.ForeignKey(Addendum, on_delete=models.CASCADE)  # Replace '1' with the ID of an existing Addendum
     declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE, default=1)
-    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('accepted', 'Accepted')])
+    status = models.CharField(max_length=50, choices=[('under review', 'Under Review'), ('pending', 'Pending'), ('accepted', 'Accepted')])
     date_submitted = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)

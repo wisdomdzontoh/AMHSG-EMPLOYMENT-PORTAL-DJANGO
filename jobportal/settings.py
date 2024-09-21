@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'notifications',
     'application_portal',
     'payment',
+    
+    'import_export',    #for importing and exporting data in admin
 ]
 
 

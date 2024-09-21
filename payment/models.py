@@ -18,7 +18,7 @@ class Payment(models.Model):
         ordering = ('-payment_date',)
         
     def __str__(self) -> str:  # Fixed the method name
-        return f"{self.user} - Payment of: {self.amount}"
+        return f"{self.user} - Payment of: {self.amount} for {self.job} ({self.verified}) Date:{self.payment_date}"
 
     def save(self, *args, **kwargs) -> None:
         if not self.ref:
