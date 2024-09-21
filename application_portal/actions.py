@@ -60,6 +60,7 @@ def export_as_excel(modeladmin, request, queryset):
         # Prepare a row of data
         row = [
             personal_info.user.username,
+            personal_info.title,
             personal_info.first_name,
             personal_info.surname,
             personal_info.email,

@@ -9,6 +9,8 @@ from jobs.models import Job
 from application_portal.models import PersonalInformation, Application
 from django.utils import timezone
 from .models import Payment
+import logging
+from django.db import IntegrityError
 
 
 

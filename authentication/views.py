@@ -56,10 +56,11 @@ def register(request):
     
     return render(request, 'authentication/register.html')
 
+
+
 # User login view
 def my_login(request):
     form = LoginForm()
-    
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
         
@@ -73,11 +74,13 @@ def my_login(request):
                 auth.login(request, user)
                 messages.success(request, "Login successful.")
                 return redirect("dashboard")
-            else:
-                messages.error(request, "Invalid credentials, please try again.")
+        else:
+            messages.error(request, "Invalid credentials, please try again.")
     
     context = {'loginform': form}
     return render(request, 'authentication/my-login.html', context=context)
+
+
 
 
 @login_required(login_url="authentication:my-login")

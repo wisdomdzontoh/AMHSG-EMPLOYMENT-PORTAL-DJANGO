@@ -21,7 +21,11 @@ from .models import (
     Application, PersonalInformation, EducationalBackground, ProfessionalRegistration,
     MedicalHistory, PostingPreference, MedicalCertification, Addendum, Job, Declaration, Region, Facility
 )
+import logging
+from django.db import IntegrityError
 
+# Configure logging
+logger = logging.getLogger(__name__)
 
 
 
@@ -101,9 +105,6 @@ def get_facilities(request, region_id):
 
 
 
-
-
-
 @login_required(login_url="authentication:my-login")
 @payment_required
 def application_form(request, job_id):
@@ -111,75 +112,90 @@ def application_form(request, job_id):
     jobs = Job.objects.all()
     regions = Region.objects.all()
 
+    # Check if existing data exists for the user, except PostingPreference
+    try:
+        personal_info = PersonalInformation.objects.get(user=request.user)
+        education = EducationalBackground.objects.get(user=request.user)
+        registration = ProfessionalRegistration.objects.get(user=request.user)
+        medical_history = MedicalHistory.objects.get(user=request.user)
+        medical_certification = MedicalCertification.objects.get(user=request.user)
+        addendum = Addendum.objects.get(user=request.user)
+        declaration = Declaration.objects.get(user=request.user)
+    except (PersonalInformation.DoesNotExist, EducationalBackground.DoesNotExist,
+            ProfessionalRegistration.DoesNotExist, MedicalHistory.DoesNotExist,
+            MedicalCertification.DoesNotExist, Addendum.DoesNotExist, Declaration.DoesNotExist):
+        # Initialize to None if data doesn't exist
+        personal_info, education, registration = None, None, None
+        medical_history, medical_certification, addendum, declaration = None, None, None
+
     if request.method == 'POST':
         # Instantiate forms with POST data and files
-        personal_info_form = PersonalInformationForm(request.POST, request.FILES)
-        education_form = EducationalBackgroundForm(request.POST, request.FILES)
-        registration_form = ProfessionalRegistrationForm(request.POST, request.FILES)
-        medical_history_form = MedicalHistoryForm(request.POST)
-        posting_preference_form = PostingPreferenceForm(request.POST)
-        medical_certification_form = MedicalCertificationForm(request.POST, request.FILES)
-        addendum_form = AddendumForm(request.POST, request.FILES)
-        declaration_form = DeclarationForm(request.POST, request.FILES)
+        personal_info_form = PersonalInformationForm(request.POST, request.FILES, instance=personal_info)
+        education_form = EducationalBackgroundForm(request.POST, request.FILES, instance=education)
+        registration_form = ProfessionalRegistrationForm(request.POST, request.FILES, instance=registration)
+        medical_history_form = MedicalHistoryForm(request.POST, instance=medical_history)
+        posting_preference_form = PostingPreferenceForm(request.POST)  # Always a new form
+        medical_certification_form = MedicalCertificationForm(request.POST, request.FILES, instance=medical_certification)
+        addendum_form = AddendumForm(request.POST, request.FILES, instance=addendum)
+        declaration_form = DeclarationForm(request.POST, request.FILES, instance=declaration)
 
         if (personal_info_form.is_valid() and education_form.is_valid() and
-                registration_form.is_valid() and medical_history_form.is_valid() and
-                posting_preference_form.is_valid() and medical_certification_form.is_valid() and
-                addendum_form.is_valid() and declaration_form.is_valid()):
-            
+            registration_form.is_valid() and medical_history_form.is_valid() and
+            posting_preference_form.is_valid() and medical_certification_form.is_valid() and
+            addendum_form.is_valid() and declaration_form.is_valid()):
+
             try:
-                # Handle personal info separately
-                personal_info, created = PersonalInformation.objects.get_or_create(
-                    user=request.user,
-                    defaults={**personal_info_form.cleaned_data, 'job_title': job}
-                )
-                personal_info.job_title = job
+                # Save or update personal info
+                personal_info = personal_info_form.save(commit=False)
+                personal_info.user = request.user
+                personal_info.job_title = job  # Update with current job
                 if 'passport_picture' in request.FILES:
                     personal_info.passport_picture = request.FILES['passport_picture']
                 personal_info.save()
 
-                # Handle other forms similarly (especially for file fields)
-                education, _ = EducationalBackground.objects.get_or_create(
-                    user=request.user,
-                    defaults=education_form.cleaned_data
-                )
-                registration, _ = ProfessionalRegistration.objects.get_or_create(
-                    user=request.user,
-                    defaults=registration_form.cleaned_data
-                )
-                medical_history, _ = MedicalHistory.objects.get_or_create(
-                    user=request.user,
-                    defaults=medical_history_form.cleaned_data
-                )
-                posting_preference, _ = PostingPreference.objects.get_or_create(
-                    user=request.user,
-                    defaults=posting_preference_form.cleaned_data
-                )
-                medical_certification, _ = MedicalCertification.objects.get_or_create(
-                    user=request.user,
-                    defaults=medical_certification_form.cleaned_data
-                )
-                addendum, _ = Addendum.objects.get_or_create(
-                    user=request.user,
-                    defaults=addendum_form.cleaned_data
-                )
-                declaration, _ = Declaration.objects.get_or_create(
-                    user=request.user,
-                    defaults=declaration_form.cleaned_data
-                )
+                # Save or update other forms
+                education = education_form.save(commit=False)
+                education.user = request.user
+                education.save()
 
-                # Save files in forms explicitly if needed
+                registration = registration_form.save(commit=False)
+                registration.user = request.user
+                registration.save()
+
+                medical_history = medical_history_form.save(commit=False)
+                medical_history.user = request.user
+                medical_history.save()
+
+                # Create a new PostingPreference each time with the current job
+                posting_preference = posting_preference_form.save(commit=False)
+                posting_preference.user = request.user
+                posting_preference.job = job  # Link PostingPreference with the specific job
+                posting_preference.save()
+
+                medical_certification = medical_certification_form.save(commit=False)
+                medical_certification.user = request.user
+                medical_certification.save()
+
+                addendum = addendum_form.save(commit=False)
+                addendum.user = request.user
+                addendum.save()
+
+                declaration = declaration_form.save(commit=False)
+                declaration.user = request.user
+                declaration.save()
+
+                # Handle file uploads explicitly if needed
                 if 'other_cert' in request.FILES:
-                    registration.other_cert = request.FILES['other_cert']
-                    registration.save()
+                    addendum.other_cert = request.FILES['other_cert']
+                    addendum.save()
 
-                # Handle application creation
-                application, _ = Application.objects.get_or_create(
+                # Create a new application for each job
+                application, created = Application.objects.get_or_create(
                     personal_information=personal_info,
                     educational_background=education,
                     professional_registration=registration,
                     medical_history=medical_history,
-                    posting_preference=posting_preference,
+                    posting_preference=posting_preference,  # Use new PostingPreference object here
                     medical_certification=medical_certification,
                     addendum=addendum,
                     declaration=declaration,
@@ -190,10 +206,16 @@ def application_form(request, job_id):
                         'date_submitted': timezone.now(),
                     }
                 )
+
                 messages.success(request, "Application submitted successfully!")
                 return redirect('application-success')
 
-            except IntegrityError:
+            except IntegrityError as e:
+                # Log the detailed exception
+                logger.error(f"IntegrityError occurred: {str(e)}")
+                # Return a more detailed error message to help debug
+                messages.error(request, f"An error occurred: {str(e)}. Please contact support or try again.")
+                # Re-render the page with forms and error
                 return render(request, 'application_portal/application-form.html', {
                     'personal_info_form': personal_info_form,
                     'education_form': education_form,
@@ -204,19 +226,20 @@ def application_form(request, job_id):
                     'addendum_form': addendum_form,
                     'declaration_form': declaration_form,
                     'job': job,
-                    'error': 'An error occurred while saving your data. Please try again.'
+                    'jobs': jobs,
+                    'regions': regions,
                 })
 
     else:
-        # Instantiate empty forms for GET request
-        personal_info_form = PersonalInformationForm()
-        education_form = EducationalBackgroundForm()
-        registration_form = ProfessionalRegistrationForm()
-        medical_history_form = MedicalHistoryForm()
-        posting_preference_form = PostingPreferenceForm()
-        medical_certification_form = MedicalCertificationForm()
-        addendum_form = AddendumForm()
-        declaration_form = DeclarationForm()
+        # Populate forms with existing data if available
+        personal_info_form = PersonalInformationForm(instance=personal_info)
+        education_form = EducationalBackgroundForm(instance=education)
+        registration_form = ProfessionalRegistrationForm(instance=registration)
+        medical_history_form = MedicalHistoryForm(instance=medical_history)
+        posting_preference_form = PostingPreferenceForm()  # New form each time
+        medical_certification_form = MedicalCertificationForm(instance=medical_certification)
+        addendum_form = AddendumForm(instance=addendum)
+        declaration_form = DeclarationForm(instance=declaration)
 
     return render(request, 'application_portal/application-form.html', {
         'personal_info_form': personal_info_form,
@@ -231,6 +254,8 @@ def application_form(request, job_id):
         'jobs': jobs,
         'regions': regions
     })
+
+
 
 
 

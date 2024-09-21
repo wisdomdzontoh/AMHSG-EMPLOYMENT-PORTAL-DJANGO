@@ -98,7 +98,8 @@ class Facility(models.Model):
 
 
 class PostingPreference(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Changed from OneToOneField to ForeignKey
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, default=1)
 
     # First choice of region and facility
     first_choice_region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="first_choice_region", null=True, blank=True)
@@ -112,8 +113,15 @@ class PostingPreference(models.Model):
     third_choice_region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="third_choice_region", null=True, blank=True)
     third_choice_facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name="third_choice_facility", null=True, blank=True)
 
+    # Ensures user can only have one PostingPreference per job
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'job'], name='unique_user_job_preference')
+        ]
+        
     def __str__(self):
         return f"{self.user.username}'s Posting Preferences"
+
 
 
 

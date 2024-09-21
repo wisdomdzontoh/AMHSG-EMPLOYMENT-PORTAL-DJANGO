@@ -36,13 +36,14 @@ class ApplicationAdmin(admin.ModelAdmin):
         'medical_certification', 
         'addendum', 
         'declaration', 
-        'date_submitted'
+        'date_submitted',
+        'application_id'
     )
     search_fields = (
         'personal_information__user__username',  # Searching by username in personal information
-        'personal_information__application_id',  # Searching by application ID
+        'application_id',  # Searching by application ID
     )
-    list_filter = ('date_submitted',)  # Filter by submission date
+    list_filter = ('date_submitted', 'job')  # Filter by submission date
     actions = [export_as_excel, export_application_as_pdf]  # Actions for export
 
 
