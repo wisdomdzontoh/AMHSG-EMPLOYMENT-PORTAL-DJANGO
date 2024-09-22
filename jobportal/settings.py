@@ -12,13 +12,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-
+import environ
 from os import environ
 
 
-"""# Initialize environment variables
+# Initialize environment variables
 env = environ.Env()
-environ.Env.read_env()"""
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,14 +40,15 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     
-    
+    'django_admin_kubi',
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'cloudinary', #cloudinary_app
     'tailwind',
     'theme',
     'django_browser_reload',  #for automatic reloads
@@ -64,28 +65,23 @@ INSTALLED_APPS = [
     'import_export',    #for importing and exporting data in admin
 ]
 
-''''django_admin_kubi',
-    'cloudinary_storage',
-    'cloudinary', #cloudinary_app'''
 
-'''
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dlwrkln6k',
     'API_KEY': '378414171715975',
     'API_SECRET': 'eQ4aV92yxESxjFr5owVUhZiN5Zg',
     
 }
-'''
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-'''
+
 DJANGO_ADMIN_KUBI = {
     'ADMIN_HISTORY': True,  # enables the history action panel
     'ADMIN_SEARCH': True,  # enables a full modal search
 }
-'''
+
 
 
 TAILWIND_APP_NAME = 'theme'
@@ -144,13 +140,11 @@ DATABASES = {
 
 
 #deployment database
-'''
 import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
-'''
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -204,19 +198,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
 # Static files storage
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'theme/static')]
 
-'''
 from decouple import config
 
 # Paystack Keys from .env file
 PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
 PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
-'''
+
 
 
 
