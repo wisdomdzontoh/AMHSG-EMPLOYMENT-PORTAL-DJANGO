@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 from os import environ
 
 
-
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -137,12 +140,11 @@ DATABASES = {
 
 
 #deployment database
-#import dj_database_url
-'''
+import dj_database_url
+
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
-'''
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -201,11 +203,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'theme/static')]
 
-#from decouple import config
+from decouple import config
 
 # Paystack Keys from .env file
-#PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
-#PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
+PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
 
 
 
