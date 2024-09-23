@@ -43,7 +43,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'jazzmin',
-    'django_admin_kubi',
     'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,12 +78,12 @@ CLOUDINARY_STORAGE = {
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
+'''
 DJANGO_ADMIN_KUBI = {
     'ADMIN_HISTORY': True,  # enables the history action panel
     'ADMIN_SEARCH': True,  # enables a full modal search
 }
-
+'''
 
 
 TAILWIND_APP_NAME = 'theme'
