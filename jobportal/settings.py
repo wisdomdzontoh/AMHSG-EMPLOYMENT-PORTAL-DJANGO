@@ -12,7 +12,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-from os import environ
+import environ
+
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 
 
@@ -136,11 +140,7 @@ DATABASES = {
 }
 
 
-import environ
 
-# Initialize environment variables
-env = environ.Env()
-environ.Env.read_env()
 
 
 
