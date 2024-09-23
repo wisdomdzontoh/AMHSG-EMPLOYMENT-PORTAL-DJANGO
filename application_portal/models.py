@@ -31,7 +31,7 @@ class PersonalInformation(models.Model):
     passport_picture = models.ImageField(upload_to='passport_pictures/')
     
     def __str__(self):
-        return f"{self.first_name} personal Info"
+        return f"{self.user} personal Info"
 
 class EducationalBackground(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
