@@ -42,7 +42,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    
+    'jazzmin',
     'django_admin_kubi',
     'cloudinary_storage',
     'django.contrib.admin',
