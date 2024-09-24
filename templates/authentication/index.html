@@ -1,73 +1,55 @@
-{% extends 'authentication/base.html' %} {% block title %}Home{% endblock %}
-{%load static %} {% block content %}
+{% extends 'authentication/base.html' %}
+{% block title %}Home{% endblock %}
+{% load static %}
+{% block content %}
 
 <!-- Hero Section with Background Image Slider -->
 <div class="relative h-screen w-full overflow-hidden">
-  <!-- Background Images Slider -->
-  <div id="slider" class="absolute inset-0 bg-cover bg-center h-full w-full transition-all duration-700"></div>
+   <!-- Background Images Slider -->
+   <div id="slider" class="absolute inset-0 bg-cover bg-center h-full w-full transition-all duration-700"></div>
 
-  <!-- Gradient Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-green-400 opacity-50"></div>
-
-  <!-- Hero Content -->
-  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-    <h1 class="text-4xl lg:text-6xl font-extrabold text-white mb-6">
-      AHMADIYYA MUSLIM HEALTH SERVICE
-    </h1>
-    <h2 class="text-3xl lg:text-4xl font-semibold text-white mb-6">
-      <span class="text-yellow-300">GHANA (AMHSG)</span>
-    </h2>
-    <p class="text-2xl lg:text-3xl font-medium text-white mb-8">
-      SERVICE TO HUMANITY THROUGH HEALTH CARE DELIVERY
-    </p>
-
-    <!-- Call to Action Buttons -->
-    <div class="flex flex-wrap justify-center space-x-4 mt-6">
-      <a
-        href="#"
-        class="bg-yellow-400 hover:bg-yellow-500 text-blue-800 font-semibold px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
-        >Apply Now</a
-      >
-      <a
-        href="#"
-        class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
-        >Learn More</a
-      >
-      <a
-        href="#"
-        class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
-        >Check Clearance</a
-      >
-      <a
-        href="#"
-        class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
-        >Request Clearance</a
-      >
-      <a
-        href="#"
-        class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105"
-        >Barbados Application Form</a
-      >
-    </div>
-  </div>
+   <!-- Gradient Overlay -->
+   <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-green-400 opacity-50"></div>
+ 
+   <!-- Hero Content -->
+   <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+     <h1 class="text-4xl lg:text-6xl font-extrabold text-white mb-6">
+       Ahmadiyya Muslim Health Service, Ghana
+     </h1>
+     <h2 class="text-3xl lg:text-4xl font-semibold text-white mb-6">
+       <span class="text-yellow-300">(AMHSG)</span>
+     </h2>
+     <p class="text-2xl lg:text-3xl font-medium text-white mb-8">
+       Service to Humanity Through Health Care Delivery
+     </p>
+ 
+     <!-- Call to Action Buttons -->
+     <div class="flex flex-wrap justify-center space-x-4 mt-6">
+       <a href="{% url 'how-to-apply' %}" class="bg-yellow-400 hover:bg-yellow-500 text-blue-800 font-semibold px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105">Apply Now</a>
+       <a href="{% url 'about-us' %}" class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105">Learn More</a>
+       <a href="{% url 'my-login' %}" class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-800 px-8 py-4 rounded-full shadow-lg transform transition-transform hover:scale-105">Login</a>
+     </div>
+   </div>
 </div>
 
-
-
-
 <!-- Welcome Section -->
-<section class="bg-white py-12 px-4 lg:px-0">
-  <div class="text-center max-w-3xl mx-auto">
-    <h2 class="text-3xl font-bold text-blue-800 mb-4">Welcome</h2>
-    <p class="text-lg text-gray-700">
-      Welcome to the
-      <strong>AHMADIYYA MUSLIM HEALTH SERVICE, GHANA (AMHSG)</strong> Portal.
-      This portal is designed to enable qualified, registered health
-      professionals to apply for recruitment and join our mission of serving
-      humanity through health care delivery.
+<section class="py-12 bg-white">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-3xl lg:text-4xl font-semibold mb-4">
+      Welcome to Ahmadiyya Muslim Health Service, Ghana
+    </h2>
+    <p class="text-lg text-gray-700 mb-8">
+      We are committed to delivering excellent health care services to people
+      across the nation.
     </p>
+    <a
+      href="{% url 'about-us' %}"
+      class="bg-blue-800 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:bg-blue-600"
+      >Learn more about us</a
+    >
   </div>
 </section>
+
 
 <!-- Call to Action Section -->
 <section class="bg-gray-100 py-12">
@@ -93,6 +75,9 @@
     </a>
   </div>
 </section>
+
+
+
 
 <!-- Agencies Section -->
 <section class="bg-gray-50 py-16 px-6 lg:px-20">
@@ -215,7 +200,6 @@
   </div>
 </section>
 
-
 <!-- Additional Sections -->
 <section class="bg-gradient-to-r from-green-400 to-blue-500 py-16 text-white">
   <div
@@ -255,6 +239,7 @@
 </section>
 
 
+
 <!-- Image Slider Script -->
 <script>
   const images = [
@@ -263,19 +248,20 @@
     'url("{% static 'img/muslim-nurses.png' %}")',
     'url("{% static 'img/image.png' %}")',
   ];
-
+  
   let currentIndex = 0;
   const slider = document.getElementById('slider');
-
+  
   function changeBackgroundImage() {
     slider.style.backgroundImage = images[currentIndex];
     currentIndex = (currentIndex + 1) % images.length;
   }
-
+  
   // Change image every 5 seconds
   setInterval(changeBackgroundImage, 5000);
-
-  // Initial call
+  
+  // Initial call to set the first image
   changeBackgroundImage();
+  
 </script>
 {% endblock %}
