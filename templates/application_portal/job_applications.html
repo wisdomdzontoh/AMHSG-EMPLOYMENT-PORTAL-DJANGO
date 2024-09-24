@@ -2,27 +2,27 @@
 {% block content %}
 
 <div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-blue-900 mb-6">My Job Applications</h1>
+  <h1 class="text-4xl font-bold text-blue-900 mb-8">My Job Applications</h1>
 
-  <div class="bg-white shadow-lg rounded-lg p-6">
+  <div class="bg-white shadow-lg rounded-lg p-8">
     {% if applications %}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for application in applications %}
-          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300 relative">
+          <div class="border border-gray-200 rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 relative">
             
             <!-- Job Information -->
-            <h3 class="text-xl font-semibold text-blue-800 mb-2">{{ application.job }}</h3>
-            <p class="text-sm text-gray-600">Application ID: <span class="font-bold">{{ application.application_id }}</span></p>
-            <p class="text-sm text-gray-600">Submitted on: <span class="font-bold">{{ application.date_submitted|date:"F j, Y" }}</span></p>
-            
+            <h3 class="text-xl font-semibold text-blue-800 mb-2">{{ application.job.title }}</h3>
+            <p class="text-sm text-gray-600 mb-2">Application ID: <span class="font-bold">{{ application.application_id }}</span></p>
+            <p class="text-sm text-gray-600 mb-2">Submitted on: <span class="font-bold">{{ application.date_submitted|date:"F j, Y" }}</span></p>
+
             <!-- Application Status with progress bar -->
-            <p class="text-sm text-gray-600">Status: 
+            <p class="text-sm text-gray-600 mb-2">Status: 
               {% if application.status == "pending" %}
                 <span class="text-yellow-500 font-bold">Pending</span>
                 <div class="bg-gray-300 h-1 w-full mt-2">
                   <div class="bg-yellow-500 h-1 w-1/3 transition-all duration-500 ease-in-out"></div>
                 </div>
-                {% elif application.status == "under review" %}
+              {% elif application.status == "under review" %}
                 <span class="text-orange-500 font-bold">Under Review</span>
                 <div class="bg-gray-300 h-1 w-full mt-2">
                   <div class="bg-orange-500 h-1 w-2/3 transition-all duration-500 ease-in-out"></div>
@@ -42,10 +42,10 @@
 
             <!-- Personal Information -->
             <div class="mt-4">
-              <h4 class="text-lg font-semibold text-gray-700">Personal Information</h4>
-              <p class="text-sm text-gray-600">Name: {{ application.personal_information.first_name }} {{ application.personal_information.surname }}</p>
-              <p class="text-sm text-gray-600">Email: {{ application.personal_information.email }}</p>
-              <p class="text-sm text-gray-600">Phone: {{ application.personal_information.telephone }}</p>
+              <h4 class="text-lg font-semibold text-gray-700 mb-2">Personal Information</h4>
+              <p class="text-sm text-gray-600 mb-1">Name: {{ application.personal_information.first_name }} {{ application.personal_information.surname }}</p>
+              <p class="text-sm text-gray-600 mb-1">Email: {{ application.personal_information.email }}</p>
+              <p class="text-sm text-gray-600 mb-1">Phone: {{ application.personal_information.telephone }}</p>
 
               <!-- Passport Image -->
               <div class="mt-4">
@@ -55,45 +55,87 @@
             </div>
 
             <!-- Educational Background -->
-            <div class="mt-4">
-              <h4 class="text-lg font-semibold text-gray-700">Educational Background</h4>
-              <p class="text-sm text-gray-600">JHS: {{ application.educational_background.JHS_school }} ({{ application.educational_background.JHS_level }})</p>
-              <p class="text-sm text-gray-600">SHS: {{ application.educational_background.SHS_school }} ({{ application.educational_background.SHS_level }})</p>
-              <p class="text-sm text-gray-600">Tertiary: {{ application.educational_background.TERTIARY_school }} ({{ application.educational_background.TERTIARY_level }})</p>
+            <div class="mt-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-2">Educational Background</h4>
+              <p class="text-sm text-gray-600 mb-1">JHS: {{ application.educational_background.JHS_school }} ({{ application.educational_background.JHS_level }})</p>
+              <p class="text-sm text-gray-600 mb-1">SHS: {{ application.educational_background.SHS_school }} ({{ application.educational_background.SHS_level }})</p>
+              <p class="text-sm text-gray-600 mb-1">Tertiary: {{ application.educational_background.TERTIARY_school }} ({{ application.educational_background.TERTIARY_level }})</p>
             </div>
 
             <!-- Posting Preferences -->
-            <div class="mt-4">
-              <h4 class="text-lg font-semibold text-gray-700">Posting Preference</h4>
-              <p class="text-sm text-gray-600">1st Choice: {{ application.posting_preference.first_choice_facility.facility_name }} ({{ application.posting_preference.first_choice_region.region_name }})</p>
-              <p class="text-sm text-gray-600">2nd Choice: {{ application.posting_preference.second_choice_facility.facility_name }} ({{ application.posting_preference.second_choice_region.region_name }})</p>
-              <p class="text-sm text-gray-600">3rd Choice: {{ application.posting_preference.third_choice_facility.facility_name }} ({{ application.posting_preference.third_choice_region.region_name }})</p>
+            <div class="mt-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-2">Posting Preference</h4>
+              <p class="text-sm text-gray-600 mb-1">1st Choice: {{ application.posting_preference.first_choice_facility.facility_name }} ({{ application.posting_preference.first_choice_region.region_name }})</p>
+              <p class="text-sm text-gray-600 mb-1">2nd Choice: {{ application.posting_preference.second_choice_facility.facility_name }} ({{ application.posting_preference.second_choice_region.region_name }})</p>
+              <p class="text-sm text-gray-600 mb-1">3rd Choice: {{ application.posting_preference.third_choice_facility.facility_name }} ({{ application.posting_preference.third_choice_region.region_name }})</p>
+            </div>
+
+            <!-- Medical History -->
+            <div class="mt-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-2">Medical History</h4>
+              <p class="text-sm text-gray-600 mb-1">Disability: 
+                {% if application.medical_history.physical_disability %}
+                  <span class="text-red-500">Yes</span>
+                  <p class="text-sm text-gray-600">{{ application.medical_history.disability_details }}</p>
+                {% else %}
+                  <span>No</span>
+                {% endif %}
+              </p>
+              <p class="text-sm text-gray-600 mb-1">Medical Condition: 
+                {% if application.medical_history.medical_condition %}
+                  <span class="text-red-500">Yes</span>
+                  <p class="text-sm text-gray-600">{{ application.medical_history.condition_details }}</p>
+                {% else %}
+                  <span>No</span>
+                {% endif %}
+              </p>
+            </div>
+
+            <!-- Professional Registration -->
+            <div class="mt-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-2">Professional Registration</h4>
+              <p class="text-sm text-gray-600 mb-1">Regulatory Body: {{ application.professional_registration.regulatory_body }}</p>
+              <p class="text-sm text-gray-600 mb-1">Registration PIN: {{ application.professional_registration.registration_pin }}</p>
             </div>
 
             <!-- Documents Section with Preview -->
-            <div class="mt-4">
-              <h4 class="text-lg font-semibold text-gray-700">Documents</h4>
-              <p class="text-sm text-gray-600">Medical Certification: 
+            <div class="mt-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-2">Documents</h4>
+              <p class="text-sm text-gray-600 mb-1">Medical Certification: 
                 {% if application.medical_certification.medical_cert %}
                   <a href="{{ application.medical_certification.medical_cert.url }}" class="text-blue-600 underline" target="_blank">View Certificate</a>
                 {% else %}
                   <span class="text-red-500">Not uploaded</span>
                 {% endif %}
               </p>
-              <p class="text-sm text-gray-600">JHS Certification: 
+              <p class="text-sm text-gray-600 mb-1">JHS Certification: 
                 {% if application.educational_background.JHS_certificates %}
                   <a href="{{ application.educational_background.JHS_certificates.url }}" class="text-blue-600 underline" target="_blank">View Certificate</a>
                 {% else %}
                   <span class="text-red-500">Not uploaded</span>
                 {% endif %}
               </p>
-              <p class="text-sm text-gray-600">SHS Certification: 
+              <p class="text-sm text-gray-600 mb-1">SHS Certification: 
                 {% if application.educational_background.SHS_certificates %}
                   <a href="{{ application.educational_background.SHS_certificates.url }}" class="text-blue-600 underline" target="_blank">View Certificate</a>
                 {% else %}
                   <span class="text-red-500">Not uploaded</span>
                 {% endif %}
               </p>
+            </div>
+
+            <!-- Declaration Section -->
+            <div class="mt-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-2">Declaration</h4>
+              <p class="text-sm text-gray-600 mb-1">Agreed: 
+                {% if application.declaration.agree %}
+                  <span class="text-green-500">Yes</span>
+                {% else %}
+                  <span class="text-red-500">No</span>
+                {% endif %}
+              </p>
+              <p class="text-sm text-gray-600 mb-1">Signature: {{ application.declaration.signature }}</p>
+              <p class="text-sm text-gray-600 mb-1">Date: {{ application.declaration.date|date:"F j, Y" }}</p>
             </div>
           </div>
         {% endfor %}
