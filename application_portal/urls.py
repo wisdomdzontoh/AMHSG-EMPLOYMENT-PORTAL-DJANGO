@@ -9,6 +9,7 @@ urlpatterns = [
     path('application-portal/form', views.application_form, name='application-form'),
     path('application-portal/form/<int:job_id>/', application_form, name='application_form'),
     path('application/success/', views.application_success, name='application-success'),
+    #path('application-portal/applicant-details/<int:id>/', views.applicant_details, name='applicant-details'),
     
     
     path('get_facilities/<int:region_id>/', get_facilities, name='get_facilities'),

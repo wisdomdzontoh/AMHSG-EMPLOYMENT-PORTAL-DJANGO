@@ -1,4 +1,9 @@
 from django.contrib import admin
+from django.urls import path, reverse
+from django.utils.html import format_html
+from django.shortcuts import get_object_or_404
+from django.template.response import TemplateResponse
+from django.http import HttpResponse
 from .models import (
     PersonalInformation,
     EducationalBackground,
@@ -12,18 +17,12 @@ from .models import (
     Region,
     Facility
 )
-import openpyxl
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from xhtml2pdf import pisa
-import io
-import os
-from django.conf import settings
-from PyPDF2 import PdfMerger
-# Register Application Admin with export functionalities
-from django.contrib import admin
-from .models import Application
 from .actions import export_as_excel, export_application_as_pdf
+
+
+# Application Admin with export functionalities
+from django.utils.html import format_html
+from django.urls import reverse
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
@@ -37,18 +36,42 @@ class ApplicationAdmin(admin.ModelAdmin):
         'addendum', 
         'declaration', 
         'date_submitted',
-        'application_id'
+        'application_id',
+        'view_details_link',  # Add custom view details link
     )
     search_fields = (
-        'personal_information__user__username',  # Searching by username in personal information
-        'application_id',  # Searching by application ID
+        'personal_information__user__username',
+        'application_id',
     )
-    list_filter = ('date_submitted', 'job')  # Filter by submission date
-    actions = [export_as_excel, export_application_as_pdf]  # Actions for export
+    list_filter = ('date_submitted', 'job')
+    actions = [export_as_excel, export_application_as_pdf]
+
+    # Add the custom URL for application details
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('<int:id>/details/', self.admin_site.admin_view(self.admin_applicant_details), name='admin_applicant_details'),
+        ]
+        return custom_urls + urls
+
+    # The view handling the custom admin URL
+    def admin_applicant_details(self, request, id):
+        application = get_object_or_404(Application, pk=id)
+        context = {
+            'application': application,
+        }
+        return TemplateResponse(request, 'application_portal/applicant_details.html', context)
+
+    # Custom method for the "View Details" link
+    def view_details_link(self, obj):
+        url = reverse('admin:admin_applicant_details', args=[obj.id])
+        return format_html('<a href="{}">View Details</a>', url)
+
+    view_details_link.short_description = "Details"
 
 
 
-# For Personal Information Admin
+# Personal Information Admin
 @admin.register(PersonalInformation)
 class PersonalInformationAdmin(admin.ModelAdmin):
     list_display = ('user', 'title', 'email', 'first_name', 'surname', 'dob', 'telephone')

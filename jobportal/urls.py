@@ -1,4 +1,4 @@
-
+from application_portal.views import admin_applicant_details
 from django.conf.urls import handler404
 from django.shortcuts import render
 from django.contrib import admin

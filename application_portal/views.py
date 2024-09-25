@@ -24,6 +24,8 @@ from .models import (
 import logging
 from django.db import IntegrityError
 
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.admin.views.decorators import staff_member_required
 # Configure logging
 logger = logging.getLogger(__name__)
 
@@ -91,6 +93,18 @@ def application_success(request):
     """
     return render(request, 'application_portal/application_success.html')
 
+
+
+
+
+# View for displaying applicant details in the admin panel
+@staff_member_required
+def admin_applicant_details(request, id):
+    application = get_object_or_404(Application, pk=id)
+    context = {
+        'application': application,
+    }
+    return render(request, 'admin/application_portal/applicant_details.html', context)
 
 
 
