@@ -35,7 +35,7 @@
     min="100" 
     required
   />
-  <span id="amount-error" class="text-red-500 text-sm hidden">Amount must be at least 100</span>
+  <span id="amount-error" class="text-red-500 text-sm hidden">Amount must be exactly 250</span>
 </div>
 
 
@@ -69,16 +69,18 @@
 
 <script>
   document.getElementById('amount').addEventListener('input', function() {
-    const amount = parseFloat(this.value);
-    const minAmount = 100;
-    const errorElement = document.getElementById('amount-error');
-    
-    if (amount < minAmount) {
-      errorElement.classList.remove('hidden');
-    } else {
-      errorElement.classList.add('hidden');
-    }
-  });
+  const amount = parseFloat(this.value);
+  const requiredAmount = 250;  // Set the required amount to 250
+  const errorElement = document.getElementById('amount-error');
+  
+  // Check if the entered amount is exactly 250
+  if (amount !== requiredAmount) {
+    errorElement.classList.remove('hidden');  // Show the error if not 250
+  } else {
+    errorElement.classList.add('hidden');  // Hide the error if exactly 250
+  }
+});
+
 </script>
 
 {% endblock %}

@@ -22,6 +22,13 @@
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
+      <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
     <!-- Your custom styles -->
     {% tailwind_css %}
     <style>
@@ -124,86 +131,83 @@
     </style>
   </head>
   <body class="bg-gray-100">
-    <!-- Header -->
-    <header class="bg-green-600 shadow-sm border-b border-blue-400">
-      <div
-        class="container mx-auto flex items-center justify-between py-4 px-6"
-      >
-        <div class="flex items-center space-x-4">
-          <!-- Logo -->
-          <img src="{% static 'img/logo.png' %}" alt="Logo" class="w-10 h-10" />
-          <a
-            href="{% url 'dashboard' %}"
-            class="text-2xl font-bold text-gray-900"
-          >
-            (AMHSG)- HUMAN RESOURCE DIRECTORATE
-          </a>
-        </div>
-        <nav class="hidden md:flex space-x-4">
-          <a
-            href="{% url 'job-list' %}"
-            class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md"
-          >
-            Jobs
-          </a>
-          <a
-            href="{% url 'notification-list' %}"
-            class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md"
-          >
-            Notifications
-          </a>
-          <a
-            href="#"
-            class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md"
-          >
-            Profile
-          </a>
-        </nav>
-        <div class="relative">
-          <button
-            id="profileMenuButton"
-            class="flex items-center space-x-2 text-gray-800 hover:text-blue-600"
-          >
-            <img
-              src="{% static 'img/profile.png' %}"
-              alt="Profile Image"
-              class="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm"
-            />
-            <span class="hidden md:inline font-extrabold text-2xl text-blue-700"
-              >{{ user.username }}</span
-            >
-          </button>
-          <div
-            id="profileMenu"
-            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden"
-          >
-            <ul class="py-1">
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-blue-700 hover:bg-yellow-600"
-                  >Update Profile</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-blue-700 hover:bg-yellow-600"
-                  >Reset Password</a
-                >
-              </li>
-              <li>
-                <a
-                  href="{% url 'user-logout' %}"
-                  class="block px-4 py-2 text-blue-700 hover:bg-yellow-600"
-                  >Logout</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
+<!-- Header -->
+<header class="bg-green-600 shadow-sm border-b border-blue-400">
+  <div class="container mx-auto flex items-center justify-between py-4 px-6">
+    <div class="flex items-center space-x-4">
+      <!-- Logo -->
+      <img src="{% static 'img/logo.png' %}" alt="Logo" class="w-10 h-10" />
+      <a href="{% url 'dashboard' %}" class="text-2xl font-bold text-gray-900">
+        (AMHSG)- HUMAN RESOURCE DIRECTORATE
+      </a>
+    </div>
+    <nav class="hidden md:flex space-x-4">
+      <a href="{% url 'job-list' %}" class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md">
+        Jobs
+      </a>
+      <a href="{% url 'notification-list' %}" class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md">
+        Notifications
+      </a>
+      <a href="#" class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md">
+        Profile
+      </a>
+    </nav>
+
+    <!-- Notification Icon and Dropdown -->
+    <div class="relative">
+      <button id="notificationButton" class="relative flex items-center text-gray-800 hover:text-blue-600">
+        <!-- Notification Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-9-5.197V4a2 2 0 10-4 0v1.803A6 6 0 003 11v3.159c0 .538-.214 1.055-.595 1.437L1 17h5m4 0v1a2 2 0 104 0v-1m-4 0h4" />
+        </svg>
+        <!-- Unread Notification Count (if applicable) -->
+        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full px-1">{{ notifications.count }}</span>
+      </button>
+
+      <!-- Notification Dropdown -->
+      <div id="notificationDropdown" class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg hidden z-10">
+        <ul class="py-1 max-h-64 overflow-y-auto">
+          {% for notification in notifications %}
+            <li class="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+              <p class="font-bold">{{ notification.title }}</p>
+              <p class="text-xs text-gray-500">{{ notification.message }}</p>
+              <p class="text-xs text-gray-400">{{ notification.date|date:"Y-m-d H:i" }}</p>
+            </li>
+          {% empty %}
+            <li class="px-4 py-2 text-sm text-gray-800">No notifications</li>
+          {% endfor %}
+        </ul>
+        <!-- View All Notifications Link -->
+        <a href="{% url 'notification-list' %}" class="block text-center text-sm text-blue-700 py-2 hover:bg-gray-100">View all notifications</a>
       </div>
-    </header>
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div class="relative">
+      <button id="profileMenuButton" class="flex items-center space-x-2 text-gray-800 hover:text-blue-600">
+        <img src="{% static 'img/profile.png' %}" alt="Profile Image" class="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm" />
+        <span class="hidden md:inline font-extrabold text-2xl text-blue-700">{{ user.username }}</span>
+      </button>
+      <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+        <ul class="py-1">
+          <li>
+            <a href="#" class="block px-4 py-2 text-blue-700 hover:bg-yellow-600">Update Profile</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 text-blue-700 hover:bg-yellow-600">Reset Password</a>
+          </li>
+          <li>
+            <a href="{% url 'user-logout' %}" class="block px-4 py-2 text-blue-700 hover:bg-yellow-600">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
 
     <div class="flex flex-col md:flex-row md:space-x-4">
       <!-- Success Messages -->
@@ -447,27 +451,37 @@
       $(window).on("load", function () {
         $("#loader-container").fadeOut();
       });
-    </script>
-    <!-- Tailwind CSS Scripts -->
-    <script>
+      
       document.addEventListener("DOMContentLoaded", function () {
         const profileMenuButton = document.getElementById("profileMenuButton");
         const profileMenu = document.getElementById("profileMenu");
-
+        const notificationButton = document.getElementById("notificationButton");
+        const notificationDropdown = document.getElementById("notificationDropdown");
+      
+        // Toggle the Profile Menu Dropdown
         profileMenuButton.addEventListener("click", function () {
           profileMenu.classList.toggle("hidden");
         });
-
-        document.addEventListener("click", function (e) {
-          if (
-            !profileMenuButton.contains(e.target) &&
-            !profileMenu.contains(e.target)
-          ) {
+      
+        // Toggle the Notification Dropdown
+        notificationButton.addEventListener("click", function () {
+          notificationDropdown.classList.toggle("hidden");
+        });
+      
+        // Close dropdowns if clicked outside
+        document.addEventListener("click", function (event) {
+          // Hide profile menu if click is outside
+          if (!profileMenuButton.contains(event.target) && !profileMenu.contains(event.target)) {
             profileMenu.classList.add("hidden");
+          }
+      
+          // Hide notification dropdown if click is outside
+          if (!notificationButton.contains(event.target) && !notificationDropdown.contains(event.target)) {
+            notificationDropdown.classList.add("hidden");
           }
         });
       });
-
+      
     </script>
   </body>
 </html>
