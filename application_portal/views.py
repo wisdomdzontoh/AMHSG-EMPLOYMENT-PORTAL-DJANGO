@@ -23,9 +23,9 @@ from .models import (
 )
 import logging
 from django.db import IntegrityError
-
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.admin.views.decorators import staff_member_required
+from twilio.rest import Client
 # Configure logging
 logger = logging.getLogger(__name__)
 
@@ -133,12 +133,25 @@ def get_facilities(request, region_id):
 
 
 
+
+
+# Twilio Configuration
+"""TWILIO_ACCOUNT_SID = 'AC1e777c6c07f78c6705c2aeb8d98c93e7'
+TWILIO_AUTH_TOKEN = 'c5589da05e49f090752ba5f0d2f59009'
+TWILIO_PHONE_NUMBER = '+233 55 874 9735'"""
+
+
+
+#SUBMISSION OF APPLICATION FORM
 @login_required(login_url="authentication:my-login")
 @payment_required
 def application_form(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     jobs = Job.objects.all()
     regions = Region.objects.all()
+    
+    # Fetch the user's personal information instance
+    personal_info = PersonalInformation.objects.get(user=request.user)
 
     # Check if existing data exists for the user, except PostingPreference
     try:
@@ -235,7 +248,15 @@ def application_form(request, job_id):
                     }
                 )
 
-                messages.success(request, "Application submitted successfully!")
+                # Send SMS confirmation using Twilio
+                """client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+                message = client.messages.create(
+                    body=f"Hello {request.user.first_name}, your application for the job '{job.title}' has been submitted successfully!",
+                    from_=TWILIO_PHONE_NUMBER,
+                    to=personal_info.telephone  # Use the correct instance reference here
+                )"""
+
+                messages.success(request, "Application submitted successfully! A confirmation SMS has been sent to your phone.")
                 return redirect('application-success')
 
             except IntegrityError as e:

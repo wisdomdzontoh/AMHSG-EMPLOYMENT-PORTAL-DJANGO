@@ -34,11 +34,11 @@ def export_as_excel(modeladmin, request, queryset):
     headers = [
         "User", "Title", "First Name", "Surname", "Email", "DOB", "Telephone", "GH Card Number", 
         "Gender", "Fathers Name", "Fathers Occupation", "Mothers Name", "Mothers Occupation", "Next of Kin", "Next of Kin Occupation", "Contact Person", "Relation", "Contact Address", "Passport Picture",
-        "JHS Level", "JHS school", "JHS Field of study", "JHS Date Started", "JSH Date Completed",
-        "SHS Level", "SHS School", "SHS field of study", "shs Date started", "SHS Date Completed",
-        "TERTIARY Level", "TERTIARY School", "TERTIARY field of study", "TERTIARY Date started", "TERTIARY Date completed", 
-        "Regulatory Body", "Registration PIN", "Date Received",
-        "Physical Disability", "Medical Condition", "First Choice Region", "First Choice Facility",
+        "JHS Level", "JHS school", "JHS Field of study", "JHS Date Started", "JSH Date Completed", "JHS Certificate",
+        "SHS Level", "SHS School", "SHS field of study", "shs Date started", "SHS Date Completed", "SHS Certificate",
+        "TERTIARY Level", "TERTIARY School", "TERTIARY field of study", "TERTIARY Date started", "TERTIARY Date completed", "Tertiary Certificate",
+        "Regulatory Body", "Registration PIN", "Date Received", "professional registration Certificate",
+        "Physical Disability", "disability details", "Medical Condition", "condition details", "First Choice Region", "First Choice Facility",
         "Second Choice Region", "Second Choice Facility", "Third Choice Region", "Third Choice Facility",
         "Medical Certificate", "Other Certificates", "Declaration Date", "Date Submitted"
     ]
@@ -85,27 +85,38 @@ def export_as_excel(modeladmin, request, queryset):
             educational_background.JHS_field_of_study,
             educational_background.JHS_date_started,
             educational_background.JHS_date_completed,
+            "Yes" if educational_background.JHS_certificates else "No",
+            
             
             educational_background.SHS_level,
             educational_background.SHS_school,
             educational_background.SHS_field_of_study,
             educational_background.SHS_date_started,
             educational_background.SHS_date_completed,
+            "Yes" if educational_background.SHS_certificates else "No",
+            
             
             educational_background.TERTIARY_level,
             educational_background.TERTIARY_school,
             educational_background.TERTIARY_field_of_study,
             educational_background.TERTIARY_date_started,
             educational_background.TERTIARY_date_completed,
+            "Yes" if educational_background.TERTIARY_certificates else "No",
+            
             
             # Professional Registration
             professional_registration.regulatory_body,
             professional_registration.registration_pin,
             professional_registration.date_received.strftime('%Y-%m-%d'),
+            "Yes" if professional_registration.license_cert else "No",
+            
 
             # Medical History
             "Yes" if medical_history.physical_disability else "No",
+            medical_history.disability_details,
             "Yes" if medical_history.medical_condition else "No",
+            medical_history.condition_details,
+            
 
             # Posting Preferences
             posting_preference.first_choice_region.region_name if posting_preference.first_choice_region else 'N/A',
@@ -116,8 +127,9 @@ def export_as_excel(modeladmin, request, queryset):
             posting_preference.third_choice_facility.facility_name if posting_preference.third_choice_facility else 'N/A',
 
             # Medical Certificate and Other Documents
-            medical_cert,
-            addendum,
+            "Yes" if medical_cert else "No",
+            "Yes" if addendum else "No",
+            
 
             # Declaration and Date Submitted
             declaration,

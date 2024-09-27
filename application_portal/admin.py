@@ -37,13 +37,14 @@ class ApplicationAdmin(admin.ModelAdmin):
         'declaration', 
         'date_submitted',
         'application_id',
+        'status',
         'view_details_link',  # Add custom view details link
     )
     search_fields = (
         'personal_information__user__username',
         'application_id',
     )
-    list_filter = ('date_submitted', 'job')
+    list_filter = ('date_submitted', 'job', 'status')
     actions = [export_as_excel, export_application_as_pdf]
 
     # Add the custom URL for application details

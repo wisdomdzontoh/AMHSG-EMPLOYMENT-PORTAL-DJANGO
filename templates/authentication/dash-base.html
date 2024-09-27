@@ -148,17 +148,16 @@
       <a href="{% url 'notification-list' %}" class="px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-yellow-600 hover:text-white rounded-md transition-colors duration-200">
         Notifications
       </a>
-      <a href="#" class="px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-yellow-600 hover:text-white rounded-md transition-colors duration-200">
-        Profile
-      </a>
     </nav>
 
-    <!-- Theme Toggle Button -->
-    <button id="themeToggle" class="px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-yellow-600 hover:text-white rounded-md transition-colors duration-200">
-      <svg id="themeToggleIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m-7-7h1m16 0h1M4.22 4.22l.707.707m14.142 14.142l.707.707M3 12h1m16 0h1m-9.293-9.293l.707.707m-4.586 4.586l.707.707" />
-      </svg>
-    </button>
+    <input 
+    type="text" 
+    name="search_box" 
+    id="search_box" 
+    placeholder="Search"
+    class="w-1/6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+  />
+  
 
     <!-- Notification Icon and Dropdown -->
     <div class="relative">
