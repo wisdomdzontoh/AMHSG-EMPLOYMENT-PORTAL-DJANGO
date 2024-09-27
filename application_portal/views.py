@@ -53,11 +53,25 @@ def application_list(request):
 
 
 
+@login_required(login_url="authentication:my-login")
+def faq(request):
+    return render(request, 'application_portal/faq.html')
+
+
 
 
 @login_required(login_url="authentication:my-login")
 def application_portal(request):
-    return render(request, 'application_portal/index.html')
+    # Get the user's job applications
+    job_applications = Application.objects.filter(user=request.user)
+
+    # Prepare context data
+    context = {
+        'job_applications': job_applications,
+        'number_of_jobs': job_applications.count(),
+    }
+
+    return render(request, 'application_portal/index.html', context)
 
 
 

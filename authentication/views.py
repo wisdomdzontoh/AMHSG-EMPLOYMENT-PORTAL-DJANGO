@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from jobs.models import Job
 from notifications.models import Notification
+from application_portal.models import Application
 
 
 
@@ -93,10 +94,26 @@ def user_logout(request):
 # Dashboard view (requires login)
 @login_required(login_url="authentication:my-login")
 def dashboard(request):
+    # Fetch the latest jobs and notifications
     jobs = Job.objects.all().order_by('-posted_date')[:5]
     notifications = Notification.objects.all().order_by('-date')[:5]
+
+    # Calculate statistics
+    total_jobs = Job.objects.count()  # Total number of jobs
+    total_applications = Application.objects.count()  # Total number of applications
+    accepted_applications = Application.objects.filter(status='accepted').count()  # Count of accepted applications
+    pending_applications = Application.objects.filter(status='pending').count()  # Count of pending applications
+    under_review_applications = Application.objects.filter(status='under review').count()  # Count of under review applications
+
+    # Context data to pass to the template
     context = {
         'jobs': jobs,
         'notifications': notifications,
+        'total_jobs': total_jobs,
+        'total_applications': total_applications,
+        'accepted_applications': accepted_applications,
+        'pending_applications': pending_applications,
+        'under_review_applications': under_review_applications,
     }
+
     return render(request, 'authentication/dashboard.html', context)
