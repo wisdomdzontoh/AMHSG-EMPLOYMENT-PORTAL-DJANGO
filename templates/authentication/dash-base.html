@@ -132,79 +132,88 @@
   </head>
   <body class="bg-gray-100">
 <!-- Header -->
-<header class="bg-green-600 shadow-sm border-b border-blue-400">
+<header class="bg-white dark:bg-gray-800 shadow-md border-b border-blue-400 transition-colors duration-300">
   <div class="container mx-auto flex items-center justify-between py-4 px-6">
     <div class="flex items-center space-x-4">
       <!-- Logo -->
       <img src="{% static 'img/logo.png' %}" alt="Logo" class="w-10 h-10" />
-      <a href="{% url 'dashboard' %}" class="text-2xl font-bold text-gray-900">
-        (AMHSG)- HUMAN RESOURCE DIRECTORATE
+      <a href="{% url 'dashboard' %}" class="text-2xl font-bold text-gray-900 dark:text-white">
+        (AMHSG) - HUMAN RESOURCE DIRECTORATE
       </a>
     </div>
     <nav class="hidden md:flex space-x-4">
-      <a href="{% url 'job-list' %}" class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md">
+      <a href="{% url 'job-list' %}" class="px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-yellow-600 hover:text-white rounded-md transition-colors duration-200">
         Jobs
       </a>
-      <a href="{% url 'notification-list' %}" class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md">
+      <a href="{% url 'notification-list' %}" class="px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-yellow-600 hover:text-white rounded-md transition-colors duration-200">
         Notifications
       </a>
-      <a href="#" class="px-4 py-2 text-gray-800 hover:bg-yellow-600 hover:text-white rounded-md">
+      <a href="#" class="px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-yellow-600 hover:text-white rounded-md transition-colors duration-200">
         Profile
       </a>
     </nav>
 
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-yellow-600 hover:text-white rounded-md transition-colors duration-200">
+      <svg id="themeToggleIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m-7-7h1m16 0h1M4.22 4.22l.707.707m14.142 14.142l.707.707M3 12h1m16 0h1m-9.293-9.293l.707.707m-4.586 4.586l.707.707" />
+      </svg>
+    </button>
+
     <!-- Notification Icon and Dropdown -->
     <div class="relative">
-      <button id="notificationButton" class="relative flex items-center text-gray-800 hover:text-blue-600">
+      <button id="notificationButton" class="relative flex items-center text-gray-800 dark:text-gray-200 hover:text-blue-600">
         <!-- Notification Icon -->
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-9-5.197V4a2 2 0 10-4 0v1.803A6 6 0 003 11v3.159c0 .538-.214 1.055-.595 1.437L1 17h5m4 0v1a2 2 0 104 0v-1m-4 0h4" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-9-5.197V4a2 2 0 10-4 0v1.803A6 6 0 003 11v3.159c0 .538-.214 1.055-.595 1.437L1 17h5m4 0v1a2 2 0 104 0v-1m-4 0h4" />
         </svg>
         <!-- Unread Notification Count (if applicable) -->
         <span class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full px-1">{{ notifications.count }}</span>
       </button>
 
       <!-- Notification Dropdown -->
-      <div id="notificationDropdown" class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg hidden z-10">
+      <div id="notificationDropdown" class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg hidden z-10">
         <ul class="py-1 max-h-64 overflow-y-auto">
           {% for notification in notifications %}
-            <li class="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+            <li class="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
               <p class="font-bold">{{ notification.title }}</p>
-              <p class="text-xs text-gray-500">{{ notification.message }}</p>
-              <p class="text-xs text-gray-400">{{ notification.date|date:"Y-m-d H:i" }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">{{ notification.message }}</p>
+              <p class="text-xs text-gray-400 dark:text-gray-500">{{ notification.date|date:"Y-m-d H:i" }}</p>
             </li>
           {% empty %}
-            <li class="px-4 py-2 text-sm text-gray-800">No notifications</li>
+            <li class="px-4 py-2 text-sm text-gray-800 dark:text-gray-200">No notifications</li>
           {% endfor %}
         </ul>
         <!-- View All Notifications Link -->
-        <a href="{% url 'notification-list' %}" class="block text-center text-sm text-blue-700 py-2 hover:bg-gray-100">View all notifications</a>
+        <a href="{% url 'notification-list' %}" class="block text-center text-sm text-blue-700 dark:text-blue-400 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">View all notifications</a>
       </div>
     </div>
 
     <!-- Profile Dropdown -->
     <div class="relative">
-      <button id="profileMenuButton" class="flex items-center space-x-2 text-gray-800 hover:text-blue-600">
+      <button id="profileMenuButton" class="flex items-center space-x-2 text-gray-800 dark:text-gray-200 hover:text-blue-600">
         <img src="{% static 'img/profile.png' %}" alt="Profile Image" class="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm" />
-        <span class="hidden md:inline font-extrabold text-2xl text-blue-700">{{ user.username }}</span>
+        <span class="hidden md:inline font-extrabold text-2xl text-blue-700 dark:text-blue-400">{{ user.username }}</span>
       </button>
-      <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+      <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg hidden">
         <ul class="py-1">
           <li>
-            <a href="#" class="block px-4 py-2 text-blue-700 hover:bg-yellow-600">Update Profile</a>
+            <a href="#" class="block px-4 py-2 text-blue-700 dark:text-blue-400 hover:bg-yellow-600 hover:text-white dark:hover:bg-yellow-600">Update Profile</a>
           </li>
           <li>
-            <a href="#" class="block px-4 py-2 text-blue-700 hover:bg-yellow-600">Reset Password</a>
+            <a href="#" class="block px-4 py-2 text-blue-700 dark:text-blue-400 hover:bg-yellow-600 hover:text-white dark:hover:bg-yellow-600">Reset Password</a>
           </li>
           <li>
-            <a href="{% url 'user-logout' %}" class="block px-4 py-2 text-blue-700 hover:bg-yellow-600">Logout</a>
+            <a href="{% url 'user-logout' %}" class="block px-4 py-2 text-blue-700 dark:text-blue-400 hover:bg-yellow-600 hover:text-white dark:hover:bg-yellow-600">Logout</a>
           </li>
         </ul>
       </div>
     </div>
   </div>
 </header>
+
+
+
 
 
 
@@ -244,179 +253,106 @@
       </script>
       {% endfor %}
     
-      <!-- Sidebar -->
-      <aside class="w-full md:w-1/4 bg-white shadow-md rounded-lg p-4 mb-4 md:mb-0">
-        <nav class="space-y-6">
-          <!-- Menu Section -->
-          <div>
-            <h2 class="text-xs font-semibold text-gray-500 uppercase mb-4">Menu</h2>
-            <ul class="space-y-2">
-              <li>
-                <a
-                  href="{% url 'dashboard' %}"
-                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
-                >
-                  <svg
-                    class="w-5 h-5 mr-3 text-gray-600"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M3 13h2v-2H3v2zm4 0h14v-2H7v2zm0 6h14v-2H7v2zm-4 0h2v-2H3v2zm0-14v2h18V5H3zm0 6h18v-2H3v2z"
-                    />
-                  </svg>
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a
-                  href="{% url 'application-portal' %}"
-                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
-                >
-                  <svg
-                    class="w-5 h-5 mr-3 text-gray-600"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                    />
-                  </svg>
-                  Application Portal
-                </a>
-              </li>
-              <li>
-                <a
-                  href="{% url 'job-applications' %}"
-                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
-                >
-                  <svg
-                    class="w-5 h-5 mr-3 text-gray-600"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM8 8h8v2H8zm0 4h5v2H8z"
-                    />
-                  </svg>
-                  Job Applications
-                </a>
-              </li>
-              <li>
-                <a
-                  href="{% url 'my-transactions' %}"
-                  class="flex items-center px-4 py-2 text-gray-600 hover:bg-blue-500 rounded transition-colors duration-200"
-                >
-                  <svg
-                    class="w-5 h-5 mr-3 text-gray-600"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M3 13h8v-2H3v2zm0 6h14v-2H3v2zm0-10h14V7H3v2zm18-7H9v2h12v12h2V3c0-1.1-.9-2-2-2zM13 15h-2v-2H9v2H7v2h2v2h2v-2h2v-2z"
-                    />
-                  </svg>
-                  My transactions
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
-                >
-                  <svg
-                    class="w-5 h-5 mr-3 text-gray-600"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm1.31-7.9l-.95.93c-.68.68-1.36 1.36-1.36 2.97h-2v-.5c0-1.04.68-1.95 1.31-2.59l1.26-1.25c.37-.37.59-.88.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .85-.34 1.68-.69 2.1z"
-                    />
-                  </svg>
-                  FAQs
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
-                >
-                  <svg
-                    class="w-5 h-5 mr-3 text-gray-600"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M3 13h8v-2H3v2zm0 6h14v-2H3v2zm0-10h14V7H3v2zm18-7H9v2h12v12h2V3c0-1.1-.9-2-2-2zM13 15h-2v-2H9v2H7v2h2v2h2v-2h2v-2z"
-                    />
-                  </svg>
-                  Contact Us
-                </a>
-                <ul class="pl-12 mt-1 space-y-1">
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-1 text-gray-600 hover:underline hover:bg-blue-500"
-                    >
-                      Send us an Email
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <!-- Settings Section -->
-          <div>
-            <h2 class="text-xs font-semibold text-gray-500 uppercase mb-4">
-              Settings
-            </h2>
-            <ul class="space-y-2">
-              <li>
-                <a
-                  href="#"
-                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
-                >
-                  <svg
-                    class="w-5 h-5 mr-3 text-gray-600"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm1 17h-2v-2h2v2zm-1-5c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                    />
-                  </svg>
-                  Change Password
-                </a>
-              </li>
-              <li>
-                <a
-                  href="{% url 'user-logout' %}"
-                  class="flex items-center px-4 py-2 text-gray-800 hover:bg-red-500 rounded transition-colors duration-200"
-                >
-                  <svg
-                    class="w-5 h-5 mr-3 text-gray-600"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm1 17h-2v-2h2v2zm0-6h-2v-6h2v6z"
-                    />
-                  </svg>
-                  Logout
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </aside>
+ <!-- Sidebar -->
+<aside class="w-full md:w-1/4 bg-white shadow-md rounded-lg p-4 mb-4 md:mb-0">
+  <nav class="space-y-6">
+    <!-- Menu Section -->
+    <div>
+      <h2 class="text-xs font-semibold text-gray-500 uppercase mb-4">Menu</h2>
+      <ul class="space-y-2">
+        <li>
+          <a
+            href="{% url 'dashboard' %}"
+            class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+          >
+            <i class="fas fa-tachometer-alt mr-3 text-gray-600"></i>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a
+            href="{% url 'application-portal' %}"
+            class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+          >
+            <i class="fas fa-user-circle mr-3 text-gray-600"></i>
+            Application Portal
+          </a>
+        </li>
+        <li>
+          <a
+            href="{% url 'job-applications' %}"
+            class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+          >
+            <i class="fas fa-file-alt mr-3 text-gray-600"></i>
+            Job Applications
+          </a>
+        </li>
+        <li>
+          <a
+            href="{% url 'my-transactions' %}"
+            class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+          >
+            <i class="fas fa-exchange-alt mr-3 text-gray-600"></i>
+            My transactions
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+          >
+            <i class="fas fa-question-circle mr-3 text-gray-600"></i>
+            FAQs
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+          >
+            <i class="fas fa-envelope mr-3 text-gray-600"></i>
+            Contact Us
+          </a>
+          <ul class="pl-12 mt-1 space-y-1">
+            <li>
+              <a
+                href="#"
+                class="block px-4 py-1 text-gray-600 hover:underline hover:bg-blue-500"
+              >
+                Send us an Email
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- Settings Section -->
+    <div>
+      <h2 class="text-xs font-semibold text-gray-500 uppercase mb-4">Settings</h2>
+      <ul class="space-y-2">
+        <li>
+          <a
+            href="#"
+            class="flex items-center px-4 py-2 text-gray-800 hover:bg-blue-500 rounded transition-colors duration-200"
+          >
+            <i class="fas fa-lock mr-3 text-gray-600"></i>
+            Change Password
+          </a>
+        </li>
+        <li>
+          <a
+            href="{% url 'user-logout' %}"
+            class="flex items-center px-4 py-2 text-gray-800 hover:bg-red-500 rounded transition-colors duration-200"
+          >
+            <i class="fas fa-sign-out-alt mr-3 text-gray-600"></i>
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
     
 
     <!-- Main Content -->
@@ -434,6 +370,17 @@
     </div>
 
 
+    <script>
+      // Theme toggle functionality
+      const themeToggleButton = document.getElementById('themeToggle');
+      const themeToggleIcon = document.getElementById('themeToggleIcon');
+    
+      themeToggleButton.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        themeToggleIcon.classList.toggle('transform');
+        themeToggleIcon.classList.toggle('rotate-180');
+      });
+    </script>
     <!-- Include scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></scrip>

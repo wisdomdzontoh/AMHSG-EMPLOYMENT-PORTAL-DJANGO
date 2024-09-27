@@ -1,163 +1,88 @@
 {% extends 'authentication/dash-base.html' %} {% block content %}
 
 <body class="bg-gray-100">
-  <div
-    class="container mx-auto max-w-2xl bg-white p-6 shadow-lg mt-10 rounded-lg"
-  >
-    <div class="tabs flex justify-between border-b-2 border-gray-300 mb-6">
-      <a
-        href="#"
-        class="tab-link active py-2 px-4 text-gray-700 border-b-2 border-transparent hover:border-blue-700"
-        data-tab="tab1"
-        >Page Instructions</a
-      >
-      <a
-        href="#"
-        class="tab-link py-2 px-4 text-gray-700 border-b-2 border-transparent hover:border-blue-700"
-        data-tab="tab2"
-        >Application Form</a
-      >
-      <a
-        href="#"
-        class="tab-link py-2 px-4 text-gray-700 border-b-2 border-transparent hover:border-blue-700"
-        data-tab="tab3"
-        >Purchase Voucher</a
-      >
-      <a
-        href="#"
-        class="tab-link py-2 px-4 text-gray-700 border-b-2 border-transparent hover:border-blue-700"
-        data-tab="tab4"
-        >Contact Us</a
-      >
-    </div>
-
-    <div id="tab1" class="tab-content active">
-      <!-- Include the Page Instructions content here -->
-      <div class="bg-blue-700 text-white p-6 rounded-t-lg">
-        <h1 class="text-2xl font-semibold">Job Application Instructions</h1>
+  <div class="container mx-auto max-w-4xl bg-white p-8 shadow-lg mt-10 rounded-lg">
+      <!-- Tabs Navigation -->
+      <div class="tabs flex justify-around border-b-2 border-gray-300 mb-6">
+          <a href="#" class="tab-link active py-2 px-6 text-gray-700 border-b-2 border-transparent hover:border-blue-600 font-semibold transition duration-300" data-tab="tab1">Instructions</a>
+          <a href="#" class="tab-link py-2 px-6 text-gray-700 border-b-2 border-transparent hover:border-blue-600 font-semibold transition duration-300" data-tab="tab2">Application</a>
+          <a href="#" class="tab-link py-2 px-6 text-gray-700 border-b-2 border-transparent hover:border-blue-600 font-semibold transition duration-300" data-tab="tab4">Contact Us</a>
       </div>
-      <div class="instructions p-6">
-        <h2 class="text-xl font-semibold text-blue-700 mb-4 text-center">
-          How to Apply
-        </h2>
 
-        <div class="option mb-6">
-          <h3 class="text-lg font-semibold text-blue-700 mb-2">OPTION 1</h3>
-          <p class="text-gray-700 mb-4">
-            Please fill out the job application form online by clicking the
-            "Start Application" tab. Ensure all fields are completed accurately.
-            Make sure you have purchased a voucher and have a serial number and
-            a pin.
-          </p>
-        </div>
+      <!-- Tab Contents -->
+      <!-- Instructions Tab -->
+      <div id="tab1" class="tab-content active">
+          <div class="bg-blue-700 text-white p-6 rounded-t-lg">
+              <h1 class="text-3xl font-semibold">Job Application Instructions</h1>
+          </div>
+          <div class="instructions p-6">
+              <h2 class="text-2xl font-semibold text-blue-700 mb-6 text-center">How to Apply</h2>
 
-        <div class="option mb-6">
-          <h3 class="text-lg font-semibold text-blue-700 mb-2">OPTION 2</h3>
-          <p class="text-gray-700 mb-4">
-            Click on "Application" tab to login and access the application
-            forms. Or click on the "Purchase Voucher" tab to purchase a new
-            voucher.
-          </p>
-        </div>
+              <ol class="list-decimal list-inside text-gray-800 space-y-4">
+                  <li>
+                      <h3 class="text-lg font-semibold text-blue-700">Step 1: Create an Account</h3>
+                      <p>Visit our website and create an account if you do not have one. Make sure to verify your email.</p>
+                  </li>
+                  <li>
+                      <h3 class="text-lg font-semibold text-blue-700">Step 2: Purchase a Voucher</h3>
+                      <p>Go to the "Purchase Voucher" tab to buy a voucher. Keep the serial number and PIN safe.</p>
+                  </li>
+                  <li>
+                      <h3 class="text-lg font-semibold text-blue-700">Step 3: Complete the Application Form</h3>
+                      <p>Click on the "Application Form" tab to access the application form. Fill in all required fields accurately.</p>
+                  </li>
+                  <li>
+                      <h3 class="text-lg font-semibold text-blue-700">Step 4: Upload Required Documents</h3>
+                      <p>Ensure you upload all necessary documents, including your CV, certificates, and identification.</p>
+                  </li>
+                  <li>
+                      <h3 class="text-lg font-semibold text-blue-700">Step 5: Submit Your Application</h3>
+                      <p>After completing the form, click "Submit" to send your application. You will receive a confirmation email.</p>
+                  </li>
+                  <li>
+                      <h3 class="text-lg font-semibold text-blue-700">Step 6: Follow Up</h3>
+                      <p>If you do not hear back within a week, feel free to contact us for updates.</p>
+                  </li>
+              </ol>
+          </div>
       </div>
-    </div>
 
-    <div id="tab2" class="tab-content hidden">
-      <h2 class="text-xl font-semibold text-blue-700 mb-4">My Application</h2>
-      <form action="/submit-application" method="POST">
-        <div class="form-group mb-4">
-          <label for="voucher-code" class="block text-gray-700 font-medium mb-2"
-            >Voucher Code</label
-          >
-          <input
-            type="text"
-            id="voucher-code"
-            name="voucher_code"
-            placeholder="#voucher code"
-            required
-            class="w-full p-3 border rounded border-gray-300 focus:border-blue-700 focus:outline-none"
-          />
-        </div>
-        <div class="form-group mb-4">
-          <label for="pin" class="block text-gray-700 font-medium mb-2"
-            >Pin</label
-          >
-          <input
-            type="password"
-            id="pin"
-            name="pin"
-            placeholder="Enter pin"
-            required
-            class="w-full p-3 border rounded border-gray-300 focus:border-blue-700 focus:outline-none"
-          />
-        </div>
-        <div class="form-group mb-6">
-          <button
-            type="submit"
-            class="w-full bg-blue-800 text-white py-3 rounded-lg hover:bg-green-800"
-          >
-            Get Application Form
-          </button>
-        </div>
-        <a
-          href="#"
-          class="info-link block text-center text-blue-700 hover:underline"
-          >Don't have a serial number and pin?</a
-        >
-        <a
-          href="#"
-          class="info-link block text-center text-red-700 mt-2 hover:underline"
-          >Click here for more information</a
-        >
-      </form>
-    </div>
+      <!-- Application Form Tab -->
+      <div id="tab2" class="tab-content hidden">
+          <h2 class="text-2xl font-semibold text-blue-700 mb-4">My Application</h2>
+          <p class="text-gray-700">Track your application status and make any necessary edits.</p>
+          <a href="{% url 'initiate-payment' %}" class="block text-center text-blue-700 hover:underline mt-4">Have not purchased a form yet?</a>
+          <a href="#" class="block text-center text-red-600 hover:underline mt-2">Click here for more information</a>
+      </div>
 
-    <div id="tab3" class="tab-content hidden">
-      <!-- Include the Purchase Voucher content here -->
-      <h2 class="text-xl font-semibold text-blue-700 mb-4">Purchase Voucher</h2>
-      <p class="text-gray-700">Details on how to purchase a voucher...</p>
-      <form action="purchase-voucher" method="post">
-        <input
-          type="hidden"
-          name="csrfmiddlewaretoken"
-          value="{{ csrf_token }}"
-        />
-        <a
-          href="{% url 'initiate-payment' %}"
-          class="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 cursor-pointer"
-          >Purchase Form
-        </a>
-      </form>
-    </div>
 
-    <div id="tab4" class="tab-content hidden">
-      <!-- Include the Contact Us content here -->
-      <h2 class="text-xl font-semibold text-blue-700 mb-4">Contact Us</h2>
-      <p class="text-gray-700">
-        Provide contact details or a contact form here...
-      </p>
-    </div>
+      <!-- Contact Us Tab -->
+      <div id="tab4" class="tab-content hidden">
+          <h2 class="text-2xl font-semibold text-blue-700 mb-4">Contact Us</h2>
+          <p class="text-gray-700">For inquiries, reach out to us at: <strong>info@example.com</strong> or call <strong>(123) 456-7890</strong>.</p>
+          <p class="text-gray-700 mt-2">Or send us an email <a href="#" class="text-blue-700 hover:underline">for further clarifications</a>.</p>
+      </div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const tabs = document.querySelectorAll(".tab-link");
-      const tabContents = document.querySelectorAll(".tab-content");
+      document.addEventListener("DOMContentLoaded", function () {
+          const tabs = document.querySelectorAll(".tab-link");
+          const tabContents = document.querySelectorAll(".tab-content");
 
-      tabs.forEach((tab) => {
-        tab.addEventListener("click", function (e) {
-          e.preventDefault();
+          tabs.forEach((tab) => {
+              tab.addEventListener("click", function (e) {
+                  e.preventDefault();
 
-          // Remove active class from all tabs and contents
-          tabs.forEach((t) => t.classList.remove("active"));
-          tabContents.forEach((c) => c.classList.add("hidden"));
+                  // Remove active class from all tabs and contents
+                  tabs.forEach((t) => t.classList.remove("active", "border-blue-600", "text-blue-700"));
+                  tabContents.forEach((c) => c.classList.add("hidden"));
 
-          // Add active class to the clicked tab and corresponding content
-          tab.classList.add("active");
-          document.getElementById(tab.dataset.tab).classList.remove("hidden");
-        });
+                  // Add active class to the clicked tab and corresponding content
+                  tab.classList.add("active", "border-blue-600", "text-blue-700");
+                  document.getElementById(tab.dataset.tab).classList.remove("hidden");
+              });
+          });
       });
-    });
   </script>
 
   {% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'authentication/dash-base.html' %}{% load static %}{% block content%}
+{% extends 'authentication/dash-base.html' %}{% load static %}{% block content %}
 <div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
   <h1 class="text-3xl font-bold text-gray-800 mb-6">My Transactions</h1>
   <div class="overflow-x-auto">
@@ -19,7 +19,7 @@
         <tr class="border-b border-gray-200 hover:bg-gray-50">
           <td class="p-4 text-sm text-gray-700">{{ payment.id }}</td>
           <td class="p-4 text-sm text-gray-700">₵{{ payment.amount }}</td>
-          <td class="p-4 text-sm text-gray-700 whitespace-normal break-words">{{ payment.ref }}</td>
+          <td class="p-4 text-sm text-gray-700 break-all" style="max-width: 150px;">{{ payment.ref }}</td>
           <td class="p-4 text-sm text-gray-700">{{ payment.email }}</td>
           <td class="p-4 text-sm text-gray-700">{{ payment.job }}</td>
           <td class="p-4 text-sm text-gray-700">{{ payment.payment_date }}</td>
