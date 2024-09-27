@@ -106,6 +106,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+    
+    # append after default middlewares
+    'django_auto_logout.middleware.auto_logout',    #django auto logout middleware
 ]
 
 ROOT_URLCONF = 'jobportal.urls'
@@ -121,6 +124,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                'django_auto_logout.context_processors.auto_logout_client',     #django auto logout context
             ],
         },
     },
@@ -224,3 +229,13 @@ PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+""# Django Auto Logout
+AUTO_LOGOUT = {
+                'IDLE_TIME': 1500, 'REDIRECT_TO_LOGIN_IMMEDIATELY': True, 
+                'MESSAGE': 'The session has expired. Please login again to continue.',
+                }  # logout after 1 minutes of downtime""
+
+
