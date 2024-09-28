@@ -1,86 +1,97 @@
-{% extends 'authentication/dash-base.html' %} {% load static %}{%block content%}
+{% extends 'authentication/dash-base.html' %}
+{% load static %}
+{% block content %}
 
 <div class="container mx-auto p-6 bg-white shadow-md rounded-md">
-  <h1 class="text-2xl font-semibold mb-6 text-gray-800">Make Payment</h1>
-  <form action="#" method="POST" class="space-y-4">
+  <h1 class="text-3xl font-bold mb-8 text-gray-800 text-center">Make Payment</h1>
+
+  <form action="#" method="POST" class="space-y-6">
     {% csrf_token %}
 
-<!-- Job Dropdown Input -->
-<div class="form-group">
-  <label for="job_id" class="block text-sm font-medium text-gray-700">Job Title</label>
-  <select id="job_id" name="job_id" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm">
-    <option value="">Select a job</option>
-    {% if jobs %}
-        {% for job in jobs %}
-            <option value="{{ job.id }}">{{ job.title }}</option>
-        {% endfor %}
-    {% else %}
-        <option value="">No jobs available</option>
-    {% endif %}
-  </select>
-</div>
-
-
-
+    <!-- Job Dropdown Input -->
+    <div class="form-group">
+      <label for="job_id" class="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
+      <select
+        id="job_id"
+        name="job_id"
+        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        required
+      >
+        <option value="">Select a job</option>
+        {% if jobs %}
+            {% for job in jobs %}
+                <option value="{{ job.id }}">{{ job.title }}</option>
+            {% endfor %}
+        {% else %}
+            <option value="">No jobs available</option>
+        {% endif %}
+      </select>
+    </div>
 
     <!-- Amount Input -->
-<div class="form-group">
-  <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
-  <input
-    type="number"
-    id="amount"
-    name="amount"
-    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-    placeholder="Enter amount"
-    min="100" 
-    required
-  />
-  <span id="amount-error" class="text-red-500 text-sm hidden">Amount must be exactly 250</span>
-</div>
-
-
-    <!-- Phone Number Input -->
     <div class="form-group">
-      <label for="phone_number" class="block text-sm font-medium text-gray-700"
-        >Email</label
-      >
+      <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Amount</label>
+      <input
+        type="number"
+        id="amount"
+        name="amount"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        placeholder="Enter amount"
+        min="100"
+        required
+      />
+      <span id="amount-error" class="text-red-500 text-sm hidden mt-1">Amount must be exactly 250</span>
+    </div>
+
+    <!-- Phone Input -->
+    <div class="form-group">
+      <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+      <input
+        type="text"
+        id="phone"
+        name="phone"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        placeholder="0558749735"
+        required
+      />
+    </div>
+
+    <!-- Email Input -->
+    <div class="form-group">
+      <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
       <input
         type="email"
         id="email"
         name="email"
         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        placeholder="eg. john@gmail.com"
-        required
+        value="{{ request.user.email }}"
+
       />
     </div>
-
-   
 
     <!-- Submit Button -->
     <button
       type="submit"
-      class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
       Proceed to Payment
     </button>
   </form>
 </div>
 
-
 <script>
   document.getElementById('amount').addEventListener('input', function() {
-  const amount = parseFloat(this.value);
-  const requiredAmount = 250;  // Set the required amount to 250
-  const errorElement = document.getElementById('amount-error');
-  
-  // Check if the entered amount is exactly 250
-  if (amount !== requiredAmount) {
-    errorElement.classList.remove('hidden');  // Show the error if not 250
-  } else {
-    errorElement.classList.add('hidden');  // Hide the error if exactly 250
-  }
-});
+    const amount = parseFloat(this.value);
+    const requiredAmount = 250; // Set the required amount to 250
+    const errorElement = document.getElementById('amount-error');
 
+    // Check if the entered amount is exactly 250
+    if (amount !== requiredAmount) {
+      errorElement.classList.remove('hidden');  // Show the error if not 250
+    } else {
+      errorElement.classList.add('hidden');  // Hide the error if exactly 250
+    }
+  });
 </script>
 
 {% endblock %}

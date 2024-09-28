@@ -17,6 +17,7 @@ def initiate_payment(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         amount = request.POST.get('amount')
         email = request.POST.get('email')
+        phone = request.POST.get('phone')
         job_id = request.POST.get('job_id')
         user = request.user
 
@@ -28,12 +29,13 @@ def initiate_payment(request: HttpRequest) -> HttpResponse:
 
         if not user.is_authenticated:
             messages.error(request, 'You need to log in to make a payment.')
-            return redirect('login')
+            return redirect('my-login')
 
-        if amount and email:
+        if amount and email and phone:
             payment = Payment.objects.create(
                 amount=amount,
                 email=email,
+                phone=phone,
                 user=user,
                 job_id=job_id
             )
@@ -41,6 +43,7 @@ def initiate_payment(request: HttpRequest) -> HttpResponse:
                 'payment': payment,
                 'amount': amount,
                 'email': email,
+                'phone': phone,
                 'user': user,
                 'jobs': jobs,  # Make sure jobs is included here
                 'job': job,

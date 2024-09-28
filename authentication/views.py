@@ -95,7 +95,7 @@ def user_logout(request):
 @login_required(login_url="authentication:my-login")
 def dashboard(request):
     # Fetch the latest jobs and notifications
-    jobs = Job.objects.all().order_by('-posted_date')[:5]
+    jobs = Job.objects.all().order_by('-posted_date')[:4]
     notifications = Notification.objects.all().order_by('-date')[:5]
 
     # Calculate statistics

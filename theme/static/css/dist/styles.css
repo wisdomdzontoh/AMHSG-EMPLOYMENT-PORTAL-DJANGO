@@ -1342,6 +1342,10 @@ select {
   width: 25%;
 }
 
+.w-1\/6 {
+  width: 16.666667%;
+}
+
 .w-10 {
   width: 2.5rem;
 }
@@ -1416,14 +1420,6 @@ select {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-2\/4 {
-  width: 50%;
-}
-
-.w-1\/6 {
-  width: 16.666667%;
 }
 
 .min-w-0 {
@@ -2747,6 +2743,10 @@ select {
   transition-duration: 150ms;
 }
 
+.duration-150 {
+  transition-duration: 150ms;
+}
+
 .duration-200 {
   transition-duration: 200ms;
 }
@@ -2761,10 +2761,6 @@ select {
 
 .duration-700 {
   transition-duration: 700ms;
-}
-
-.duration-150 {
-  transition-duration: 150ms;
 }
 
 .ease-in-out {

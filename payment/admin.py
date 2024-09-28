@@ -9,7 +9,7 @@ from .models import Payment
 class PaymentResource(resources.ModelResource):
     class Meta:
         model = Payment
-        fields = ('user__username', 'amount', 'job__title', 'email', 'ref', 'verified', 'payment_date')  # Customize the fields to be exported
+        fields = ('user__username', 'amount', 'job__title', 'email', 'phone', 'ref', 'verified', 'payment_date')  # Customize the fields to be exported
 
     def dehydrate_user(self, payment):
         # Return the username for the user field
@@ -23,9 +23,9 @@ class PaymentResource(resources.ModelResource):
 # Customizing the Payment model admin interface with import/export functionality
 class PaymentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = PaymentResource  # Use the custom resource
-    list_display = ('user', 'amount', 'job', 'email', 'ref', 'verified', 'payment_date')  # Fields to display in the list view
+    list_display = ('user', 'amount', 'job', 'email', 'phone', 'ref', 'verified', 'payment_date')  # Fields to display in the list view
     list_filter = ('verified', 'payment_date')  # Filters for the admin panel
-    search_fields = ('user__username', 'email', 'ref')  # Search fields
+    search_fields = ('user__username', 'email', 'phone', 'ref')  # Search fields
     readonly_fields = ('ref', 'payment_date')  # Make these fields read-only
     list_editable = ('verified',)  # Allow inline editing of 'verified' status
 

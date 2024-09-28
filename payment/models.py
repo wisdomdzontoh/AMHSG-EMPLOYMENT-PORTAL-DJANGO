@@ -10,6 +10,7 @@ class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Allow null values
     job = models.ForeignKey(Job, on_delete=models.CASCADE, default=1)  # Foreign key to Job
     email = models.EmailField(default="ghs@gmail.com")
+    phone = models.CharField(max_length=50, default="0558749735")
     ref = models.CharField(max_length=200, unique=True)
     verified = models.BooleanField(default=False)
     payment_date = models.DateTimeField(auto_now_add=True)

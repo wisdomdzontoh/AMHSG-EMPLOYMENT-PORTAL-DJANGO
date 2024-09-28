@@ -16,7 +16,7 @@ urlpatterns = [
     path('', include('payment.urls')),  #handling of voucher purchase
     
     
-    
+    path('admin_tools_stats/', include('admin_tools_stats.urls')),      #charts urls
     path("__reload__/", include("django_browser_reload.urls")),     #browser reload url
 ]
 
