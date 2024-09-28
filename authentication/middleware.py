@@ -11,7 +11,7 @@ class AutoLogoutMiddleware(MiddlewareMixin):
             return
         
         # Get the session timeout period (in seconds)
-        timeout = getattr(settings, 'AUTO_LOGOUT_DELAY', 20)  # 900 seconds = 15 minutes
+        timeout = getattr(settings, 'AUTO_LOGOUT_DELAY', 900)  # 900 seconds = 15 minutes
         
         last_activity = request.session.get('last_activity')
         if last_activity:
