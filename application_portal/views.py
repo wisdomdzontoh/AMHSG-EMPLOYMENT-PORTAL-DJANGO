@@ -142,7 +142,7 @@ TWILIO_PHONE_NUMBER = '+233 55 874 9735'"""
 
 
 
-#SUBMISSION OF APPLICATION FORM
+#FORM SUBMISSION
 @login_required(login_url="authentication:my-login")
 @payment_required
 def application_form(request, job_id):
@@ -150,24 +150,22 @@ def application_form(request, job_id):
     jobs = Job.objects.all()
     regions = Region.objects.all()
     
-    # Fetch the user's personal information instance
-    personal_info = PersonalInformation.objects.get(user=request.user)
+    # Fetch or create the user's personal information instance
+    personal_info, created = PersonalInformation.objects.get_or_create(user=request.user)
 
     # Check if existing data exists for the user, except PostingPreference
     try:
-        personal_info = PersonalInformation.objects.get(user=request.user)
         education = EducationalBackground.objects.get(user=request.user)
         registration = ProfessionalRegistration.objects.get(user=request.user)
         medical_history = MedicalHistory.objects.get(user=request.user)
         medical_certification = MedicalCertification.objects.get(user=request.user)
         addendum = Addendum.objects.get(user=request.user)
         declaration = Declaration.objects.get(user=request.user)
-    except (PersonalInformation.DoesNotExist, EducationalBackground.DoesNotExist,
-            ProfessionalRegistration.DoesNotExist, MedicalHistory.DoesNotExist,
-            MedicalCertification.DoesNotExist, Addendum.DoesNotExist, Declaration.DoesNotExist):
+    except (EducationalBackground.DoesNotExist, ProfessionalRegistration.DoesNotExist,
+            MedicalHistory.DoesNotExist, MedicalCertification.DoesNotExist, Addendum.DoesNotExist, Declaration.DoesNotExist):
         # Initialize to None if data doesn't exist
-        personal_info, education, registration = None, None, None
-        medical_history, medical_certification, addendum, declaration = None, None, None, None
+        education, registration, medical_history = None, None, None
+        medical_certification, addendum, declaration = None, None, None
 
     if request.method == 'POST':
         # Instantiate forms with POST data and files
@@ -248,23 +246,12 @@ def application_form(request, job_id):
                     }
                 )
 
-                # Send SMS confirmation using Twilio
-                """client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-                message = client.messages.create(
-                    body=f"Hello {request.user.first_name}, your application for the job '{job.title}' has been submitted successfully!",
-                    from_=TWILIO_PHONE_NUMBER,
-                    to=personal_info.telephone  # Use the correct instance reference here
-                )"""
-
                 messages.success(request, "Application submitted successfully! A confirmation SMS has been sent to your phone.")
                 return redirect('application-success')
 
             except IntegrityError as e:
-                # Log the detailed exception
                 logger.error(f"IntegrityError occurred: {str(e)}")
-                # Return a more detailed error message to help debug
                 messages.error(request, f"An error occurred: {str(e)}. Please contact support or try again.")
-                # Re-render the page with forms and error
                 return render(request, 'application_portal/application-form.html', {
                     'personal_info_form': personal_info_form,
                     'education_form': education_form,
@@ -303,6 +290,7 @@ def application_form(request, job_id):
         'jobs': jobs,
         'regions': regions
     })
+
 
 
 

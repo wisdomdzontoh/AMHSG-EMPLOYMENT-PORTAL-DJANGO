@@ -13,7 +13,7 @@ class PersonalInformation(models.Model):
     first_name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
     other_names = models.CharField(max_length=100, blank=True, null=True)
-    dob = models.DateField()
+    dob = models.DateField(null=True, blank=True)  # Allowing null values
     ghana_card_number = models.CharField(max_length=50, default="none")
     telephone = models.CharField(max_length=15)
     birthplace = models.CharField(max_length=100)

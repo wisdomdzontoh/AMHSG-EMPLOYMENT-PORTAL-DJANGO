@@ -15,6 +15,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'jobportal.settings')
 
 application = get_wsgi_application()
 
+app = application
+
 from whitenoise import WhiteNoise
 
 # Import BASE_DIR from settings
