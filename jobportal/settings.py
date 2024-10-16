@@ -40,8 +40,9 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
+#    'grappelli',
 INSTALLED_APPS = [
+
     'django_light',
     'admin_tools_stats',  # this must be BEFORE 'admin_tools' and 'django.contrib.admin'
     'django_nvd3',
@@ -112,9 +113,9 @@ MIDDLEWARE = [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     
     # append after default middlewares
-    'django_auto_logout.middleware.auto_logout',    #django auto logout middleware
+    
 ]
-
+#'django_auto_logout.middleware.auto_logout',    #django auto logout middleware
 ROOT_URLCONF = 'jobportal.urls'
 
 TEMPLATES = [
@@ -129,11 +130,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 
-                'django_auto_logout.context_processors.auto_logout_client',     #django auto logout context
             ],
         },
     },
 ]
+#'django_auto_logout.context_processors.auto_logout_client',     #django auto logout context
 
 WSGI_APPLICATION = 'jobportal.wsgi.application'
 
@@ -141,12 +142,12 @@ WSGI_APPLICATION = 'jobportal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}"""
+}
 
 
 
@@ -154,11 +155,11 @@ WSGI_APPLICATION = 'jobportal.wsgi.application'
 
 #deployment database
 
-import dj_database_url
+"""import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
-}
+}"""
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -236,8 +237,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #step 4
 #django session timeout
-AUTO_LOGOUT = {'IDLE_TIME': 10, 'REDIRECT_TO_LOGIN_IMMEDIATELY': True, 
+"""AUTO_LOGOUT = {'IDLE_TIME': 20000, 'REDIRECT_TO_LOGIN_IMMEDIATELY': True, 
                'MESSAGE': 'The session has expired. Please login again to continue.',
-               }  # logout after 10 minutes of downtime
+               } """ # logout after 10 minutes of downtime
 
 

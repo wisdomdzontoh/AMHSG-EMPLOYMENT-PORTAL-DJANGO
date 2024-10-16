@@ -21,7 +21,27 @@ class PersonalInformationForm(forms.ModelForm):
             'next_of_kin_occupation', 'contact_person', 'relation', 'contact_address', 
             'passport_picture'
         ]
-        widgets = {'dob': forms.DateInput(attrs={'type': 'date'})}
+        widgets = {
+            'email': forms.EmailInput(attrs={'placeholder': 'eg. john@gmail.com'}),
+            'first_name': forms.TextInput(attrs={'placeholder': 'First name'}),
+            'surname': forms.TextInput(attrs={'placeholder': 'Surname'}),
+            'other_names': forms.TextInput(attrs={'placeholder': 'Other names'}),
+            'dob': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Date of birth'}),
+            'telephone': forms.TextInput(attrs={'placeholder': 'eg. 0558749735'}),
+            'ghana_card_number': forms.TextInput(attrs={'placeholder': 'eg. GHA-13245697-2'}),
+            'birthplace': forms.TextInput(attrs={'placeholder': 'Place of birth'}),
+            'fathers_name': forms.TextInput(attrs={'placeholder': 'Father\'s name'}),
+            'fathers_occupation': forms.TextInput(attrs={'placeholder': 'Father\'s occupation'}),
+            'mothers_name': forms.TextInput(attrs={'placeholder': 'Mother\'s name'}),
+            'mothers_occupation': forms.TextInput(attrs={'placeholder': 'Mother\'s occupation'}),
+            'next_of_kin': forms.TextInput(attrs={'placeholder': 'Next of kin name'}),
+            'next_of_kin_occupation': forms.TextInput(attrs={'placeholder': 'Next of kin occupation'}),
+            'contact_person': forms.TextInput(attrs={'placeholder': 'Contact person name'}),
+            'relation': forms.TextInput(attrs={'placeholder': 'Relation to contact person'}),
+            'contact_address': forms.TextInput(attrs={'placeholder': 'Contact address'}),
+            'passport_picture': forms.FileInput(attrs={'placeholder': 'Upload passport picture'})
+        }
+
 
 class EducationalBackgroundForm(forms.ModelForm):
     class Meta:

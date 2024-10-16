@@ -40,14 +40,16 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
 
         if password == confirm_password:
             if User.objects.filter(username=username).exists():
-                messages.error(request, "Username already taken. Please choose a different one.")
+                messages.error(request, "Username already taken")
             elif User.objects.filter(email=email).exists():
-                messages.error(request, "Email already registered. Please use a different one.")
+                messages.error(request, "Email already registered")
             else:
-                user = User.objects.create_user(username=username, email=email, password=password)
+                user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
                 user.save()
                 messages.success(request, f"Account created for {username}. You can now log in.")
                 
@@ -68,6 +70,8 @@ def my_login(request):
         if form.is_valid():
             username = request.POST.get('username')
             password = request.POST.get('password')
+            
+            
             
             user = authenticate(request, username=username, password=password)
             
@@ -100,17 +104,17 @@ def dashboard(request):
 
     # Calculate statistics
     total_jobs = Job.objects.count()  # Total number of jobs
-    total_applications = Application.objects.count()  # Total number of applications
-    accepted_applications = Application.objects.filter(status='accepted').count()  # Count of accepted applications
-    pending_applications = Application.objects.filter(status='pending').count()  # Count of pending applications
-    under_review_applications = Application.objects.filter(status='under review').count()  # Count of under review applications
+    total_applications = Application.objects.filter(user=request.user)  # Total number of applications
+    accepted_applications = Application.objects.filter(user=request.user, status='accepted').count()  # Count of accepted applications
+    pending_applications = Application.objects.filter(user=request.user, status='pending').count()  # Count of pending applications
+    under_review_applications = Application.objects.filter(user=request.user, status='under review').count()  # Count of under review applications
 
     # Context data to pass to the template
     context = {
         'jobs': jobs,
         'notifications': notifications,
         'total_jobs': total_jobs,
-        'total_applications': total_applications,
+        'total_applications': total_applications.count(),
         'accepted_applications': accepted_applications,
         'pending_applications': pending_applications,
         'under_review_applications': under_review_applications,

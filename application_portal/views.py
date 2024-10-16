@@ -187,7 +187,7 @@ def application_form(request, job_id):
                 # Save or update personal info
                 personal_info = personal_info_form.save(commit=False)
                 personal_info.user = request.user
-                personal_info.job_title = job  # Update with current job
+                #personal_info.job_title = job  # Update with current job
                 if 'passport_picture' in request.FILES:
                     personal_info.passport_picture = request.FILES['passport_picture']
                 personal_info.save()

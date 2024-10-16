@@ -7,6 +7,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    #path('grappelli/', include('grappelli.urls')), # grappelli URLS
     #path('admin/', include("django_admin_kubi.urls")),  # Django admin kubi URLS
     path('admin/', admin.site.urls),
     path('', include('authentication.urls')),  # authentication urls for login and signup pages

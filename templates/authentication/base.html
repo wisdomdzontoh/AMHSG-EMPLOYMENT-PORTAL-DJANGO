@@ -49,7 +49,7 @@
 
       /* Navigation hover effects */
       .nav-link {
-        transition: background-color 0.3s ease;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
 
       .nav-link:hover {
@@ -61,129 +61,76 @@
 
   <body class="bg-gray-100">
     <!-- Header Section -->
-    <header class="bg-blue-800 text-white">
-      <div
-        class="container mx-auto px-2 py-2 flex justify-between items-center"
-      >
+    <header class="bg-blue-800 text-white shadow-md">
+      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
         <div class="flex items-center">
-          <img src="{% static 'img/logo.png' %}" alt="Logo" class="h-12 mr-3" />
-          <span class="text-lg md:text-3xl font-extrabold font-serif">
+          <img src="{% static 'img/logo.png' %}" alt="Logo" class="h-12 mr-4" />
+          <span class="text-2xl font-extrabold font-serif">
             (AMHSG) HUMAN RESOURCE DIRECTORATE
           </span>
         </div>
-        <button
-          id="menu-toggle"
-          class="block sm:hidden text-white focus:outline-none"
-        >
+        <button id="menu-toggle" class="block sm:hidden text-white">
           <i class="fas fa-bars fa-2x"></i>
         </button>
-        <nav id="navbar" class="hidden sm:flex sm:items-center space-x-4">
-          <a
-            href="{% url '' %}"
-            class="nav-link block text-yellow-500 hover:text-blue-600 font-medium py-2 px-3"
-            >Home</a
-          >
-          <a
-            href="{% url 'about-us' %}"
-            class="nav-link block text-yellow-500 hover:text-blue-600 font-medium py-2 px-3"
-            >About</a
-          >
-          <a
-            href="{% url 'contact-us' %}"
-            class="nav-link block text-yellow-500 hover:text-blue-600 font-medium py-2 px-3"
-            >Contact</a
-          >
-          <a
-            href="{% url 'how-to-apply' %}"
-            class="nav-link block text-yellow-500 hover:text-blue-600 font-medium py-2 px-3"
-            >Apply</a
-          >
-          <a
-            href="#"
-            class="nav-link block text-yellow-500 hover:text-blue-600 font-medium py-2 px-3"
-            >FAQ</a
-          >
-          <a
-            href="{% url 'my-login' %}"
-            class="nav-link block text-yellow-500 hover:text-blue-600 font-medium py-2 px-3"
-            >Login</a
-          >
+        <nav id="navbar" class="hidden sm:flex items-center space-x-6">
+          <a href="{% url '' %}" class="nav-link text-yellow-400">Home</a>
+          <a href="{% url 'about-us' %}" class="nav-link">About</a>
+          <a href="{% url 'contact-us' %}" class="nav-link">Contact</a>
+          <a href="{% url 'how-to-apply' %}" class="nav-link">Apply</a>
+          <a href="#" class="nav-link">FAQ</a>
+          <a href="{% url 'my-login' %}" class="nav-link">Login</a>
         </nav>
       </div>
     </header>
 
     <!-- Mobile Navigation Menu -->
-    <div id="mobile-menu" class="sm:hidden bg-blue-800 text-white hidden">
+    <div id="mobile-menu" class="hidden sm:hidden bg-blue-800 text-white">
       <nav class="flex flex-col space-y-2 px-4 py-4">
-        <a
-          href="{% url '' %}"
-          class="nav-link block  text-yellow-500 hover:text-blue-600 font-medium py-2"
-          >Home</a
-        >
-        <a
-          href="{% url 'about-us' %}"
-          class="nav-link block  text-yellow-500 hover:text-blue-600 font-medium py-2"
-          >About</a
-        >
-        <a
-          href="{% url 'contact-us' %}"
-          class="nav-link block  text-yellow-500 hover:text-blue-600 font-medium py-2"
-          >Contact</a
-        >
-        <a
-          href="{% url 'how-to-apply' %}"
-          class="nav-link block  text-yellow-500 hover:text-blue-600 font-medium py-2"
-          >Apply</a
-        >
-        <a
-          href="#"
-          class="nav-link block  text-yellow-500 hover:text-blue-600 font-medium py-2"
-          >FAQ</a
-        >
-        <a
-          href="{% url 'my-login' %}"
-          class="nav-link block  text-yellow-500 hover:text-blue-600 font-medium py-2"
-          >Login</a
-        >
+        <a href="{% url '' %}" class="nav-link">Home</a>
+        <a href="{% url 'about-us' %}" class="nav-link">About</a>
+        <a href="{% url 'contact-us' %}" class="nav-link">Contact</a>
+        <a href="{% url 'how-to-apply' %}" class="nav-link">Apply</a>
+        <a href="#" class="nav-link">FAQ</a>
+        <a href="{% url 'my-login' %}" class="nav-link">Login</a>
       </nav>
     </div>
+
+
 
     <!-- Content Block -->
     <div class="container mx-auto px-4 py-6">
       {% block content %}
-      <!-- Content will be injected here -->
+      <!-- Dynamic content will be injected here -->
       {% endblock %}
     </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-900 text-white py-8">
+      <div class="container mx-auto text-center">
+        <div class="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
+          <p>&copy; 2024 Ahmadiyya Muslim Health Service, Ghana. All Rights Reserved.</p>
+          <div class="space-x-4">
+            <a href="#" class="hover:underline">Privacy Policy</a>
+            <a href="#" class="hover:underline">Terms & Conditions</a>
+            <a href="#" class="hover:underline">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <!-- Loader -->
     <div id="loader-container" class="hidden">
       <div id="loader"></div>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="bg-blue-800 text-white py-4">
-      <div class="container mx-auto px-4 text-center">
-        <p>
-          &copy; 2024 Ahmadiyya Muslim Health Service, Ghana (AMHSG). All rights
-          reserved.
-          <a href="https://www.moh.gov.gh/" class="text-yellow-300 hover:text-yellow-400">
-            Ministry of Health, Ghana
-          </a>
-        </p>
-      </div>
-    </footer>
-
-    <!-- Include scripts -->
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-      // Hide loader after page load
       $(window).on("load", function () {
         $("#loader-container").fadeOut();
       });
 
-      // Toggle menu for mobile
       $("#menu-toggle").on("click", function () {
         $("#mobile-menu").toggleClass("hidden");
       });

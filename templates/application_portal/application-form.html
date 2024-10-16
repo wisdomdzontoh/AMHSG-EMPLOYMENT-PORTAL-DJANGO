@@ -912,7 +912,26 @@
   function confirmSubmission() {
   return confirm('Are you sure you want to submit? Once submitted, you will not be able to make any changes.');
   }
-  </script>
+</script>
+
+
+<script>
+  $(document).ready(function () {
+    // Check if the element with id 'id_dob' exists before initializing flatpickr
+    if ($('#id_dob').length) {
+      flatpickr("#id_dob", {
+        dateFormat: "Y-m-d", // Set the date format
+      });
+    } else {
+      console.error("Element with id 'id_dob' not found.");
+    }
+
+    // Initialize select2 for dropdown fields
+    //$("#id_title").select2();
+    //$("#id_gender").select2();
+    //$("#id_marital_status").select2();
+  });
+</script>
 
 
 {% endblock %}
